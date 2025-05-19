@@ -8,6 +8,7 @@ import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
 import 'package:prettyrini/features/Auth_Screen/controller/login_controller.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/login_screen.dart';
+import 'package:prettyrini/features/Auth_Screen/screens/utils/show_success_dialog.dart';
 
 class SetNewPasswordScreen extends StatelessWidget {
   SetNewPasswordScreen({super.key});
@@ -17,86 +18,29 @@ class SetNewPasswordScreen extends StatelessWidget {
       TextEditingController();
 
   void _submit(BuildContext context) {
-    // below this part is for only validation
+    // Optional validation (if needed)
     // final newPassword = controller.passwordController.text.trim();
     // final confirmPassword = confirmPasswordController.text.trim();
 
     // if (newPassword.isEmpty || confirmPassword.isEmpty) {
-    //   Get.snackbar(
-    //     'Input Required',
-    //     'Please fill out all fields!',
-    //     snackPosition: SnackPosition.TOP,
-    //     backgroundColor: Colors.redAccent,
-    //     colorText: Colors.white,
-    //   );
+    //   Get.snackbar('Input Required', 'Please fill out all fields!',
+    //     backgroundColor: Colors.red, colorText: Colors.white);
     //   return;
     // }
 
     // if (newPassword != confirmPassword) {
-    //   Get.snackbar(
-    //     'Mismatch',
-    //     'Passwords do not match!',
-    //     snackPosition: SnackPosition.TOP,
-    //     backgroundColor: Colors.redAccent,
-    //     colorText: Colors.white,
-    //   );
+    //   Get.snackbar('Mismatch', 'Passwords do not match!',
+    //     backgroundColor: Colors.red, colorText: Colors.white);
     //   return;
     // }
 
-    // Show success dialog if all validations pass
-    showDialog(
+    showSuccessDialog(
       context: context,
-      builder: (BuildContext context) {
-        final screenWidth = MediaQuery.of(context).size.width;
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-          backgroundColor: Colors.transparent,
-          child: Container(
-            padding: EdgeInsets.all(20.r),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(
-                  'assets/images/tick.png',
-                  height: 70.h,
-                  width: 70.w,
-                ),
-                SizedBox(height: 10.h),
-                Text(
-                  'Success',
-                  style: TextStyle(
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF000000),
-                  ),
-                ),
-                SizedBox(height: 10.h),
-                Text(
-                  'Your password is successfully changed!',
-                  style: TextStyle(fontSize: 16.sp, color: Color(0xFF4A4F5E)),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 20.h),
-                CustomButton(
-                  width: screenWidth * 0.65,
-                  backgroundColor: Color(0xFF0B3A3D),
-                  borderRadius: 10,
-                  text: 'Done',
-                  onPressed: () {
-                    Get.off(() => LoginScreen());
-                  },
-                ),
-                SizedBox(height: 15.h),
-              ],
-            ),
-          ),
-        );
+      title: 'Success',
+      message: 'Your password is successfully changed!',
+      image: Image.asset('assets/images/tick.png', height: 70.h, width: 70.w),
+      onDonePressed: () {
+        Get.off(() => LoginScreen());
       },
     );
   }
