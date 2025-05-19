@@ -8,6 +8,7 @@ void showSuccessDialog({
   required String message,
   required VoidCallback onDonePressed,
   required Widget image,
+  String? buttonText,
 }) {
   final screenWidth = MediaQuery.of(context).size.width;
 
@@ -28,7 +29,7 @@ void showSuccessDialog({
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              image, // 👈 Dynamic image shown here
+              image,
               SizedBox(height: 10.h),
               Text(
                 title,
@@ -44,14 +45,16 @@ void showSuccessDialog({
                 style: TextStyle(fontSize: 16.sp, color: Color(0xFF4A4F5E)),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20.h),
-              CustomButton(
-                width: screenWidth * 0.65,
-                backgroundColor: Color(0xFF0B3A3D),
-                borderRadius: 10,
-                text: 'Done',
-                onPressed: onDonePressed,
-              ),
+              if (buttonText != null) ...[
+                SizedBox(height: 20.h),
+                CustomButton(
+                  width: screenWidth * 0.65,
+                  backgroundColor: Color(0xFF0B3A3D),
+                  borderRadius: 10,
+                  text: buttonText,
+                  onPressed: onDonePressed,
+                ),
+              ],
               SizedBox(height: 15.h),
             ],
           ),

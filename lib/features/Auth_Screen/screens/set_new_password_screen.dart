@@ -35,6 +35,7 @@ class SetNewPasswordScreen extends StatelessWidget {
     // }
 
     showSuccessDialog(
+      buttonText: 'Done',
       context: context,
       title: 'Success',
       message: 'Your password is successfully changed!',
