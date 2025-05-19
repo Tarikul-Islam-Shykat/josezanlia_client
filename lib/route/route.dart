@@ -1,14 +1,12 @@
 import 'package:get/get.dart';
-import '../feature/auth/screen/forget_pasword_screen.dart';
-import '../feature/auth/screen/login_screen.dart';
-import '../feature/auth/screen/reset_password.dart';
-import '../feature/splash_screen/screen/splash_screen.dart';
+import 'package:prettyrini/features/Auth_Screen/screens/forget_pasword_screen.dart';
+import 'package:prettyrini/features/Auth_Screen/screens/login_screen.dart';
+import 'package:prettyrini/features/splash_screen/screen/splash_screen.dart';
 
 class AppRoute {
   static String splashScreen = '/splashScreen';
   static String loginScreen = "/loginScreen";
   static String forgetScreen = "/forgetScreen";
-  static String resetPassScreen = "/resetPassScreen";
 
   static String getSplashScreen() => splashScreen;
 
@@ -16,12 +14,9 @@ class AppRoute {
 
   static String getForgetScreen() => forgetScreen;
 
-  static String getResetPassScreen() => resetPassScreen;
-
   static List<GetPage> routes = [
-    GetPage(name: splashScreen, page: () => const SplashScreen()),
+    GetPage(name: splashScreen, page: () => SplashScreen()),
     GetPage(name: loginScreen, page: () => LoginScreen()),
-    GetPage(name: forgetScreen, page: () => const ForgetPasswordScreen()),
-    GetPage(name: resetPassScreen, page: () => ResetPassword()),
+    GetPage(name: forgetScreen, page: () => ForgetPasswordScreen()),
   ];
 }
