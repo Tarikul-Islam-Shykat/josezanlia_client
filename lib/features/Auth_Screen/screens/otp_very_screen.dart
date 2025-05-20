@@ -194,6 +194,12 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   // onPressed: _submit,
                   onPressed: () {
                     Get.to(() => SetNewPasswordScreen());
+                    Get.snackbar(
+                      backgroundColor: Colors.green,
+                      colorText: Colors.white,
+                      'Verification Successful!',
+                      'Please Enter New Password',
+                    );
                   },
                   text: 'Verify',
                   // borderColor: Color(0xFF1F3892),

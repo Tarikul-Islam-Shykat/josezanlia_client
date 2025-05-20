@@ -9,16 +9,8 @@ import 'package:prettyrini/features/Auth_Screen/screens/forget_pasword_screen.da
 import 'package:prettyrini/features/Auth_Screen/screens/profile/views/profile_screen.dart';
 import '../controller/login_controller.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final LoginController controller = Get.put(LoginController());
-  final _formKey = GlobalKey<FormState>();
 
   // Commented out validators per request
   /*
@@ -66,6 +58,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final LoginController controller = Get.put(LoginController());
+    final formKey = GlobalKey<FormState>();
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -77,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w),
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -160,6 +154,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: 'Log in',
                       onPressed: () {
                         Get.to(() => ProfileScreen());
+                        Get.snackbar(
+                          backgroundColor: Colors.green,
+                          colorText: Colors.white,
+                          'Logged In Successfully!',
+                          'You have been logged in successfully',
+                        );
                       },
                     ),
                     //   // this code is for only login validation

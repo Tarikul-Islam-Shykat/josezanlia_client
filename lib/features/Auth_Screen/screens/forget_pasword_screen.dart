@@ -173,6 +173,12 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         Phone: controller.phoneController.text,
                       ),
                     );
+                    Get.snackbar(
+                      backgroundColor: Colors.green,
+                      colorText: Colors.white,
+                      'OTP Send',
+                      'Please check your device',
+                    );
                   },
                   text: 'Continue',
                   // borderColor: Color(0xFF1F3892),

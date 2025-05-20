@@ -42,6 +42,12 @@ class SetNewPasswordScreen extends StatelessWidget {
       image: Image.asset('assets/images/tick.png', height: 70.h, width: 70.w),
       onDonePressed: () {
         Get.off(() => LoginScreen());
+        Get.snackbar(
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          'Successful!',
+          'New Password Setup Successfully! Please Log In',
+        );
       },
     );
   }
@@ -125,6 +131,7 @@ class SetNewPasswordScreen extends StatelessWidget {
 
               CustomButton(
                 onPressed: () => _submit(context),
+
                 text: 'Change Password',
                 // borderColor: Color(0xFF1F3892),
                 textColor: Colors.white,
