@@ -3,7 +3,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:prettyrini/features/Home_page_client/home_screens/view/home_view_screen.dart';
+import 'package:prettyrini/features/nav_bar/view/nav_bar_view.dart';
 import 'core/const/app_colors.dart';
+import 'features/water_use/view/water_use_view.dart';
 import 'route/route.dart';
 
 void main() async {
@@ -40,10 +42,10 @@ class MyApp extends StatelessWidget {
           (context, child) => GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Josezanlia_Client',
-            // getPages: AppRoute.routes,
-            // initialRoute: AppRoute.profileScreen,
-            // builder: EasyLoading.init(),
-            home: WaterBillHome(),
+            getPages: AppRoute.routes,
+            initialRoute: AppRoute.splashScreen,
+            builder: EasyLoading.init(),
+
           ),
     );
   }

@@ -21,3 +21,5 @@ class AppColors {
   static Color greenColor = Colors.green;
   static Color fieldColor = Colors.grey.shade200;
 }
+
+const appGreenColor = Color(0xFF0B3A3D);
