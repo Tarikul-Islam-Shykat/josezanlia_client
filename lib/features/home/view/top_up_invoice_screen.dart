@@ -56,7 +56,11 @@ class TopUpInvoiceScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(16.w),
+                            padding: EdgeInsets.only(
+                              bottom: 16.h,
+                              left: 16.w,
+                              right: 16.w,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
