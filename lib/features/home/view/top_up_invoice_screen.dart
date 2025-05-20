@@ -52,7 +52,11 @@ class TopUpInvoiceScreen extends StatelessWidget {
                     children: [
                       const CustomAppBar(title: 'Invoice'),
                       Padding(
-                        padding: EdgeInsets.all(16.w),
+                        padding: EdgeInsets.only(
+                          left: 16.0,
+                          right: 16.0,
+                          bottom: 20.0,
+                        ),
                         child: Container(
                           decoration: BoxDecoration(
                             color: Color(0xFFC2DCDC).withValues(alpha: 0.50),

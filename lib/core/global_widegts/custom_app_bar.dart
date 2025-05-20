@@ -20,7 +20,7 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.all(12.0.w),
+        padding: EdgeInsets.only(left: 12.0.w),
         child: Row(
           children: [
             if (showBackButton)
