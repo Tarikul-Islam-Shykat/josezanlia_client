@@ -6,7 +6,7 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color backgroundColor;
   final Color textColor;
-  final double borderRadius;
+  final double? borderRadius;
   final double fontSize;
   final FontWeight fontWeight;
   final double height;
@@ -22,10 +22,10 @@ class CustomButton extends StatelessWidget {
     required this.onPressed,
     this.backgroundColor = const Color(0xFFA16DB6),
     this.textColor = Colors.white,
-    this.borderRadius = 20,
+    this.borderRadius,
     this.fontSize = 18,
     this.fontWeight = FontWeight.bold,
-    this.height = 50,
+    this.height = 60,
     this.width = double.infinity,
     this.child,
     this.prefixIconPath,
@@ -35,52 +35,43 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(borderRadius.r),
-        border:
-            borderSide != null
-                ? Border.all(
-                  color: borderSide!.color,
-                  width: borderSide!.width,
-                  style: borderSide!.style,
-                )
-                : null,
-      ),
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: BorderRadius.circular(borderRadius),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(borderRadius ?? 10.r),
+          border:
+              borderSide != null
+                  ? Border.all(
+                    color: borderSide!.color,
+                    width: borderSide!.width,
+                    style: borderSide!.style,
+                  )
+                  : null,
+        ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           child:
               child ??
-              (prefixIconPath != null && suffixIcon != null
+              (prefixIconPath != null
                   ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            prefixIconPath!,
-                            height: 24.h,
-                            width: 24.w,
-                          ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            text,
-                            style: TextStyle(
-                              fontSize: fontSize,
-                              fontWeight: fontWeight,
-                              color: textColor,
-                            ),
-                          ),
-                        ],
+                      Image.asset(prefixIconPath!, height: 24.h, width: 24.w),
+                      SizedBox(width: 8.w),
+                      Text(
+                        text,
+                        style: TextStyle(
+                          fontSize: fontSize,
+                          fontWeight: fontWeight,
+                          color: textColor,
+                        ),
                       ),
-                      suffixIcon!,
+                      if (suffixIcon != null) ...[const Spacer(), suffixIcon!],
                     ],
                   )
                   : Center(

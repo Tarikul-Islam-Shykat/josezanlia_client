@@ -61,12 +61,15 @@ class CustomTextField extends StatelessWidget {
             vertical: 15.w,
             horizontal: 10.w,
           ),
-          hintText: hitText,
-          hintStyle: TextStyle(
+          prefixText: hitText != null ? '$hitText ' : null,
+          prefixStyle: TextStyle(
             fontSize: fontSize ?? 16.sp,
             fontWeight: fontWeight ?? FontWeight.w400,
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.black.withOpacity(
+              0.5,
+            ), // Match hintStyle for consistency
           ),
+          hintText: null, // Remove hintText to avoid placeholder behavior
           prefixIcon:
               prefixIconPath != null
                   ? Padding(

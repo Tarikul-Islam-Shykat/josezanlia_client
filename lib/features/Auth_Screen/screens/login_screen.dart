@@ -6,6 +6,7 @@ import 'package:prettyrini/core/const/image_path.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/forget_pasword_screen.dart';
+import 'package:prettyrini/features/Auth_Screen/screens/profile/views/profile_screen.dart';
 import '../controller/login_controller.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -157,7 +158,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: 10,
                       backgroundColor: const Color(0xFF0B3A3D),
                       text: 'Log in',
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(() => ProfileScreen());
+                      },
                     ),
                     //   // this code is for only login validation
                     // Obx(
