@@ -38,9 +38,9 @@ class MyApp extends StatelessWidget {
       builder:
           (context, child) => GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Foot Fitness',
+            title: 'Josezanlia_Client',
             getPages: AppRoute.routes,
-            initialRoute: AppRoute.splashScreen,
+            initialRoute: AppRoute.profileScreen,
             builder: EasyLoading.init(),
           ),
     );
