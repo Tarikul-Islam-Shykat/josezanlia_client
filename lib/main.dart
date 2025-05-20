@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Josezanlia_Client',
             getPages: AppRoute.routes,
-            initialRoute: AppRoute.splashScreen,
+            initialRoute: AppRoute.invoiceScreen,
             builder: EasyLoading.init(),
           ),
     );
