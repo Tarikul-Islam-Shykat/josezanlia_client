@@ -3,6 +3,7 @@ import 'package:prettyrini/features/Auth_Screen/screens/forget_pasword_screen.da
 import 'package:prettyrini/features/Auth_Screen/screens/login_screen.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/profile/views/profile_screen.dart';
 import 'package:prettyrini/features/home/view/invoice_screen.dart';
+import 'package:prettyrini/features/home/view/top_up_invoice_screen.dart';
 import 'package:prettyrini/features/splash_screen/screen/splash_screen.dart';
 
 class AppRoute {
@@ -11,6 +12,7 @@ class AppRoute {
   static String forgetScreen = "/forgetScreen";
   static String profileScreen = "/profileScreen";
   static String invoiceScreen = "/invoiceScreen";
+  static String topUpInvoiceScreen = "/topUpInvoiceScreen";
 
   static String getSplashScreen() => splashScreen;
 
@@ -22,11 +24,14 @@ class AppRoute {
 
   static String getInvoiceScreen() => invoiceScreen;
 
+  static String getTopUpInvoiceScreen() => topUpInvoiceScreen;
+
   static List<GetPage> routes = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
     GetPage(name: loginScreen, page: () => LoginScreen()),
     GetPage(name: forgetScreen, page: () => ForgetPasswordScreen()),
     GetPage(name: profileScreen, page: () => ProfileScreen()),
     GetPage(name: invoiceScreen, page: () => InvoiceScreen()),
+    GetPage(name: topUpInvoiceScreen, page: () => TopUpInvoiceScreen()),
   ];
 }

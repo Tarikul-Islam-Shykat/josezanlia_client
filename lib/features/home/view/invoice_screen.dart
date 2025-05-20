@@ -8,7 +8,7 @@ import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/features/home/model/model.dart';
 import 'package:prettyrini/features/nav_bar/view/nav_bar_view.dart';
-
+import 'package:prettyrini/features/home/model/invoice_model.dart';
 class InvoiceScreen extends StatelessWidget {
   const InvoiceScreen({super.key});
 
