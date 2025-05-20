@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:prettyrini/core/const/icons_path.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/utils/show_success_dialog.dart';
+import 'package:prettyrini/route/route.dart';
 
 class PaymentDetailsScreen extends StatelessWidget {
   // final PaymentController controller = Get.put(PaymentController());
@@ -207,7 +208,7 @@ class PaymentDetailsScreen extends StatelessWidget {
       message: 'Your payment is successfully Complete!',
       image: Image.asset('assets/images/tick.png', height: 70.h, width: 70.w),
       onDonePressed: () {
-        Get.back();
+        Get.toNamed(AppRoute.invoiceScreen);
       },
     );
   }
