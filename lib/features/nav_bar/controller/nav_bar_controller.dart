@@ -1,11 +1,20 @@
+// import 'package:get/get.dart';
+
+// class NavBarController extends GetxController {
+
+//   var selectedIndex = 0.obs;
+
+//   void changeTab(int index) {
+//     selectedIndex.value = index;
+//   }
+// }
+
 import 'package:get/get.dart';
 
-class NavBarController extends GetxController {
+class BottomNavbarController extends GetxController {
+  var currentIndex = 0.obs;
 
-  var selectedIndex = 0.obs;
-
-  void changeTab(int index) {
-    selectedIndex.value = index;
+  void changeIndex(int index) {
+    currentIndex.value = index;
   }
 }
-

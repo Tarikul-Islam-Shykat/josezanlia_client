@@ -5,8 +5,7 @@ import 'package:get/get.dart';
 import '../../../generated/assets.dart';
 import '../controller/water_use_controller.dart';
 
-
-class WaterUseView  extends StatelessWidget {
+class WaterUseView extends StatelessWidget {
   final controller = Get.put(WaterUseController());
 
   WaterUseView({super.key});
@@ -15,24 +14,7 @@ class WaterUseView  extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              Icon(Icons.home, color: Colors.white),
-              Icon(Icons.bar_chart, color: Colors.white),
-              Icon(Icons.settings, color: Colors.white),
-            ],
-          ),
-        ),
-      ),
+
       body: SafeArea(
         child: Obx(() {
           final data = controller.meterData.value;
@@ -47,9 +29,21 @@ class WaterUseView  extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(onPressed: controller.previousMonth, icon: Icon(Icons.arrow_back_ios)),
-                    Text(controller.currentMonthLabel, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                    IconButton(onPressed: controller.nextMonth, icon: Icon(Icons.arrow_forward_ios)),
+                    IconButton(
+                      onPressed: controller.previousMonth,
+                      icon: Icon(Icons.arrow_back_ios),
+                    ),
+                    Text(
+                      controller.currentMonthLabel,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: controller.nextMonth,
+                      icon: Icon(Icons.arrow_forward_ios),
+                    ),
                   ],
                 ),
                 SizedBox(height: 10),
@@ -69,7 +63,11 @@ class WaterUseView  extends StatelessWidget {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(Assets.imagesMeterImage, height: 200, fit: BoxFit.cover),
+                                child: Image.asset(
+                                  Assets.imagesMeterImage,
+                                  height: 200,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                               Positioned(
                                 top: 10,
@@ -89,7 +87,11 @@ class WaterUseView  extends StatelessWidget {
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(Assets.imagesMeterImage, height: 200, fit: BoxFit.cover),
+                    child: Image.asset(
+                      Assets.imagesMeterImage,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -97,28 +99,46 @@ class WaterUseView  extends StatelessWidget {
                 // Details Card
                 Card(
                   elevation: 2,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Meter Number: ${data.meterNumber}", style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(
+                          "Meter Number: ${data.meterNumber}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         SizedBox(height: 10),
-                        detailRow("Current Reading", "${data.currentReading} m³"),
-                        detailRow("Last Month Reading", "${data.lastMonthReading} m³"),
+                        detailRow(
+                          "Current Reading",
+                          "${data.currentReading} m³",
+                        ),
+                        detailRow(
+                          "Last Month Reading",
+                          "${data.lastMonthReading} m³",
+                        ),
                         detailRow("Price Per m³", "${data.pricePerM3} MZN"),
                         detailRow("Minimum Fee", "${data.minimumFee} MZN"),
                         Divider(),
                         detailRow("Total Bill", "${data.totalBill} MZN"),
-                        detailRow("Status", data.status, highlight: data.status == "DUE"),
+                        detailRow(
+                          "Status",
+                          data.status,
+                          highlight: data.status == "DUE",
+                        ),
                       ],
                     ),
                   ),
                 ),
                 // Add this after the Card widget
                 SizedBox(height: 20),
-                Text("Monthly Report", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                Text(
+                  "Monthly Report",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
                 SizedBox(height: 10),
                 SizedBox(
                   height: 250,
@@ -141,18 +161,28 @@ class WaterUseView  extends StatelessWidget {
                             getTitlesWidget: (value, meta) {
                               final monthIndex = value.toInt();
                               if (monthIndex < controller.months.length) {
-                                final label = controller.months[monthIndex].split(' ')[0]; // show only month
+                                final label =
+                                    controller.months[monthIndex].split(
+                                      ' ',
+                                    )[0]; // show only month
                                 return SideTitleWidget(
                                   axisSide: meta.axisSide,
-                                  child: Text(label, style: TextStyle(fontSize: 10)),
+                                  child: Text(
+                                    label,
+                                    style: TextStyle(fontSize: 10),
+                                  ),
                                 );
                               }
                               return SizedBox.shrink();
                             },
                           ),
                         ),
-                        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                        rightTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        topTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
                       ),
                       gridData: FlGridData(show: true),
                       borderData: FlBorderData(show: false),
@@ -160,11 +190,6 @@ class WaterUseView  extends StatelessWidget {
                     ),
                   ),
                 ),
-
-
-
-
-
               ],
             ),
           );
@@ -180,7 +205,13 @@ class WaterUseView  extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label),
-          Text(value, style: TextStyle(fontWeight: FontWeight.bold, color: highlight ? Colors.red : Colors.black)),
+          Text(
+            value,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: highlight ? Colors.red : Colors.black,
+            ),
+          ),
         ],
       ),
     );

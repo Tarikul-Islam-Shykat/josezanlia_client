@@ -6,7 +6,6 @@ import 'package:prettyrini/core/const/image_path.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/forget_pasword_screen.dart';
-import 'package:prettyrini/features/Auth_Screen/screens/profile/views/profile_screen.dart';
 import 'package:prettyrini/features/nav_bar/view/nav_bar_view.dart';
 import '../controller/login_controller.dart';
 
@@ -154,8 +153,7 @@ class LoginScreen extends StatelessWidget {
                       backgroundColor: const Color(0xFF0B3A3D),
                       text: 'Log in',
                       onPressed: () {
-
-                        Get.to(() => ProfileScreen());
+                        Get.to(() => BottomNavbar());
                         Get.snackbar(
                           backgroundColor: Colors.green,
                           colorText: Colors.white,
