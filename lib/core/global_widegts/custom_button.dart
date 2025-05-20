@@ -15,6 +15,7 @@ class CustomButton extends StatelessWidget {
   final String? prefixIconPath;
   final Widget? suffixIcon;
   final BorderSide? borderSide;
+  final MainAxisAlignment? contentAlignment;
 
   const CustomButton({
     super.key,
@@ -31,6 +32,7 @@ class CustomButton extends StatelessWidget {
     this.prefixIconPath,
     this.suffixIcon,
     this.borderSide,
+    this.contentAlignment,
   });
 
   @override
@@ -58,7 +60,8 @@ class CustomButton extends StatelessWidget {
               child ??
               (prefixIconPath != null
                   ? Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment:
+                        contentAlignment ?? MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(prefixIconPath!, height: 24.h, width: 24.w),

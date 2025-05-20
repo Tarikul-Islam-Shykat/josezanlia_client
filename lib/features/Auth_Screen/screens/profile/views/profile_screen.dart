@@ -255,7 +255,7 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   CustomButton(
                     prefixIconPath: 'assets/images/chat.png',
-                    width: screenWidth * 0.4,
+                    width: screenWidth * 0.44,
                     backgroundColor: const Color(0xFF0B3A3D),
                     borderRadius: 10.r,
                     onPressed: () {
@@ -268,7 +268,7 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(width: 5.w),
                   CustomButton(
                     prefixIconPath: 'assets/images/smart_phone.png',
-                    width: screenWidth * 0.4,
+                    width: screenWidth * 0.44,
                     backgroundColor: const Color(0xFF0B3A3D),
                     borderRadius: 10.r,
                     onPressed: () {},
