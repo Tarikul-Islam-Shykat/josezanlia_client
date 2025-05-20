@@ -60,7 +60,7 @@ class InvoiceScreen extends StatelessWidget {
                     children: [
                       const CustomAppBar(title: 'Invoice'),
                       Padding(
-                        padding: EdgeInsets.all(16.w),
+                        padding: EdgeInsets.zero,
                         child: Container(
                           decoration: BoxDecoration(
                             color: Color(0xFFC2DCDC).withValues(alpha: 0.50),
