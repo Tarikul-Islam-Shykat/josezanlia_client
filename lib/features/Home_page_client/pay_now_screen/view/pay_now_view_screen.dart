@@ -6,7 +6,7 @@ import 'package:prettyrini/features/Home_page_client/pay_now_screen/controller/p
 class PaymentScreen extends StatelessWidget {
   final PaymentController controller = Get.put(PaymentController());
 
-  PaymentScreen({Key? key}) : super(key: key);
+  PaymentScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class PaymentScreen extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
+                          color: Color(0xFF187C82).withValues(alpha: 0.2),
                           shape: BoxShape.circle,
                         ),
                         child: IconButton(
@@ -74,29 +74,17 @@ class PaymentScreen extends StatelessWidget {
                       const SizedBox(height: 16),
 
                       // M-Pesa Option
-                      _buildPaymentOption(
-                        'M-Pesa',
-                        IconsPath.mPesaIcon,
-                        Colors.green[50]!,
-                      ),
+                      _buildPaymentOption('M-Pesa', IconsPath.mPesaIcon),
 
                       const SizedBox(height: 12),
 
                       // E-Mola Option
-                      _buildPaymentOption(
-                        'E-Mola',
-                        IconsPath.eMolaIcon,
-                        Colors.orange[50]!,
-                      ),
+                      _buildPaymentOption('E-Mola', IconsPath.eMolaIcon),
 
                       const SizedBox(height: 12),
 
                       // Bank Transfer Option
-                      _buildPaymentOption(
-                        'Bank Transfer',
-                        IconsPath.bankIcon,
-                        Colors.blue[50]!,
-                      ),
+                      _buildPaymentOption('Bank Transfer', IconsPath.bankIcon),
                     ],
                   ),
                 ),
@@ -108,7 +96,7 @@ class PaymentScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPaymentOption(String method, String logoPath, Color bgColor) {
+  Widget _buildPaymentOption(String method, String logoPath) {
     return Obx(() {
       final isSelected = controller.selectedMethod.value == method;
 
@@ -120,12 +108,12 @@ class PaymentScreen extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: isSelected ? Colors.green : Colors.grey[300]!,
+              color: isSelected ? Colors.green : Color(0x338C8482),
               width: 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
+                color: Colors.grey.withValues(alpha: 0.1),
                 spreadRadius: 1,
                 blurRadius: 2,
                 offset: const Offset(0, 1),
@@ -137,14 +125,14 @@ class PaymentScreen extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  width: 36,
-                  height: 36,
-                  padding: const EdgeInsets.all(6),
+                  width: 50,
+                  height: 40,
+                  // padding: const EdgeInsets.all(),
                   decoration: BoxDecoration(
-                    color: bgColor,
-                    borderRadius: BorderRadius.circular(6),
+                    // color: bgColor,
+                    // borderRadius: BorderRadius.circular(6),
                   ),
-                  child: Image.asset(logoPath, height: 24, width: 24),
+                  child: Image.asset(logoPath, height: 35, width: 35),
                 ),
                 const SizedBox(width: 12),
                 Text(
@@ -160,7 +148,7 @@ class PaymentScreen extends StatelessWidget {
                     width: 24,
                     height: 24,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Color(0xFF0B3A3D),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(

@@ -40,10 +40,10 @@ class MyApp extends StatelessWidget {
           (context, child) => GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Josezanlia_Client',
-            getPages: AppRoute.routes,
-            initialRoute: AppRoute.profileScreen,
-            builder: EasyLoading.init(),
-            // home: WaterBillHome(),
+            // getPages: AppRoute.routes,
+            // initialRoute: AppRoute.profileScreen,
+            // builder: EasyLoading.init(),
+            home: WaterBillHome(),
           ),
     );
   }
