@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:prettyrini/features/Home_page_client/home_screens/view/home_view_screen.dart';
 import 'core/const/app_colors.dart';
 import 'route/route.dart';
 
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
             getPages: AppRoute.routes,
             initialRoute: AppRoute.profileScreen,
             builder: EasyLoading.init(),
+            // home: WaterBillHome(),
           ),
     );
   }
