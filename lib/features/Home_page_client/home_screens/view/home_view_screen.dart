@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:prettyrini/features/Home_page_client/home_screens/controller/home_view_controller.dart';
 import 'package:prettyrini/features/Home_page_client/pay_now_screen/view/pay_now_view_screen.dart';
 
+import '../../../notifications/view/notifications_view.dart';
+
 class WaterBillHome extends StatelessWidget {
   const WaterBillHome({Key? key}) : super(key: key);
 
@@ -111,43 +113,48 @@ class WaterBillHome extends StatelessWidget {
               ),
             ],
           ),
-          Stack(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  // color: Colors.white.withValues(alpha: 0.2),
-                  color: Color(0xFFE3E3E3).withValues(alpha: 0.2),
-                  shape: BoxShape.circle,
+          GestureDetector(
+            onTap: () {
+              Get.to(() => NotificationsView());
+            },
+            child: Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    // color: Colors.white.withValues(alpha: 0.2),
+                    color: Color(0xFFE3E3E3).withValues(alpha: 0.2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.notifications_outlined,
+                    color: Colors.white,
+                    size: 24,
+                  ),
                 ),
-                child: Icon(
-                  Icons.notifications_outlined,
-                  color: Colors.white,
-                  size: 24,
-                ),
-              ),
-              Positioned(
-                right: 0,
-                top: 0,
-                child: Obx(
-                  () => Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFF20800),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Text(
-                      '${controller.notificationCount.value}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Obx(
+                    () => Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFF20800),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        '${controller.notificationCount.value}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
