@@ -6,6 +6,7 @@ import 'package:prettyrini/features/Auth_Screen/screens/login_screen.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/profile/controller/profile_controller.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/profile/views/change_password.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/profile/views/profile_edit.dart';
+import 'package:prettyrini/features/chat/view/chat_view.dart';
 
 class ProfileScreen extends StatelessWidget {
   final controller = Get.put(ProfileController());
@@ -257,7 +258,11 @@ class ProfileScreen extends StatelessWidget {
                     width: screenWidth * 0.44,
                     backgroundColor: const Color(0xFF0B3A3D),
                     borderRadius: 10.r,
-                    onPressed: () {},
+                    onPressed: () {
+
+                      Get.to(() => ChatView());
+
+                    },
                     text: 'Message',
                   ),
                   SizedBox(width: 5.w),
