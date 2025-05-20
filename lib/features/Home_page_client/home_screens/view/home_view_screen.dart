@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:prettyrini/features/Home_page_client/Add_request_page/view/request_top_up_screen.dart';
 import 'package:prettyrini/features/Home_page_client/home_screens/controller/home_view_controller.dart';
 import 'package:prettyrini/features/Home_page_client/pay_now_screen/view/pay_now_view_screen.dart';
 
@@ -463,7 +464,9 @@ class WaterBillHome extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(20),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.to(() => RequestTopUpScreen());
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF0B3A3D),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

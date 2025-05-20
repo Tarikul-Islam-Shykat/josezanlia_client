@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
             getPages: AppRoute.routes,
             initialRoute: AppRoute.splashScreen,
             builder: EasyLoading.init(),
-            //home: MeterPage(),
+
           ),
     );
   }
