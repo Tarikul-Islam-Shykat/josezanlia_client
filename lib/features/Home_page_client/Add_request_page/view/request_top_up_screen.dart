@@ -249,7 +249,7 @@ class RequestTopUpScreen extends StatelessWidget {
       message: 'Please allow up to 24 hours for your receipt to be approved.',
       image: Image.asset('assets/images/tick.png', height: 70.h, width: 70.w),
       onDonePressed: () {
-        Get.toNamed(AppRoute.invoiceScreen);
+        Get.toNamed(AppRoute.topUpInvoiceScreen);
       },
     );
   }
