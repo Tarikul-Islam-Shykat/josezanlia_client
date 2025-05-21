@@ -138,81 +138,75 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
       backgroundColor: Color(0xFFE9EBF0),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: Column(
-              children: [
-                CustomAppBar(title: 'Verification Code'),
+          child: Column(
+            children: [
+              CustomAppBar(title: 'Verification Code'),
 
-                SizedBox(height: 30.h),
-                // OTP input using Pinput
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Pinput(
-                    controller: _otpController,
-                    length: 4,
-                    defaultPinTheme: defaultPinTheme,
-                    onCompleted: (pin) {
-                      if (kDebugMode) {
-                        log('OTP entered: $pin');
-                      }
-                    },
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Resend code in',
-                      style: TextStyle(color: Color(0xFF9B9B9B)),
-                    ),
-                    SizedBox(width: 5.w),
-                    Text(
-                      '00:12',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 100.h),
-
-                // Verification button
-                // ElevatedButton(
-                //   onPressed: _verifyOTP,
-                //   style: ElevatedButton.styleFrom(
-                //     backgroundColor: Color(0xFF1F3892),
-                //     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(30),
-                //     ),
-                //   ),
-                //   child: Text(
-                //     'Verification',
-                //     style: TextStyle(color: Colors.white),
-                //   ),
-                // ),
-                CustomButton(
-                  // onPressed: _submit,
-                  onPressed: () {
-                    Get.to(() => SetNewPasswordScreen());
-                    Get.snackbar(
-                      backgroundColor: Colors.green,
-                      colorText: Colors.white,
-                      'Verification Successful!',
-                      'Please Enter New Password',
-                    );
+              SizedBox(height: 30.h),
+              // OTP input using Pinput
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Pinput(
+                  controller: _otpController,
+                  length: 4,
+                  defaultPinTheme: defaultPinTheme,
+                  onCompleted: (pin) {
+                    if (kDebugMode) {
+                      log('OTP entered: $pin');
+                    }
                   },
-                  text: 'Verify',
-                  // borderColor: Color(0xFF1F3892),
-                  textColor: Colors.white,
-                  backgroundColor: Color(0xFF0B3A3D),
-                  width: screenWidth * 0.9,
-                  borderRadius: 10,
                 ),
-                SizedBox(height: screenHeight * 0.03),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Resend code in',
+                    style: TextStyle(color: Color(0xFF9B9B9B)),
+                  ),
+                  SizedBox(width: 5.w),
+                  Text('00:12', style: TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
+              SizedBox(height: 100.h),
 
-                // Resend OTP link
-              ],
-            ),
+              // Verification button
+              // ElevatedButton(
+              //   onPressed: _verifyOTP,
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: Color(0xFF1F3892),
+              //     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(30),
+              //     ),
+              //   ),
+              //   child: Text(
+              //     'Verification',
+              //     style: TextStyle(color: Colors.white),
+              //   ),
+              // ),
+              CustomButton(
+                // onPressed: _submit,
+                onPressed: () {
+                  Get.to(() => SetNewPasswordScreen());
+                  Get.snackbar(
+                    backgroundColor: Colors.green,
+                    colorText: Colors.white,
+                    'Verification Successful!',
+                    'Please Enter New Password',
+                  );
+                },
+                text: 'Verify',
+                // borderColor: Color(0xFF1F3892),
+                textColor: Colors.white,
+                backgroundColor: Color(0xFF0B3A3D),
+                width: screenWidth * 0.9,
+                borderRadius: 10,
+              ),
+              SizedBox(height: screenHeight * 0.03),
+
+              // Resend OTP link
+            ],
           ),
         ),
       ),
