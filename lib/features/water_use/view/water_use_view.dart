@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 
 import '../../../generated/assets.dart';
 import '../controller/water_use_controller.dart';
@@ -25,24 +27,47 @@ class WaterUseView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                CustomAppBar(title: 'Monthly Water Use', showBackButton: false),
+                SizedBox(height: 10.h),
                 // Month navigation
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                      onPressed: controller.previousMonth,
-                      icon: Icon(Icons.arrow_back_ios),
-                    ),
-                    Text(
-                      controller.currentMonthLabel,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    CircleAvatar(
+                      backgroundColor: Color(0xFFE9FEFF),
+                      child: IconButton(
+                        onPressed: controller.previousMonth,
+                        icon: Icon(Icons.arrow_back_ios),
                       ),
                     ),
-                    IconButton(
-                      onPressed: controller.nextMonth,
-                      icon: Icon(Icons.arrow_forward_ios),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10,
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 20.h,
+                        width: 75.w,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFE9FEFF),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          controller.currentMonthLabel,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: Color(0xFFE9FEFF),
+                      child: IconButton(
+                        onPressed: controller.nextMonth,
+                        icon: Icon(Icons.arrow_forward_ios),
+                      ),
                     ),
                   ],
                 ),
