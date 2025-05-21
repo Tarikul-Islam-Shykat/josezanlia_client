@@ -38,9 +38,9 @@ class WaterBillHome extends StatelessWidget {
             // ),
             const SizedBox(height: 10),
             _buildRecentPayments(controller),
-            // const SizedBox(height: 40),
+
             _buildTopUpButton(),
-            // // Add bottom padding
+            const SizedBox(height: 60),
           ],
         ),
       ),

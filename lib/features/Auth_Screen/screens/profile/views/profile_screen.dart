@@ -259,9 +259,7 @@ class ProfileScreen extends StatelessWidget {
                     backgroundColor: const Color(0xFF0B3A3D),
                     borderRadius: 10.r,
                     onPressed: () {
-
                       Get.to(() => ChatView());
-
                     },
                     text: 'Message',
                   ),
@@ -276,6 +274,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: 20.h),
             ],
           ),
         ),
