@@ -15,7 +15,6 @@ class CustomAppBar extends StatelessWidget {
     this.onBackPressed,
     this.showBackButton = true,
   });
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

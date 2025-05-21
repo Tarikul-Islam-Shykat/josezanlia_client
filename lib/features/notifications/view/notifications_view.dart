@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controller/notifications_controller.dart';
 
-
 class NotificationsView extends StatelessWidget {
   final controller = Get.put(NotificationsController());
 
@@ -21,8 +20,12 @@ class NotificationsView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 12.0),
             child: CircleAvatar(
-              backgroundColor: Color(0xFFFDEEE7),
-              child: Icon(Icons.arrow_back_ios_new, color: Colors.deepOrange, size: 16),
+              backgroundColor: Color(0xFF0B3A3D).withValues(alpha: 0.10),
+              child: Icon(
+                Icons.arrow_back_ios_new,
+                color: Color(0xFF0B3A3D),
+                size: 16,
+              ),
             ),
           ),
         ),
@@ -37,7 +40,7 @@ class NotificationsView extends StatelessWidget {
         centerTitle: true,
       ),
       body: Obx(
-            () => ListView.builder(
+        () => ListView.builder(
           padding: const EdgeInsets.all(16.0),
           itemCount: controller.notifications.length,
           itemBuilder: (context, index) {
@@ -46,60 +49,70 @@ class NotificationsView extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 16.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xFFFDF8F3),
+                  color: Color(0xFFFFFFFF),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 padding: EdgeInsets.all(12),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.access_time, color: Colors.deepOrange),
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item['title']!,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Color(
+                            0xFF0B3A3D,
+                          ).withValues(alpha: 0.10),
+                          child: Icon(
+                            Icons.access_time,
+                            color: Color(0xFF000000),
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            item['message']!,
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 13,
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Row(
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                item['date']!,
+                                item['title']!,
                                 style: TextStyle(
-                                  color: Colors.grey[500],
-                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(height: 4),
                               Text(
-                                item['time']!,
+                                item['message']!,
                                 style: TextStyle(
-                                  color: Colors.grey[500],
-                                  fontSize: 12,
+                                  color: Colors.grey[600],
+                                  fontSize: 13,
                                 ),
+                              ),
+                              SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Text(
+                                    item['date']!,
+                                    style: TextStyle(
+                                      color: Colors.grey[500],
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    item['time']!,
+                                    style: TextStyle(
+                                      color: Colors.grey[500],
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
-                          )
-                        ],
-                      ),
-                    )
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(color: Color(0xFF0B3A3D).withValues(alpha: 0.10)),
                   ],
                 ),
               ),
