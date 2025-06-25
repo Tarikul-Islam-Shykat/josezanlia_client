@@ -7,58 +7,17 @@ import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/forget_pasword_screen.dart';
 import 'package:prettyrini/features/nav_bar/view/nav_bar_view.dart';
-import '../controller/login_controller.dart';
+import '../../../core/const/app_loader.dart';
+import '../controller/auth_controller.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final AuthController controller = Get.put(AuthController());
+  LoginScreen({super.key});
 
-  // Commented out validators per request
-  /*
-  String? _phoneValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your phone number';
-    }
-    if (!RegExp(r'^\d{10,15}$').hasMatch(value)) {
-      return 'Enter a valid phone number (10-15 digits)';
-    }
-    return null;
-  }
-
-  String? _passwordValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your password';
-    }
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters';
-    }
-    return null;
-  }
-  */
-  // below this code is for only validation
-  /*
-  void _submit() {
-    // Since validators are commented out, directly call handleLogin
-    // If validators are enabled later, uncomment the validation check
-    
-    if (_formKey.currentState?.validate() ?? false) {
-      controller.handleLogin();
-    } else {
-      Get.snackbar(
-        'Input Required',
-        'Please fill out all fields correctly!',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.redAccent,
-        colorText: Colors.white,
-      );
-    }
-    
-    controller.handleLogin();
-  }
-  */
 
   @override
   Widget build(BuildContext context) {
-    final LoginController controller = Get.put(LoginController());
+
     final formKey = GlobalKey<FormState>();
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -94,11 +53,11 @@ class LoginScreen extends StatelessWidget {
                           ),
                           fillColor: const Color(0xFFFFFFFF),
                           prefixIconPath: 'assets/images/timer.png',
-                          textEditingController: controller.phoneController,
+                          textEditingController: controller.emailOrPhoneController,
                           hitText: 'Water Meter / Phone Number',
                           // keyboardType: TextInputType.phone,
                           // validator: _phoneValidator, // Commented out per request
-                          width: screenWidth * 0.9,
+
                         ),
                         SizedBox(height: 15.h),
                         Obx(
@@ -114,8 +73,16 @@ class LoginScreen extends StatelessWidget {
                                 controller.passwordController,
                             hitText: 'Password',
                             obscureText: !controller.isPasswordVisible.value,
+                            isForPassword: true,
+                            onSuffixIconTap: () {
+                              controller.togglePasswordVisibility();
+                            },
+
+
+
+
                             // validator: _passwordValidator, // Commented out per request
-                            width: screenWidth * 0.9,
+
                             // suffixIcon: IconButton(
                             //   icon: Icon(
                             //     controller.isPasswordVisible.value
@@ -147,21 +114,17 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 30.h),
-                    CustomButton(
-                      width: screenWidth * 0.9,
-                      borderRadius: 10,
-                      backgroundColor: const Color(0xFF0B3A3D),
-                      text: 'Log in',
-                      onPressed: () {
-                        Get.to(() => BottomNavbar());
-                        Get.snackbar(
-                          backgroundColor: Colors.green,
-                          colorText: Colors.white,
-                          'Logged In Successfully!',
-                          'You have been logged in successfully',
-                        );
-                      },
-                    ),
+                    Obx(() {
+                      return controller.isLoginLoading.value ? loader() : CustomButton(
+                        width: screenWidth * 0.9,
+                        borderRadius: 10,
+                        backgroundColor: const Color(0xFF0B3A3D),
+                        text: 'Log in',
+                        onPressed: () {
+                          controller.loginUser();
+                        },
+                      );
+                    }),
                     //   // this code is for only login validation
                     // Obx(
                     //   () => CustomButton(

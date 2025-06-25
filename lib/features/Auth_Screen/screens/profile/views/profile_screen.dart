@@ -8,6 +8,9 @@ import 'package:prettyrini/features/Auth_Screen/screens/profile/views/change_pas
 import 'package:prettyrini/features/Auth_Screen/screens/profile/views/profile_edit.dart';
 import 'package:prettyrini/features/chat/view/chat_view.dart';
 
+import '../../../../../core/global_widegts/custom_snack_bar.dart';
+import '../../../../../core/repository/services_class/local_service/shared_preferences_helper.dart';
+
 class ProfileScreen extends StatelessWidget {
   final controller = Get.put(ProfileController());
 
@@ -175,14 +178,14 @@ class ProfileScreen extends StatelessWidget {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     ElevatedButton(
-                                      onPressed: () {
-                                        // Get.back();
-                                        Get.to(() => LoginScreen());
-                                        Get.snackbar(
-                                          'Logged Out',
-                                          'You have been logged out successfully',
+                                      onPressed: () async {
+                                        await SharedPreferencesHelper.clearAccessToken();
+
+                                        Get.offAll(() => LoginScreen());
+                                        showSnackBar(
+                                          true,
+                                          "You have been logged out successfully",
                                         );
-                                        // Add actual logout logic here (e.g., navigate to login screen)
                                       },
                                       style: ElevatedButton.styleFrom(
                                         side: const BorderSide(

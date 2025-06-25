@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -9,7 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum RequestMethod { GET, POST, PUT, DELETE }
-
 class NetworkConfig {
   Future ApiRequestHandler(RequestMethod method, url, json_body,
       {is_auth = false}) async {
@@ -18,7 +18,12 @@ class NetworkConfig {
     if (await InternetConnectionChecker().hasConnection) {
       var header = <String, String>{"Content-type": "application/json"};
       if (is_auth == true) {
-        header["Authorization"] = "Bearer ${sh.getString("token")}";
+
+        if (kDebugMode) {
+          print("token: ${sh.getString("token")}");
+        }
+
+        header["Authorization"] = "${sh.getString("token")}";
       }
 
       if (method.name == RequestMethod.GET.name) {
@@ -27,6 +32,14 @@ class NetworkConfig {
 
           print(req.statusCode);
           if (req.statusCode == 200) {
+
+            if (kDebugMode) {
+              print("json.decode(req.body) ${json.decode(req.body)}");
+            }
+
+
+            return json.decode(req.body);
+          } else if (req.statusCode == 201) {
             return json.decode(req.body);
           } else {
             throw Exception("Server Error");
@@ -37,11 +50,13 @@ class NetworkConfig {
       } else if (method.name == RequestMethod.POST.name) {
         try {
           var req = await http.post(Uri.parse(url),
-              // headers: header,
+              headers: header,
               body: json_body);
 
           print(req.body);
           if (req.statusCode == 200) {
+            return json.decode(req.body);
+          } else if (req.statusCode == 400) {
             return json.decode(req.body);
           } else if (req.statusCode == 500) {
             throw Exception("Server Error");
@@ -54,10 +69,16 @@ class NetworkConfig {
       } else if (method.name == RequestMethod.PUT.name) {
         try {
           var req =
-              await http.put(Uri.parse(url), headers: header, body: json_body);
+          await http.put(Uri.parse(url), headers: header, body: json_body);
 
-          print(req.statusCode);
+          if (kDebugMode) {
+            print("At Put Request: ${req.statusCode}");
+          }
           if (req.statusCode == 200) {
+            return json.decode(req.body);
+          } else if (req.statusCode == 201) {
+            return json.decode(req.body);
+          } else if (req.statusCode == 401) {
             return json.decode(req.body);
           } else {
             throw Exception("Server Error");

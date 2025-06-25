@@ -9,7 +9,7 @@ import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/otp_very_screen.dart';
 
-import '../controller/login_controller.dart';
+import '../controller/auth_controller.dart';
 import 'login_screen.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class ForgetPasswordScreen extends StatefulWidget {
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
-  final LoginController controller = Get.put(LoginController());
+  final AuthController controller = Get.put(AuthController());
   final TextEditingController phoneController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
@@ -159,7 +159,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   // bacgroundColor: Colors.white,
                   // validator: _passwordValidator,
                   obscureText: true,
-                  width: screenWidth * 0.9,
+
                 ),
                 SizedBox(height: 250.h),
 
@@ -170,7 +170,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   onPressed: () {
                     Get.to(
                       () => OTPVerificationScreen(
-                        Phone: controller.phoneController.text,
+                        Phone: controller.emailOrPhoneController.text,
                       ),
                     );
                     Get.snackbar(

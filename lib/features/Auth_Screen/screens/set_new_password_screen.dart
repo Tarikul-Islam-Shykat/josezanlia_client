@@ -6,14 +6,14 @@ import 'package:get/get.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
-import 'package:prettyrini/features/Auth_Screen/controller/login_controller.dart';
+import 'package:prettyrini/features/Auth_Screen/controller/auth_controller.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/login_screen.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/utils/show_success_dialog.dart';
 
 class SetNewPasswordScreen extends StatelessWidget {
   SetNewPasswordScreen({super.key});
 
-  final LoginController controller = Get.put(LoginController());
+  final AuthController controller = Get.put(AuthController());
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
@@ -78,7 +78,7 @@ class SetNewPasswordScreen extends StatelessWidget {
                       color: Color(0xFF8C8482).withOpacity(0.20),
                     ),
                     prefixIconPath: 'assets/images/lock.png',
-                    width: screenWidth * 0.9,
+
                     hitText: 'New Password',
                     textEditingController: controller.passwordController,
                     fontSize: fontSize16,
@@ -108,7 +108,7 @@ class SetNewPasswordScreen extends StatelessWidget {
                       color: Color(0xFFACACAC).withOpacity(0.20),
                     ),
                     prefixIconPath: 'assets/images/lock.png',
-                    width: screenWidth * 0.9,
+
                     hitText: 'Confirm Password',
                     textEditingController: confirmPasswordController,
                     fontSize: fontSize16,
