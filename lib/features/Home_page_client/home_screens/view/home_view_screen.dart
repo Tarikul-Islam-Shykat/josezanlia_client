@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:prettyrini/features/Home_page_client/Add_request_page/view/request_top_up_screen.dart';
 import 'package:prettyrini/features/Home_page_client/home_screens/controller/home_view_controller.dart';
 import 'package:prettyrini/features/Home_page_client/pay_now_screen/view/pay_now_view_screen.dart';
 
+import '../../../../core/global_widegts/custom_cached_image.dart';
 import '../../../notifications/view/notifications_view.dart';
 
 class WaterBillHome extends StatelessWidget {
@@ -64,12 +66,30 @@ class WaterBillHome extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                radius: 25,
-                backgroundImage: const AssetImage(
-                  'assets/images/header_image.png',
-                ),
-              ),
+
+              Obx(() {
+                return controller.userProfileImage.value.isNotEmpty
+                    ? CustomCachedImage(
+                  imageUrl: controller.userProfileImage.value,
+                  type: CustomImageType.avatar,
+                  radius: 25,
+                )
+                    : CircleAvatar(
+                  radius: 25.r,
+                  backgroundColor: Colors.grey.shade200,
+                  child: Image.asset(
+                    'assets/images/user11.png',
+                  ),
+                );
+              }),
+
+
+              // CircleAvatar(
+              //   radius: 25,
+              //   backgroundImage: const AssetImage(
+              //     'assets/images/header_image.png',
+              //   ),
+              // ),
               const SizedBox(width: 15),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

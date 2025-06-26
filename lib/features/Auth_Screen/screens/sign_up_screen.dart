@@ -245,7 +245,7 @@ class SignUpScreen extends StatelessWidget {
                               Get.to(
                                 (dynamic phoneNumberController) =>
                                     OTPVerificationScreen(
-                                      Phone: phoneNumberController.text,
+
                                     ),
                               );
                             },

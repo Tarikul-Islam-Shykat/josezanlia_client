@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:pinput/pinput.dart';
 import 'package:prettyrini/core/repository/network_caller/endpoints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,20 +14,86 @@ import '../../../core/global_widegts/custom_snack_bar.dart';
 import '../../../core/repository/network_caller/network_config.dart';
 import '../../../core/repository/services_class/local_service/shared_preferences_helper.dart';
 import '../../nav_bar/view/nav_bar_view.dart';
+import '../screens/login_screen.dart';
+import '../screens/otp_very_screen.dart';
+import '../screens/set_new_password_screen.dart';
+import '../screens/utils/show_success_dialog.dart';
 
 class AuthController extends GetxController {
   final TextEditingController emailOrPhoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+  TextEditingController();
+  final newPasswordController = TextEditingController();
+  final changeNewPasswordController = TextEditingController();
+  final changeOldPasswordController = TextEditingController();
+  final TextEditingController otpController = TextEditingController();
   final isPasswordVisible = false.obs;
+  final isConfirmPasswordVisible = false.obs;
   final isLoading = false.obs;
   final isLoginLoading = false.obs;
+  final isResendVisible = false.obs;
+  final isForgotPasswordLoading = false.obs;
+  final isResetPasswordLoading = false.obs;
+  final isVerifyOTPLoading = false.obs;
+  final isChangePasswordLoading = false.obs;
   final NetworkConfig _networkConfig = NetworkConfig();
+  Timer? _timer;
+  final timeLeft = 600.obs;
 
   // @override
   // void onInit() {
   //   super.onInit();
   //   // _prefillPhone();
   // }
+
+  void startTimer() {
+    timeLeft.value = 600;
+    isResendVisible.value = false;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (timeLeft.value > 0) {
+        timeLeft.value--;
+      } else {
+        isResendVisible.value = true;
+        _timer?.cancel();
+      }
+    });
+  }
+
+
+
+
+
+  final defaultPinTheme = PinTheme(
+    width: 56,
+    height: 56,
+    textStyle: TextStyle(fontSize: 22, color: Color(0xFF4A4F5E)),
+    decoration: BoxDecoration(
+      border: Border.all(color: Color(0xFF4A4F5E), width: 1),
+      borderRadius: BorderRadius.circular(12),
+    ),
+  );
+
+  String get formattedTime {
+    // final minutes = timeLeft.value ~/ 60;
+    // final seconds = timeLeft.value % 60;
+    // return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+
+    final minutes = (timeLeft.value ~/ 60).toString().padLeft(2, '0');
+    final seconds = (timeLeft.value % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   Future<void> loginUser() async {
     String emailOrPhone = emailOrPhoneController.text.trim();
@@ -106,7 +175,261 @@ class AuthController extends GetxController {
   }
 
 
+  Future<void> resendOTP() async {
 
+
+    try {
+      isResetPasswordLoading.value = true;
+      // json
+      final Map<String, dynamic> requestBody = {
+        "email": emailOrPhoneController.text.trim(),
+      };
+
+      if (kDebugMode) {
+        print("LogInController login user Request Body: $requestBody");
+      }
+
+      final response = await _networkConfig.ApiRequestHandler(
+        RequestMethod.POST,
+        Urls.resendOTP,
+        json.encode(requestBody),
+        is_auth: false,
+      );
+
+      if (kDebugMode) {
+        print("LoginController login Response: $response");
+      }
+
+      if (response['success'] == true) {
+        showSnackBar(true, response['message']);
+        Get.to(() => OTPVerificationScreen());
+      } else if (response['success'] == false) {
+        showSnackBar(false, response['message']);
+      }
+    } catch (e) {
+      showSnackBar(false, "At Catch: ${e.toString()}");
+    } finally {
+      isResetPasswordLoading.value = false;
+    }
+  }
+
+  Future<void> verifyOTP() async {
+    try {
+      isVerifyOTPLoading.value = true;
+      // json
+      final Map<String, dynamic> requestBody = {
+        "email": emailOrPhoneController.text.trim(),
+        "otp": int.tryParse(otpController.text.trim()),
+      };
+
+      if (kDebugMode) {
+        print("LogInController verify otp user Request Body: $requestBody");
+      }
+
+      final response = await _networkConfig.ApiRequestHandler(
+        RequestMethod.POST,
+        Urls.verifyOTP,
+        json.encode(requestBody),
+        is_auth: false,
+      );
+
+      if (kDebugMode) {
+        print("LoginController login Response: $response");
+      }
+
+      if (response['success'] == true) {
+        showSnackBar(true, response['message']);
+        Get.to(() => SetNewPasswordScreen());
+      } else if (response['success'] == false) {
+        showSnackBar(false, response['message']);
+      }
+    } catch (e) {
+      showSnackBar(false, "At Catch: ${e.toString()}");
+    } finally {
+      isVerifyOTPLoading.value = false;
+    }
+  }
+
+  Future<void> resetPassword() async {
+    try {
+      isResetPasswordLoading.value = true;
+      // json
+      final Map<String, dynamic> requestBody = {
+        "email": emailOrPhoneController.text.trim(),
+        "password": newPasswordController.text.trim(),
+      };
+
+      if (kDebugMode) {
+        print("LogInController login user Request Body: $requestBody");
+      }
+
+      final response = await _networkConfig.ApiRequestHandler(
+        RequestMethod.POST,
+        Urls.resetPassword,
+        json.encode(requestBody),
+        is_auth: false,
+      );
+
+      if (kDebugMode) {
+        print("LoginController login Response: $response");
+      }
+
+      if (response['success'] == true) {
+        showSnackBar(true, response['message']);
+        Get.offAll(() => LoginScreen());
+      } else if (response['success'] == false) {
+        showSnackBar(false, response['message']);
+      }
+    } catch (e) {
+      showSnackBar(false, "At Catch: ${e.toString()}");
+    } finally {
+      isResetPasswordLoading.value = false;
+    }
+  }
+
+  Future<void> changePassword() async {
+    String newPassword = changeNewPasswordController.text.trim();
+    String currentPassword = changeOldPasswordController.text.trim();
+
+    if (newPassword.length < 8) {
+      showSnackBar(false, "New password must be at least 8 characters long.");
+      return;
+    }
+    if (currentPassword.length < 8) {
+      showSnackBar(
+        false,
+        "Current password must be at least 8 characters long.",
+      );
+      return;
+    }
+    if (newPassword == currentPassword) {
+      showSnackBar(
+        false,
+        "New password cannot be the same as the current password.",
+      );
+      return;
+    }
+
+    if (kDebugMode) {
+      print("LogInController Change Password Request Body: $newPassword");
+      print("LogInController Current Password Request Body: $currentPassword");
+    }
+
+    try {
+      isChangePasswordLoading.value = true;
+      // json
+      final Map<String, dynamic> requestBody = {
+        "oldPassword": currentPassword,
+        "newPassword": newPassword,
+      };
+
+      if (kDebugMode) {
+        print("LogInController forgot Password Request Body: $requestBody");
+      }
+
+      final response = await _networkConfig.ApiRequestHandler(
+        RequestMethod.PUT,
+        Urls.changePass,
+        json.encode(requestBody),
+        is_auth: true,
+      );
+
+      if (kDebugMode) {
+        print("LoginController login Response: $response");
+      }
+
+      if (response['success'] == true) {
+        showSnackBar(true, response['message']);
+        Navigator.of(Get.context!).pop();
+      } else if (response['success'] == false) {
+        showSnackBar(false, response['message']);
+      }
+    } catch (e) {
+      showSnackBar(false, "At Catch: ${e.toString()}");
+    } finally {
+      isChangePasswordLoading.value = false;
+    }
+  }
+
+
+  Future<void> forgotPassword() async {
+    String emailOrPhone = emailOrPhoneController.text.trim();
+    if (emailOrPhone.isEmpty) {
+      showSnackBar(false, "Please enter your email or phone number.");
+      return;
+    }
+    if (!GetUtils.isEmail(emailOrPhone)) {
+      showSnackBar(false, "Please enter a valid email address.");
+      return;
+    }
+
+    try {
+      isForgotPasswordLoading.value = true;
+      // json
+      final Map<String, dynamic> requestBody = {
+        "email": emailOrPhoneController.text.trim(),
+      };
+
+      if (kDebugMode) {
+        print("LogInController forgot Password Request Body: $requestBody");
+      }
+
+      final response = await _networkConfig.ApiRequestHandler(
+        RequestMethod.POST,
+        Urls.forgotPass,
+        json.encode(requestBody),
+        is_auth: false,
+      );
+
+      if (kDebugMode) {
+        print("LoginController login Response: $response");
+      }
+
+      if (response['success'] == true) {
+        showSnackBar(true, response['message']);
+        Get.to(() => OTPVerificationScreen());
+      } else if (response['success'] == false) {
+        showSnackBar(false, response['message']);
+      }
+    } catch (e) {
+      showSnackBar(false, "At Catch: ${e.toString()}");
+    } finally {
+      isForgotPasswordLoading.value = false;
+    }
+  }
+
+
+
+  void submit(BuildContext context) {
+
+
+    showSuccessDialog(
+      buttonText: 'Done',
+      context: context,
+      title: 'Success',
+      message: 'Your password is successfully changed!',
+      image: Image.asset('assets/images/tick.png', height: 70.h, width: 70.w),
+      onDonePressed: () {
+        Get.off(() => LoginScreen());
+        Get.snackbar(
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          'Successful!',
+          'New Password Setup Successfully! Please Log In',
+        );
+      },
+    );
+  }
+
+
+
+
+
+  @override
+  void onClose() {
+    _timer?.cancel();
+    super.onClose();
+  }
 
 
 
@@ -138,6 +461,10 @@ class AuthController extends GetxController {
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
+  void toggleConfirmPasswordVisibility() {
+    isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
+  }
+
   //
   // Future<void> handleLogin() async {
   //   final phone = phoneController.text.trim();
