@@ -15,7 +15,7 @@ class OTPVerificationScreen extends StatelessWidget {
 
   OTPVerificationScreen({super.key});
   final ForgetPasswordController controller = Get.put(ForgetPasswordController());
-  final email = Get.arguments["email"];
+  final String? email = Get.arguments["email"];
 
   @override
   Widget build(BuildContext context) {

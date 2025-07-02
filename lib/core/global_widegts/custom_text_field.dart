@@ -23,7 +23,7 @@ class CustomTextField extends StatelessWidget {
     this.textColor,
     this.borderSide,
     this.onSuffixIconTap,
-    this.isForPassword = false,
+    this.isForPassword = false, this.onTap, this.keyboardType,
   });
 
   final String? hitText;
@@ -44,12 +44,15 @@ class CustomTextField extends StatelessWidget {
   final BorderSide? borderSide;
   final void Function()? onSuffixIconTap;
   final bool isForPassword;
-
+  final VoidCallback? onTap;
+  final TextInputType? keyboardType;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: TextField(
+        onTap: onTap,
+        keyboardType:keyboardType ,
         controller: textEditingController,
         obscureText: obscureText,
         readOnly: readOnly,

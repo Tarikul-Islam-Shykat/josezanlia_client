@@ -2,13 +2,16 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:prettyrini/core/const/app_loader.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 
 import '../../../generated/assets.dart';
+import '../../Home_page_client/home_screens/controller/home_constroller.dart';
 import '../controller/water_use_controller.dart';
 
 class WaterUseView extends StatelessWidget {
   final controller = Get.put(WaterUseController());
+  final waterController = Get.put(ConsumerReadingController());
 
   WaterUseView({super.key});
 
@@ -19,9 +22,14 @@ class WaterUseView extends StatelessWidget {
 
       body: SafeArea(
         child: Obx(() {
-          final data = controller.meterData.value;
-          if (data == null) return Center(child: CircularProgressIndicator());
+          if(waterController.isLoading.value){
+            return loader();
+          }
+         /// final data = controller.selectReading;
 
+          if (data == null) {
+            return Center(child: Text("No data available"));
+          }
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(

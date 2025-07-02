@@ -1,164 +1,254 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:get/get.dart';
-import 'package:path/path.dart';
 import 'dart:io';
-
-import '../../../../../core/global_widegts/custom_snack_bar.dart';
-import '../../../../../core/repository/network_caller/endpoints.dart';
-import '../../../../../core/repository/services_class/local_service/shared_preferences_helper.dart';
-
-// class ProfileController extends GetxController {
-//   var userName = 'Michel Adam'.obs;
-//   var phoneNumber = '01813277700'.obs;
-//   var profileImage = Rxn<File>();
-//
-//   void updateProfileImage(File image) {
-//     profileImage.value = image;
-//     log('Profile image updated: ${image.path}');
-//   }
-//
-//   void updateProfile({String? name, String? phone}) {
-//     if (name != null && name.isNotEmpty) {
-//       userName.value = name;
-//     }
-//     if (phone != null && phone.isNotEmpty) {
-//       phoneNumber.value = phone;
-//     }
-//     log(
-//       'Profile updated - Name: ${userName.value}, Phone: ${phoneNumber.value}',
-//     );
-//   }
-// }
+import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:typed_data';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:prettyrini/features/profile/controller/user_info_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/global_widegts/app_snackbar.dart';
+import '../../../core/repository/network_caller/endpoints.dart';
 
 
-class ProfileController extends GetxController {
-  RxString userName = ''.obs;
-  RxString phoneNumber = ''.obs;
-  RxString userImage = ''.obs;
-  final isUpdateProfileLoading = false.obs;
-  var profileImage = Rxn<File>();
+class EditProfileController extends GetxController{
+  Rx<TextEditingController> nameTEC = TextEditingController().obs;
+  Rx<TextEditingController> phoneTEC = TextEditingController().obs;
+  Rx<TextEditingController> dobTEC = TextEditingController().obs;
+  final UserProfileController userController = Get.put(UserProfileController());
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
+  final _picker = ImagePicker();
+  RxBool isUploading = false.obs;
+  var uploadProgress =0.0.obs;
+  var imageSizeText ="".obs;
+  Rx<File?>profileImage = Rx<File?>(null);
 
-  void updateProfileImage(File image) {
-    profileImage.value = image;
-    log('Profile image updated: ${image.path}');
+
+  Future<void> pickProfileImage()async{
+    try{
+      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if(pickedFile !=null){
+        File imageFile = File(pickedFile.path);
+
+        File? compressedImage = await _compressImage(imageFile);
+        if(compressedImage != null){
+          profileImage.value = compressedImage;
+          await _updateImageSizeText(compressedImage);
+          AppSnackbar.show(message: "Profile picture selected success", isSuccess: true);
+        }else{
+          log("Failed to compress image");
+        }
+      }
+    }catch(e){
+      log("Failed Pick Image ${e.toString()}");
+    }
   }
 
-  void updateProfile() async {
-    log(
-      'Profile updated - Name: ${userName.value}, Phone: ${phoneNumber.value}',
-    );
+  Future<void> pickProfileImageFormCamera()async{
+    try{
+      final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+      if(pickedFile != null){
+        File imageFile = File(pickedFile.path);
 
-    if (profileImage.value == null) {
-      showSnackBar(false, 'Please select an image');
-      return;
+        File? compressedImage = await _compressImage(imageFile);
+        if(compressedImage != null){
+          profileImage.value = compressedImage;
+          await _updateImageSizeText(compressedImage);
+          AppSnackbar.show(message: "Profile picture captured successfully", isSuccess: true);
+        }else{
+          log("Failed to compress image");
+        }
+      }
+    }catch(e){
+      log("Failed capturing profile image ${e.toString()}");
     }
+  }
 
-    isUpdateProfileLoading.value = true;
+  Future<File?>_compressImage(File imageFile)async{
+    try{
+      int originalSize = await imageFile.length();
+      log("Original image size:${(originalSize/1024).toStringAsFixed(2)} KB");
+      if(originalSize<= 250 * 1024){
+        return imageFile;
+      }
 
+      String targetPath = imageFile.path.
+      replaceAll(".jpg", "_compressed.jpg").
+      replaceAll("jpeg", "_compressed.jpeg").
+      replaceAll("png", "_compressed.jpg");
+
+      Uint8List? compressedBytes = await FlutterImageCompress.compressWithFile(
+        imageFile.absolute.path,
+        minWidth: 800,
+        minHeight: 800,
+        quality: 85,
+        format: CompressFormat.jpeg,
+      );
+      if(compressedBytes == null){
+        log("Failed to compress image");
+        return null;
+      }
+
+      //if still to large try with lower quality
+      int currentSize = compressedBytes.length;
+      int quality = 85;
+      while (currentSize> 250 * 1024 && quality>50){
+        quality -=10;
+        log("Trying with quality:${quality}");
+        compressedBytes = await FlutterImageCompress.compressWithFile(
+          imageFile.absolute.path,
+          minWidth: 600,
+          minHeight: 600,
+          quality: quality,
+          format: CompressFormat.jpeg,
+        );
+        if(compressedBytes != null){
+          currentSize = compressedBytes.length;
+        }else{
+          break;
+        }
+      }
+      if(compressedBytes == null){
+        log("failed to compress image to required size");
+        return null;
+      }
+      // Write compressed image to file
+      File compressedFile = File(targetPath);
+      await compressedFile.writeAsBytes(compressedBytes);
+
+      int finalSize = compressedBytes.length;
+      log("Compressed image size: ${(finalSize / 1024).toStringAsFixed(2)} KB");
+
+      return compressedFile;
+    }catch(e){
+      log("Error compressing image: $e");
+      return null;
+    }
+  }
+
+  Future<void> _updateImageSizeText(File imageFile) async {
     try {
-      final token = await SharedPreferencesHelper.getAccessToken();
-      if (token == null) {
-        Get.snackbar('Auth Error', 'No access token found');
-        return;
+      int sizeInBytes = await imageFile.length();
+      double sizeInKB = sizeInBytes / 1024;
+
+      if (sizeInKB < 1024) {
+        imageSizeText.value = "${sizeInKB.toStringAsFixed(1)} KB";
+      } else {
+        double sizeInMB = sizeInKB / 1024;
+        imageSizeText.value = "${sizeInMB.toStringAsFixed(1)} MB";
       }
+    } catch (e) {
+      imageSizeText.value = "Size unknown";
+    }
+  }
 
-      var request = http.MultipartRequest('PUT', Uri.parse(Urls.updateProfile));
-      request.headers['Authorization'] = token;
-      request.headers["Content-Type"] = "application/json";
 
-      Map<String, dynamic> dataFields = {
-        //"address": "Dattapara",
-        //"lat": 40.03,
-        //"lng": 140.03,
-        //"dob": "2025-06-02T10:00:00.000Z",
-        "firstName": nameController.text.trim(),
-        //"lastName": "Islam",
-        "phone": phoneController.text.trim(),
+  Future<bool> uploadProfileImage()async{
+    if(profileImage.value == null){
+      AppSnackbar.show(message: "Please select a Picture", isSuccess: false);
+      return false;
+    }
+    try{
+      isUploading.value = true;
+      final request = http.MultipartRequest(
+          "PUT", 
+          Uri.parse("${Urls.updateProfile}/${userController.userProfile.value.consumer!.first.id}")
+      );
+      SharedPreferences local = await SharedPreferences.getInstance();
+      String? token = local.getString("token");
+
+      request.headers.addAll({
+        "Content-Type":"multipart/form-data",
+        "Authorization": "$token"
+      });
+      DateTime parsedDob = DateFormat("dd/MM/yyyy").parse(dobTEC.value.text);
+      var dobIso = parsedDob.toUtc().toIso8601String();
+      Map<String,dynamic> userData ={
+        "dob": dobIso,
+        "firstName": nameTEC.value.text,
+        "phone":phoneTEC.value.text
+
       };
+      log("Profile picture upload request $userData");
+      request.fields["data"] = jsonEncode(userData);
 
-      if (kDebugMode) {
-        print("Edit Profile Data Field: $dataFields");
-      }
+      var imageBytes = await profileImage.value!.readAsBytes();
 
-      // Serialize the map to a JSON string
-      String jsonData = jsonEncode(dataFields);
-      request.fields['data'] = jsonData;
-
-      var imageFile = profileImage.value!;
-      var stream = http.ByteStream(imageFile.openRead());
-      var length = await imageFile.length();
-      var multipartFile = http.MultipartFile(
-        'image',
-        stream,
-        length,
-        filename: basename(imageFile.path),
+      var multipartFile = http.MultipartFile.fromBytes(
+        "image",
+        imageBytes,
+        filename: "profile_${DateTime.now().millisecondsSinceEpoch}.jpg",
       );
       request.files.add(multipartFile);
 
-      final response = await request.send();
-      final responseBody = await response.stream.bytesToString();
-
-      if (response.statusCode == 200) {
-        showSnackBar(true, 'Profile updated successfully');
-        Get.offAll(() => BottomAppBar());
-      } else {
-        showSnackBar(false, "Profile update failed");
+      var streamedResponse = await request.send();
+      for(int i = 0; i<=100;i +=10){
+        uploadProgress.value = i.toDouble();
+        await Future.delayed(Duration(milliseconds: 50));
       }
+      final response =await http.Response.fromStream(streamedResponse);
+      final responseJson = jsonDecode(response.body);
+      log("Profile picture upload response $responseJson");
+      log("Status code ${response.statusCode}");
+      if((response.statusCode == 200 || response.statusCode == 201) && responseJson["success"]== true){
+        AppSnackbar.show(message: "Profile picture Upload success", isSuccess: true);
+        Get.back();
+        clearImage();
 
-    } catch (e) {
-      showSnackBar(false, "At Catch: ${e.toString()}");
-    } finally {
-      isUpdateProfileLoading.value = false;
+        return true;
+      }else{
+        AppSnackbar.show(message: "${responseJson["message"]}", isSuccess: false);
+        log("failed :${responseJson["message"]}");
+        return false;
+      }
+    }catch(e){
+      log("Failed to Update ${e.toString()}");
+      return false;
+    }finally{
+      isUploading.value = false;
     }
+  }
+
+
+
+
+
+  Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
+  void pickDate(BuildContext context)async{
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate.value ?? DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2100),
+    );
+    if(pickedDate != null){
+      selectedDate.value = pickedDate;
+      dobTEC.value.text = _formatDate(pickedDate);
+    }
+
+  }
+
+  String _formatDate(DateTime date) {
+    return "${date.day}/${date.month}/${date.year}";
+  }
+  // Clear selected image
+  void clearImage() {
+    profileImage.value = null;
+    imageSizeText.value = '';
+    uploadProgress.value = 0.0;
   }
 
   @override
-  void onInit() {
-
-    if (kDebugMode) {
-      print("WrProfileController initialized");
-    }
-
-
-
-
-    // TODO: implement onInit
-
-    //getDataFromSharePref();
-
-    super.onInit();
+  void dispose() {
+    super.dispose();
+    nameTEC.value.dispose();
+    dobTEC.value.dispose();
   }
 
-  void getDataFromSharePref() async {
-    userName.value = await SharedPreferencesHelper.getUserFirstName() ?? '';
-    phoneNumber.value =
-        await SharedPreferencesHelper.getUserPhoneNumber() ?? '';
-    userImage.value = await SharedPreferencesHelper.getUserProfileImage() ?? '';
-
-
-
-    if (kDebugMode) {
-      print("Profile User Profile Image at Profile Controller: ${await SharedPreferencesHelper.getUserProfileImage()}");
-    }
-
-
-
-
-    nameController.text = userName.value;
-    phoneController.text = phoneNumber.value;
-
-    if (kDebugMode) {
-      print("Profile Edit User Name: ${userName.value}");
-      print("Profile Edit User Phone Number: ${phoneNumber.value}");
-      print("Profile Edit User Image: ${userImage.value}");
-    }
-  }
 }
+
+
+

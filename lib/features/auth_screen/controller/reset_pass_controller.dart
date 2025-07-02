@@ -15,22 +15,23 @@ class ResetPassController extends GetxController{
   final conPass = TextEditingController();
   RxBool isLoading = false.obs;
   
-  Future<bool> resetPass(email)async{
+  Future<bool> resetPass(email, context)async{
     isLoading.value = true;
     try{
       Map<String,dynamic> data ={
         "email":email.toString(),
-        "password": newPass.text,
+        "password": newPass.text.trim(),
       };
+      log("ResetPass Data $data");
       final response = await _networkConfig.ApiRequestHandler(
           RequestMethod.POST,
           Urls.resetPassword,
-          {jsonEncode(data)},
+          jsonEncode(data),
           is_auth: false
       );
-      if(response != null && response["message"]== true){
-        Get.offAllNamed(AppRoute.loginScreen);
-        AppSnackbar.show(message: "${response["message"]}", isSuccess: true);
+      if(response != null && response["success"]== true){
+        submit(context);
+        //AppSnackbar.show(message: "${response["message"]}", isSuccess: true);
         return true;
       }else{
         AppSnackbar.show(message: "${response["message"]}", isSuccess: false);
@@ -40,6 +41,8 @@ class ResetPassController extends GetxController{
     }catch(e){
       log("ResetPass Response failed${e.toString()}");
       return false;
+    }finally{
+      isLoading.value = false;
     }
   }
 

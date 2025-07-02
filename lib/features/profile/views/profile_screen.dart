@@ -12,11 +12,12 @@ import '../../../../../core/global_widegts/custom_cached_image.dart';
 import '../../../../../core/global_widegts/custom_snack_bar.dart';
 import '../../../../../core/repository/services_class/local_service/shared_preferences_helper.dart';
 import '../controller/profile_controller.dart';
+import '../controller/user_info_controller.dart';
 import 'change_password.dart';
 
 
 class ProfileScreen extends StatelessWidget {
-  final controller = Get.put(ProfileController());
+  final controller = Get.put(UserProfileController());
 
   //final controller = Get.find<ProfileController>();
 
@@ -24,7 +25,6 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.getDataFromSharePref();
 
     if (kDebugMode) {
       print("WrProfileScreen initialized");
@@ -43,9 +43,9 @@ class ProfileScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.h),
             Obx(() {
-              return controller.userImage.value.isNotEmpty
+              return controller.userProfile.value !=null
                   ? CustomCachedImage(
-                imageUrl: controller.userImage.value,
+                imageUrl: controller.userProfile.value.profileImage.toString(),
                 type: CustomImageType.avatar,
                 radius: 50,
               )
@@ -61,15 +61,13 @@ class ProfileScreen extends StatelessWidget {
             }),
 
             SizedBox(height: 16.h),
-            Obx(
-                  () => Text(
-                controller.userName.value,
+            Obx(() => Text(
+                controller.userProfile.value.userName.toString(),
                 style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            Obx(
-                  () => Text(
-                controller.phoneNumber.value,
+            Obx(() => Text(
+                controller.userProfile.value.email.toString(),
                 style: TextStyle(fontSize: 14.sp),
               ),
             ),
@@ -98,7 +96,7 @@ class ProfileScreen extends StatelessWidget {
                     borderSide: const BorderSide(color: Color(0xFFE6E6E6)),
                     backgroundColor: Colors.white,
                     onPressed: () {
-                      Get.to(() => ProfileEdit());
+                      Get.to(() => EditProfile());
                     },
                     text: 'Edit Profile',
                     textColor: Colors.black,

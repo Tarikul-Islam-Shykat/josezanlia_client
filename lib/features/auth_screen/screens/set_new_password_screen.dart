@@ -110,7 +110,7 @@ class SetNewPasswordScreen extends StatelessWidget {
                       showSnackBar(false, 'Passwords do not match.');
                     }
                     else {
-                      controller.resetPass(email.toString());
+                      controller.resetPass(email.toString(),context);
                     }
                   },
                   text: 'Change Password',

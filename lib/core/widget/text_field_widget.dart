@@ -13,7 +13,7 @@ class CustomAuthField extends StatelessWidget {
     this.suffixIcon,
     this.validator,
     this.keyboardType = TextInputType.text,
-    this.readOnly = false, // Default to TextInputType.text
+    this.readOnly = false, this.onTap, // Default to TextInputType.text
   });
 
   final TextEditingController controller;
@@ -23,11 +23,13 @@ class CustomAuthField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
   final bool readOnly;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       child: TextFormField(
+        onTap:onTap,
         readOnly: readOnly,
         keyboardType: keyboardType, // Use optional keyboard type
         obscureText: obscureText,

@@ -24,11 +24,17 @@ class ForgetPasswordController extends GetxController {
       final response = await _networkConfig.ApiRequestHandler(
           RequestMethod.POST,
           Urls.sendOTPForgot,
-          {jsonEncode(data)},
+          jsonEncode(data),
           is_auth: false
       );
       if(response != null && response["success"] == true){
         AppSnackbar.show(message: "${response["message"]}", isSuccess: true);
+        Get.toNamed(
+          arguments:{
+            "email":emailTEC.text
+          },
+            AppRoute.otpVeryScreen,
+        );
         log("${response["message"]}");
         return true;
       }else{
@@ -48,7 +54,7 @@ class ForgetPasswordController extends GetxController {
     try {
       isLoading.value = true;
       final Map<String, dynamic> requestBody = {
-        "email": email.text.trim(),
+        "email": email.toString().trim(),
         "otp": int.tryParse(otpController.text.trim()),
       };
       final response = await _networkConfig.ApiRequestHandler(
@@ -61,7 +67,7 @@ class ForgetPasswordController extends GetxController {
         AppSnackbar.show(message: "${response['message']}", isSuccess: true);
         Get.toNamed(
           arguments: {
-            "email":email.toString()
+            "email":email
           },
             AppRoute.resetPasswordScreen);
         return true;
