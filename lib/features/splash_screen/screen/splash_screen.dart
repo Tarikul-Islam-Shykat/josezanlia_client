@@ -27,20 +27,24 @@ class SplashScreen extends StatelessWidget {
                   children: [
                     Image.asset(
                       ImagePath.logo,
-                      width: screenWidth * 0.5,
+                      width: 140,
+                      height: 140,
                       // height: screenHeight * 0.5,
                     ),
                     Text(
                       'ComunÁgua',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 30.sp,
+                        fontSize: 40.sp,
                       ),
                     ),
                     Text(
                       textAlign: TextAlign.center,
                       'Disponível todos os dias,\na qualquer hora',
-                      style: TextStyle(color: Color(0xFFC0561E)),
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        color: Color(0xFFC0561E),
+                      ),
                     ),
                   ],
                 ),

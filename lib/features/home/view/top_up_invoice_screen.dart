@@ -2,9 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/features/home/model/top_up_invoice_model.dart';
+import 'package:prettyrini/features/nav_bar/view/nav_bar_view.dart';
 
 class TopUpInvoiceScreen extends StatelessWidget {
   const TopUpInvoiceScreen({super.key});
@@ -49,14 +52,22 @@ class TopUpInvoiceScreen extends StatelessWidget {
                     children: [
                       const CustomAppBar(title: 'Invoice'),
                       Padding(
-                        padding: EdgeInsets.all(16.w),
+                        padding: EdgeInsets.only(
+                          left: 16.0,
+                          right: 16.0,
+                          bottom: 20.0,
+                        ),
                         child: Container(
                           decoration: BoxDecoration(
                             color: Color(0xFFC2DCDC).withValues(alpha: 0.50),
                             borderRadius: BorderRadius.circular(10.r),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(16.w),
+                            padding: EdgeInsets.only(
+                              bottom: 16.h,
+                              left: 16.w,
+                              right: 16.w,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -374,7 +385,9 @@ class TopUpInvoiceScreen extends StatelessWidget {
 
                             SizedBox(height: 12.h),
                             CustomButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.to(() => BottomNavbar());
+                              },
                               text: 'Back to Top Up',
                               textColor: Color(0xFF0B3A3D),
                               backgroundColor: Color(0xFFFFFFFF),

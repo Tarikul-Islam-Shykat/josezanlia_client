@@ -6,6 +6,7 @@ import 'package:prettyrini/core/style/global_text_style.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/utils/show_success_dialog.dart';
 import 'package:prettyrini/features/Home_page_client/Add_request_page/controller/request_controller.dart';
 import 'package:prettyrini/features/Home_page_client/pay_now_screen/controller/pay_now_controller.dart';
+import 'package:prettyrini/route/route.dart';
 
 class RequestTopUpScreen extends StatelessWidget {
   RequestTopUpScreen({super.key});
@@ -248,7 +249,7 @@ class RequestTopUpScreen extends StatelessWidget {
       message: 'Please allow up to 24 hours for your receipt to be approved.',
       image: Image.asset('assets/images/tick.png', height: 70.h, width: 70.w),
       onDonePressed: () {
-        Get.back();
+        Get.toNamed(AppRoute.topUpInvoiceScreen);
       },
     );
   }

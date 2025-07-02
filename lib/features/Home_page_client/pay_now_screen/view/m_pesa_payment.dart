@@ -3,12 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:prettyrini/core/const/icons_path.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/utils/show_success_dialog.dart';
+import 'package:prettyrini/route/route.dart';
 
-class PaymentDetailsScreen extends StatelessWidget {
+class MPesaPayment extends StatelessWidget {
   // final PaymentController controller = Get.put(PaymentController());
   final String paymentMethod;
 
-  const PaymentDetailsScreen({super.key, required this.paymentMethod});
+  const MPesaPayment({super.key, required this.paymentMethod});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +67,7 @@ class PaymentDetailsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildPaymentOption('86 12 34 456', IconsPath.eMolaIcon),
+                      _buildPaymentOption('86 12 34 456', IconsPath.mPesaIcon),
 
                       const SizedBox(height: 12),
 
@@ -101,14 +102,14 @@ class PaymentDetailsScreen extends StatelessWidget {
 
                                 decoration: BoxDecoration(),
                                 child: Image.asset(
-                                  IconsPath.eMolaIcon,
+                                  IconsPath.mPesaIcon,
                                   height: 35,
                                   width: 35,
                                 ),
                               ),
                               const SizedBox(width: 12),
                               Text(
-                                'Enter my Mobile number',
+                                'Enter your Mobile number',
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
@@ -207,7 +208,7 @@ class PaymentDetailsScreen extends StatelessWidget {
       message: 'Your payment is successfully Complete!',
       image: Image.asset('assets/images/tick.png', height: 70.h, width: 70.w),
       onDonePressed: () {
-        Get.back();
+        Get.toNamed(AppRoute.invoiceScreen);
       },
     );
   }

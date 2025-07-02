@@ -2,8 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
+import 'package:prettyrini/features/nav_bar/view/nav_bar_view.dart';
 import 'package:prettyrini/features/home/model/invoice_model.dart';
 
 class InvoiceScreen extends StatelessWidget {
@@ -60,7 +63,11 @@ class InvoiceScreen extends StatelessWidget {
                     children: [
                       const CustomAppBar(title: 'Invoice'),
                       Padding(
-                        padding: EdgeInsets.all(16.w),
+                        padding: EdgeInsets.only(
+                          bottom: 16.h,
+                          left: 16.w,
+                          right: 16.w,
+                        ),
                         child: Container(
                           decoration: BoxDecoration(
                             color: Color(0xFFC2DCDC).withValues(alpha: 0.50),
@@ -624,7 +631,9 @@ class InvoiceScreen extends StatelessWidget {
                             // ),
                             SizedBox(height: 12.h),
                             OutlinedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.to(() => BottomNavbar());
+                              },
                               style: OutlinedButton.styleFrom(
                                 side: const BorderSide(
                                   color: Color(0xFF0B3A3D),

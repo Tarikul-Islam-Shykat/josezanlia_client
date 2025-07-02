@@ -249,8 +249,10 @@ class ProfileScreen extends StatelessWidget {
                               SizedBox(height: 10.h),
                             ],
                           ),
+
                         ),
                       );
+
                     },
                     text: 'Log Out',
                     textColor: Colors.black,

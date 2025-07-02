@@ -31,6 +31,7 @@ class OTPVerificationScreen extends StatelessWidget {
       backgroundColor: Color(0xFFE9EBF0),
       body: SafeArea(
         child: SingleChildScrollView(
+
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: Column(
@@ -121,6 +122,7 @@ class OTPVerificationScreen extends StatelessWidget {
                 // Resend OTP link
               ],
             ),
+
           ),
         ),
       ),
