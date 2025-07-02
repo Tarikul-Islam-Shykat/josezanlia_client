@@ -13,15 +13,17 @@ class CustomTextField extends StatelessWidget {
     this.lineHeight,
     this.obscureText = false,
     this.suffixIcon,
-    this.width,
+    //this.width,
     this.height,
-    this.maxLines = 8,
+    this.maxLines = 1,
     this.isPassword = true,
     this.prefixIconPath,
     this.readOnly = false,
     this.fillColor,
     this.textColor,
     this.borderSide,
+    this.onSuffixIconTap,
+    this.isForPassword = false,
   });
 
   final String? hitText;
@@ -31,7 +33,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController textEditingController;
   final bool obscureText;
   final Widget? suffixIcon;
-  final double? width;
+  //final double? width;
   final double? height;
   final int? maxLines;
   final bool isPassword;
@@ -40,12 +42,13 @@ class CustomTextField extends StatelessWidget {
   final Color? fillColor;
   final Color? textColor;
   final BorderSide? borderSide;
+  final void Function()? onSuffixIconTap;
+  final bool isForPassword;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height ?? 40.h,
-      width: width ?? 273.w,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: TextField(
         controller: textEditingController,
         obscureText: obscureText,
@@ -61,26 +64,32 @@ class CustomTextField extends StatelessWidget {
             vertical: 15.w,
             horizontal: 10.w,
           ),
-          labelText: hitText,
-          labelStyle: TextStyle(
-            fontSize: fontSize ?? 14.sp,
-            fontWeight: fontWeight ?? FontWeight.w400,
-            color: Colors.black.withOpacity(0.7),
+          //prefixText: hitText != null ? '$hitText ' : null,
+          prefixStyle: TextStyle(
+              fontSize: fontSize ?? 16.sp,
+              fontWeight: fontWeight ?? FontWeight.w400,
+              color: Colors.black.withValues(alpha: 0.5)// Match hintStyle for consistency
           ),
-          // floatingLabelBehavior: FloatingLabelBehavior.always,
+          hintText: hitText, // Remove hintText to avoid placeholder behavior
           prefixIcon:
-              prefixIconPath != null
-                  ? Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: Image.asset(
-                      prefixIconPath!,
-                      width: 24.w,
-                      height: 24.h,
-                      fit: BoxFit.contain,
-                    ),
-                  )
-                  : null,
-          suffixIcon: suffixIcon,
+          prefixIconPath != null
+              ? Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            child: Image.asset(
+              prefixIconPath!,
+              width: 24.w,
+              height: 24.h,
+              fit: BoxFit.contain,
+            ),
+          )
+              : null,
+
+          suffixIcon: isForPassword ? GestureDetector(onTap: onSuffixIconTap,
+            child: obscureText ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+
+          ) : null,
+
+          //suffixIcon: obscureText ? suffixIcon : Icon(Icons.visibility_off),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20.r),
             borderSide: borderSide ?? BorderSide.none,

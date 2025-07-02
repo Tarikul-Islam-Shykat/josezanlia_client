@@ -44,7 +44,6 @@ class SignUpScreen extends StatelessWidget {
               ),
               SizedBox(height: screenHeight * 0.01),
               CustomTextField(
-                width: screenWidth,
                 hitText: 'Full Name',
                 textEditingController: controller.nameController,
               ),
@@ -60,7 +59,6 @@ class SignUpScreen extends StatelessWidget {
               ),
               SizedBox(height: screenHeight * 0.01),
               CustomTextField(
-                width: screenWidth,
                 hitText: 'Email',
                 textEditingController: controller.emailController,
                 // validator: controller.emailValidator,
@@ -77,7 +75,6 @@ class SignUpScreen extends StatelessWidget {
               ),
               SizedBox(height: screenHeight * 0.01),
               CustomTextField(
-                width: screenWidth,
                 hitText: 'Phone Number',
                 textEditingController: controller.phoneController,
               ),
@@ -93,7 +90,6 @@ class SignUpScreen extends StatelessWidget {
               ),
               SizedBox(height: screenHeight * 0.01),
               CustomTextField(
-                width: screenWidth,
                 hitText: 'Date of Birth',
                 textEditingController: controller.dobController,
               ),
@@ -195,7 +191,6 @@ class SignUpScreen extends StatelessWidget {
               SizedBox(height: screenHeight * 0.01),
               Obx(
                 () => CustomTextField(
-                  width: screenWidth,
                   hitText: 'Password',
                   obscureText: !controller.isPasswordVisible.value,
                   textEditingController: controller.passwordController,
@@ -222,7 +217,6 @@ class SignUpScreen extends StatelessWidget {
               SizedBox(height: screenHeight * 0.01),
               Obx(
                 () => CustomTextField(
-                  width: screenWidth,
                   hitText: 'Confirm Password',
                   obscureText: !controller.isConfirmPasswordVisible.value,
                   textEditingController: controller.confirmPasswordController,
@@ -251,7 +245,7 @@ class SignUpScreen extends StatelessWidget {
                               Get.to(
                                 (dynamic phoneNumberController) =>
                                     OTPVerificationScreen(
-                                      Phone: phoneNumberController.text,
+
                                     ),
                               );
                             },

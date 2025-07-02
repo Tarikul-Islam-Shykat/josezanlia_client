@@ -3,54 +3,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:prettyrini/core/const/app_colors.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
-import 'package:prettyrini/features/Auth_Screen/controller/login_controller.dart';
+import 'package:prettyrini/features/Auth_Screen/controller/auth_controller.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/login_screen.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/utils/show_success_dialog.dart';
+
+import '../../../core/const/app_loader.dart';
+import '../../../core/global_widegts/custom_snack_bar.dart';
 
 class SetNewPasswordScreen extends StatelessWidget {
   SetNewPasswordScreen({super.key});
 
-  final LoginController controller = Get.put(LoginController());
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-
-  void _submit(BuildContext context) {
-    // Optional validation (if needed)
-    // final newPassword = controller.passwordController.text.trim();
-    // final confirmPassword = confirmPasswordController.text.trim();
-
-    // if (newPassword.isEmpty || confirmPassword.isEmpty) {
-    //   Get.snackbar('Input Required', 'Please fill out all fields!',
-    //     backgroundColor: Colors.red, colorText: Colors.white);
-    //   return;
-    // }
-
-    // if (newPassword != confirmPassword) {
-    //   Get.snackbar('Mismatch', 'Passwords do not match!',
-    //     backgroundColor: Colors.red, colorText: Colors.white);
-    //   return;
-    // }
-
-    showSuccessDialog(
-      buttonText: 'Done',
-      context: context,
-      title: 'Success',
-      message: 'Your password is successfully changed!',
-      image: Image.asset('assets/images/tick.png', height: 70.h, width: 70.w),
-      onDonePressed: () {
-        Get.off(() => LoginScreen());
-        Get.snackbar(
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-          'Successful!',
-          'New Password Setup Successfully! Please Log In',
-        );
-      },
-    );
-  }
+  final AuthController controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -78,13 +45,17 @@ class SetNewPasswordScreen extends StatelessWidget {
                       color: Color(0xFF8C8482).withOpacity(0.20),
                     ),
                     prefixIconPath: 'assets/images/lock.png',
-                    width: screenWidth * 0.9,
+
                     hitText: 'New Password',
                     textEditingController: controller.passwordController,
                     fontSize: fontSize16,
                     fontWeight: FontWeight.w400,
                     lineHeight: lineHeightFactor,
                     obscureText: !controller.isPasswordVisible.value,
+                    isForPassword: true,
+                    onSuffixIconTap: () {
+                      controller.togglePasswordVisibility();
+                    },
                     // suffixIcon: IconButton(
                     //   icon: Icon(
                     //     controller.isPasswordVisible.value
@@ -108,13 +79,17 @@ class SetNewPasswordScreen extends StatelessWidget {
                       color: Color(0xFFACACAC).withOpacity(0.20),
                     ),
                     prefixIconPath: 'assets/images/lock.png',
-                    width: screenWidth * 0.9,
+
                     hitText: 'Confirm Password',
-                    textEditingController: confirmPasswordController,
+                    textEditingController: controller.confirmPasswordController,
                     fontSize: fontSize16,
                     fontWeight: FontWeight.w400,
                     lineHeight: lineHeightFactor,
                     obscureText: !controller.isPasswordVisible.value,
+                    isForPassword: true,
+                    onSuffixIconTap: () {
+                      controller.toggleConfirmPasswordVisibility();
+                    },
                     // suffixIcon: IconButton(
                     //   icon: Icon(
                     //     controller.isPasswordVisible.value
@@ -129,16 +104,32 @@ class SetNewPasswordScreen extends StatelessWidget {
               ),
               SizedBox(height: 250.h),
 
-              CustomButton(
-                onPressed: () => _submit(context),
-
-                text: 'Change Password',
-                // borderColor: Color(0xFF1F3892),
-                textColor: Colors.white,
-                backgroundColor: Color(0xFF0B3A3D),
-                width: screenWidth * 0.9,
-                borderRadius: 10,
-              ),
+              Obx(() {
+                return controller.isResetPasswordLoading.value ? loader() : CustomButton(
+                  onPressed: () {
+                    if (controller.newPasswordController.text.isEmpty) {
+                      showSnackBar(false, 'New password cannot be empty.');
+                    } else if (controller.newPasswordController.text.length < 8) {
+                      showSnackBar(false, 'New password must be at least 8 characters long.');
+                    } else if (controller.confirmPasswordController.text.isEmpty) {
+                      showSnackBar(false, 'Confirm password cannot be empty.');
+                    } else if (controller.confirmPasswordController.text.length < 8) {
+                      showSnackBar(false, 'Confirm password must be at least 8 characters long.');
+                    } else if (controller.newPasswordController.text != controller.confirmPasswordController.text) {
+                      showSnackBar(false, 'Passwords do not match.');
+                    }
+                    else {
+                      controller.resetPassword();
+                    }
+                  },
+                  text: 'Change Password',
+                  // borderColor: Color(0xFF1F3892),
+                  textColor: Colors.white,
+                  backgroundColor: appGreenColor,
+                  width: screenWidth * 0.9,
+                  borderRadius: 10,
+                );
+              }),
 
               // Submit Button
               // CustomButton(
