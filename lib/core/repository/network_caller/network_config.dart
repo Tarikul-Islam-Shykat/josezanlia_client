@@ -10,20 +10,26 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum RequestMethod { GET, POST, PUT, DELETE }
+
 class NetworkConfig {
-  Future ApiRequestHandler(RequestMethod method, url, json_body,
-      {is_auth = false}) async {
+  Future ApiRequestHandler(
+    RequestMethod method,
+    url,
+    json_body, {
+    is_auth = false,
+  }) async {
     SharedPreferences sh = await SharedPreferences.getInstance();
 
     if (await InternetConnectionChecker().hasConnection) {
       var header = <String, String>{"Content-type": "application/json"};
       if (is_auth == true) {
-
         if (kDebugMode) {
           print("token: ${sh.getString("token")}");
         }
 
-        header["Authorization"] = "${sh.getString("token")}";
+        // header["Authorization"] = "${sh.getString("token")}";
+        header["Authorization"] =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NGFhMjAyMzM4NjE0N2I3NzcwNTVmYSIsImVtYWlsIjoiY2lsYXJpdzYyOEBwbmd6ZXJvLmNvbSIsInJvbGUiOiJDT05TVU1FUiIsImlhdCI6MTc0OTcyNjU4MiwiZXhwIjoxNzUyMzE4NTgyfQ.Qj7GqTzEqpXYUZBMrkOV4k7EMwdHZm5RcWkuhjgEY2o";
       }
 
       if (method.name == RequestMethod.GET.name) {
@@ -32,11 +38,9 @@ class NetworkConfig {
 
           print(req.statusCode);
           if (req.statusCode == 200) {
-
             if (kDebugMode) {
               print("json.decode(req.body) ${json.decode(req.body)}");
             }
-
 
             return json.decode(req.body);
           } else if (req.statusCode == 201) {
@@ -49,9 +53,11 @@ class NetworkConfig {
         }
       } else if (method.name == RequestMethod.POST.name) {
         try {
-          var req = await http.post(Uri.parse(url),
-              headers: header,
-              body: json_body);
+          var req = await http.post(
+            Uri.parse(url),
+            headers: header,
+            body: json_body,
+          );
 
           print(req.body);
           if (req.statusCode == 200) {
@@ -68,8 +74,11 @@ class NetworkConfig {
         }
       } else if (method.name == RequestMethod.PUT.name) {
         try {
-          var req =
-          await http.put(Uri.parse(url), headers: header, body: json_body);
+          var req = await http.put(
+            Uri.parse(url),
+            headers: header,
+            body: json_body,
+          );
 
           if (kDebugMode) {
             print("At Put Request: ${req.statusCode}");
@@ -108,8 +117,9 @@ class NetworkConfig {
 
   ShowError(msg) {
     Fluttertoast.showToast(
-        msg: msg.toString(),
-        backgroundColor: Colors.red,
-        textColor: Colors.white);
+      msg: msg.toString(),
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+    );
   }
 }

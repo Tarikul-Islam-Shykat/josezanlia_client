@@ -34,7 +34,7 @@ class HistoryScreen extends StatelessWidget {
               onTap: () {
                 Get.to(() => InvoiceScreen());
               },
-              child: HistoryItemTile(title: item.title, date: item.date),
+              child: HistoryItemTile(title: "ComunAgua Water Bill", date: item.paymentMonth),
             );
           },
         ),

@@ -21,8 +21,24 @@ class HistoryItemTile extends StatelessWidget {
           backgroundColor: Colors.transparent,
           backgroundImage: AssetImage('assets/images/logo.png'),
         ),
-        title: Text(title),
-        subtitle: Text('Date: $date'),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+            fontSize: 17,
+          ),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
+        subtitle: Text(
+          'Date: $date',
+          style: TextStyle(
+            fontWeight: FontWeight.normal,
+            color: Colors.black54,
+            fontSize: 15,
+          ),
+        ),
         trailing: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(

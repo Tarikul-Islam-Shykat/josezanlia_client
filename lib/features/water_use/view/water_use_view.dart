@@ -161,59 +161,100 @@ class WaterUseView extends StatelessWidget {
                 // Add this after the Card widget
                 SizedBox(height: 20),
                 Text(
-                  "Monthly Report",
+                  "Monthwise Report",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
-                SizedBox(
-                  height: 250,
-                  child: BarChart(
-                    BarChartData(
-                      alignment: BarChartAlignment.spaceAround,
-                      maxY: 60, // adjust based on expected reading range
-                      barTouchData: BarTouchData(enabled: true),
-                      titlesData: FlTitlesData(
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 30,
-                            interval: 10,
+                SizedBox(height: 15),
+                FutureBuilder<List<BarChartGroupData>>(
+                  future: controller.chartData,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return SizedBox(
+                        height: 250,
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    if (snapshot.hasError) {
+                      return SizedBox(
+                        height: 250,
+                        child: Center(child: Text('Error loading chart data')),
+                      );
+                    }
+                    final barGroups = snapshot.data ?? [];
+                    return SizedBox(
+                      height: 250,
+                      child: BarChart(
+                        BarChartData(
+                          alignment: BarChartAlignment.spaceAround,
+                          maxY:
+                              (barGroups.isNotEmpty
+                                  ? barGroups
+                                      .map((g) => g.barRods.first.toY)
+                                      .reduce((a, b) => a > b ? a : b)
+                                  : 0) +
+                              200,
+                          minY: 0,
+                          barTouchData: BarTouchData(enabled: true),
+                          titlesData: FlTitlesData(
+                            leftTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 40,
+                                interval: 200,
+                              ),
+                            ),
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 60, // Increase for vertical text
+                                getTitlesWidget: (value, meta) {
+                                  final monthIndex = value.toInt();
+                                  const monthLabels = [
+                                    'Jan',
+                                    'Feb',
+                                    'Mar',
+                                    'Apr',
+                                    'May',
+                                    'Jun',
+                                    'Jul',
+                                    'Aug',
+                                    'Sep',
+                                    'Oct',
+                                    'Nov',
+                                    'Dec',
+                                  ];
+                                  if (monthIndex < monthLabels.length) {
+                                    return SideTitleWidget(
+                                      axisSide: meta.axisSide,
+                                      space: 5,
+                                      child: Transform.rotate(
+                                        angle:
+                                            -0.785398, // -45 degrees in radians
+                                        child: Text(
+                                          monthLabels[monthIndex],
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  return SizedBox.shrink();
+                                },
+                              ),
+                            ),
+                            rightTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
                           ),
-                        ),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (value, meta) {
-                              final monthIndex = value.toInt();
-                              if (monthIndex < controller.months.length) {
-                                final label =
-                                    controller.months[monthIndex].split(
-                                      ' ',
-                                    )[0]; // show only month
-                                return SideTitleWidget(
-                                  axisSide: meta.axisSide,
-                                  child: Text(
-                                    label,
-                                    style: TextStyle(fontSize: 10),
-                                  ),
-                                );
-                              }
-                              return SizedBox.shrink();
-                            },
-                          ),
-                        ),
-                        rightTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        topTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
+                          gridData: FlGridData(show: true),
+                          borderData: FlBorderData(show: false),
+                          barGroups: barGroups,
                         ),
                       ),
-                      gridData: FlGridData(show: true),
-                      borderData: FlBorderData(show: false),
-                      barGroups: controller.chartData,
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ],
             ),
