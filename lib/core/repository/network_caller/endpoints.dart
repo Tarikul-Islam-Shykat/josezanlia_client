@@ -19,4 +19,6 @@ class Urls {
       '$baseUrl/readings/consumer/yearly-readings';
 
   static const String history = '$baseUrl/readings/consumer/payment-history';
+  static const String policy = '$baseUrl/policy';
+  static const String guidelines = '$baseUrl/guideline';
 }

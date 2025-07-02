@@ -5,8 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class HistoryItemTile extends StatelessWidget {
   final String title;
   final String date;
+  final String status;
 
-  const HistoryItemTile({super.key, required this.title, required this.date});
+  const HistoryItemTile({
+    super.key,
+    required this.title,
+    required this.date,
+    required this.status,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +56,7 @@ class HistoryItemTile extends StatelessWidget {
             //   right: Radius.circular(16.0),
             // ),
           ),
-          child: const Text('Paid', style: TextStyle(color: Color(0xFFFFFFFF))),
+          child: Text(status, style: TextStyle(color: Color(0xFFFFFFFF))),
         ),
       ),
     );

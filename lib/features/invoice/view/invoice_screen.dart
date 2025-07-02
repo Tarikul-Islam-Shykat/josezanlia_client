@@ -6,11 +6,15 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
+import 'package:prettyrini/features/invoice/controller/invoice_controller.dart';
 import 'package:prettyrini/features/nav_bar/view/nav_bar_view.dart';
-import 'package:prettyrini/features/home/model/invoice_model.dart';
+import 'package:prettyrini/features/invoice/model/invoice_model.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class InvoiceScreen extends StatelessWidget {
-  const InvoiceScreen({super.key});
+  InvoiceScreen({super.key, required Map<String, Object> arguments});
+
+  final InvoiceController controller = Get.put(InvoiceController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +38,7 @@ class InvoiceScreen extends StatelessWidget {
       paymentMethod: "M-Pesa",
     );
 
-    final observations = Observations(
-      items: [
-        "The invoice service as a pro five of water consumption for residential purposes.",
-        "In case of doubt, contact us for immediate attention.",
-      ],
-    );
+    final observations = ();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -527,46 +526,33 @@ class InvoiceScreen extends StatelessWidget {
                                 SizedBox(height: 8.h),
                                 Padding(
                                   padding: EdgeInsets.all(12.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children:
-                                        observations.items.map((item) {
-                                          return Padding(
-                                            padding: EdgeInsets.only(
-                                              bottom: 12.h,
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "• ",
-                                                      style: TextStyle(
-                                                        fontSize: 14.sp,
-                                                        color: Colors.black87,
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        item,
-                                                        style: TextStyle(
-                                                          fontSize: 14.sp,
+                                  child:
+                                      controller.policyDescription != null
+                                          ? SizedBox(
+                                            width: double.infinity,
+                                            child: SelectableText.rich(
+                                              TextSpan(
+                                                children: [
+                                                  WidgetSpan(
+                                                    child: Html(
+                                                      data:
+                                                          controller
+                                                              .guidelineDescription,
+                                                      style: {
+                                                        "body": Style(
+                                                          fontSize: FontSize(
+                                                            14.sp,
+                                                          ),
                                                           color: Colors.black87,
                                                         ),
-                                                      ),
+                                                      },
                                                     ),
-                                                  ],
-                                                ),
-                                              ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          );
-                                        }).toList(),
-                                  ),
+                                          )
+                                          : const SizedBox.shrink(),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(top: 8.w, left: 8.w),

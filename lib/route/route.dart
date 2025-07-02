@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/forget_pasword_screen.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/login_screen.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/profile/views/profile_screen.dart';
-import 'package:prettyrini/features/home/view/invoice_screen.dart';
-import 'package:prettyrini/features/home/view/top_up_invoice_screen.dart';
+import 'package:prettyrini/features/invoice/view/invoice_screen.dart';
+import 'package:prettyrini/features/invoice/view/top_up_invoice_screen.dart';
 import 'package:prettyrini/features/splash_screen/screen/splash_screen.dart';
 
 class AppRoute {
@@ -31,7 +31,10 @@ class AppRoute {
     GetPage(name: loginScreen, page: () => LoginScreen()),
     GetPage(name: forgetScreen, page: () => ForgetPasswordScreen()),
     GetPage(name: profileScreen, page: () => ProfileScreen()),
-    GetPage(name: invoiceScreen, page: () => InvoiceScreen()),
+    GetPage(
+      name: invoiceScreen,
+      page: () => InvoiceScreen(arguments: <String, Object>{}),
+    ),
     GetPage(name: topUpInvoiceScreen, page: () => TopUpInvoiceScreen()),
   ];
 }

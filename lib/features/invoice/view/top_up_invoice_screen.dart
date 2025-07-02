@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
-import 'package:prettyrini/features/home/model/top_up_invoice_model.dart';
+import 'package:prettyrini/features/invoice/model/top_up_invoice_model.dart';
 import 'package:prettyrini/features/nav_bar/view/nav_bar_view.dart';
 
 class TopUpInvoiceScreen extends StatelessWidget {
