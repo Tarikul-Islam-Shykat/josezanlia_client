@@ -1,10 +1,10 @@
-// views/notification_page.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../controller/notifications_controller.dart';
 
 class NotificationsView extends StatelessWidget {
-  final controller = Get.put(NotificationsController());
+  final controller = Get.put(NotificationController());
 
   NotificationsView({super.key});
 
@@ -41,84 +41,84 @@ class NotificationsView extends StatelessWidget {
       ),
       body: Obx(
         () => ListView.builder(
-          padding: const EdgeInsets.all(16.0),
           itemCount: controller.notifications.length,
-          itemBuilder: (context, index) {
+            itemBuilder: (context,index){
             final item = controller.notifications[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: EdgeInsets.all(12),
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Color(
-                            0xFF0B3A3D,
-                          ).withValues(alpha: 0.10),
-                          child: Icon(
-                            Icons.access_time,
-                            color: Color(0xFF000000),
-                          ),
-                        ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item['title']!,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                item['message']!,
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 13,
-                                ),
-                              ),
-                              SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  Text(
-                                    item['date']!,
-                                    style: TextStyle(
-                                      color: Colors.grey[500],
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    item['time']!,
-                                    style: TextStyle(
-                                      color: Colors.grey[500],
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(color: Color(0xFF0B3A3D).withValues(alpha: 0.10)),
-                  ],
-                ),
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0xFFFFFFFF),
+                borderRadius: BorderRadius.circular(12),
               ),
-            );
-          },
-        ),
+              padding: EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Color(
+                          0xFF0B3A3D,
+                        ).withValues(alpha: 0.10),
+                        child: Icon(
+                          Icons.access_time,
+                          color: Color(0xFF000000),
+                        ),
+                      ),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(item.title.toString(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              item.body.toString(),
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 13,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              DateFormat('dd MMM yyyy – hh:mm a').format(item.createdAt!),
+                              style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                            ),
+                            // Row(
+                            //   children: [
+                            //     Text(item['date']!,
+                            //       style: TextStyle(
+                            //         color: Colors.grey[500],
+                            //         fontSize: 12,
+                            //       ),
+                            //     ),
+                            //     SizedBox(width: 10),
+                            //     Text(
+                            //       item['time']!,
+                            //       style: TextStyle(
+                            //         color: Colors.grey[500],
+                            //         fontSize: 12,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Divider(color: Color(0xFF0B3A3D).withValues(alpha: 0.10)),
+                ],
+              ),
+            ),
+          );
+        }),
       ),
     );
   }

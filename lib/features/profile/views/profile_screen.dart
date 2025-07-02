@@ -6,14 +6,13 @@ import 'package:get/get.dart';
 import 'package:prettyrini/core/const/app_colors.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/login_screen.dart';
-import 'package:prettyrini/features/Auth_Screen/screens/profile/controller/profile_controller.dart';
-import 'package:prettyrini/features/Auth_Screen/screens/profile/views/change_password.dart';
-import 'package:prettyrini/features/Auth_Screen/screens/profile/views/profile_edit.dart';
 import 'package:prettyrini/features/chat/view/chat_view.dart';
-
+import 'package:prettyrini/features/profile/views/profile_edit.dart';
 import '../../../../../core/global_widegts/custom_cached_image.dart';
 import '../../../../../core/global_widegts/custom_snack_bar.dart';
 import '../../../../../core/repository/services_class/local_service/shared_preferences_helper.dart';
+import '../controller/profile_controller.dart';
+import 'change_password.dart';
 
 
 class ProfileScreen extends StatelessWidget {

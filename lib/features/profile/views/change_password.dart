@@ -6,8 +6,7 @@ import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
 import 'package:prettyrini/features/Auth_Screen/controller/auth_controller.dart';
-import 'package:prettyrini/features/Auth_Screen/screens/profile/controller/change_password_controller.dart';
-import 'package:prettyrini/features/Auth_Screen/screens/profile/views/profile_screen.dart';
+
 
 import '../../../../../core/const/app_loader.dart';
 

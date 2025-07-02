@@ -1,5 +1,5 @@
 // import 'package:get/get.dart';
-// import 'package:prettyrini/features/Home_page_client/pay_now_screen/view/e_mola_payment.dart';
+// import 'package:prettyrini/features/home_page_client/pay_now_screen/view/e_mola_payment.dart';
 
 // class PaymentController extends GetxController {
 //   final selectedMethod = 'M-Pesa'.obs;

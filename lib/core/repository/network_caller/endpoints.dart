@@ -10,9 +10,13 @@ class Urls {
   static const String setupProfile = '$baseUrl/users/update-profile';
   static const String authentication = '$baseUrl/auth/verify-auth';
   static const String logout = '$baseUrl/auth/logout';
-  static const String forgotPass = '$baseUrl/auth/forgot-password';
+  static const String sendOTPForgot = '$baseUrl/auth/forgot-password';
   static const String changePass = '$baseUrl/auth/change-password';
   static const String pickUpLocation = '$baseUrl/user/pickup-locations';
   static String getCalendar(String date, String locationUuid) =>
       '$baseUrl/calendar?date=$date&pickup_location_uuid=$locationUuid';
+
+  static const String getConsumerReading = "$baseUrl/readings/consumer/allReadings/684aa2023386147b777055fb";//GET ID
+  static const String getNotifications = "$baseUrl/notifications";//GET
+  static const String readNotifications = "$baseUrl/notifications/read";//PATCH
 }

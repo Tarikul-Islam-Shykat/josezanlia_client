@@ -5,13 +5,12 @@ import 'package:prettyrini/core/const/app_colors.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
-import 'package:prettyrini/features/Auth_Screen/screens/profile/controller/profile_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import 'package:prettyrini/features/Auth_Screen/screens/profile/views/profile_screen.dart';
 
 import '../../../../../core/const/app_loader.dart';
+import '../controller/profile_controller.dart';
 
 class ProfileEdit extends StatelessWidget {
   final controller = Get.put(ProfileController());
@@ -83,14 +82,12 @@ class ProfileEdit extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30.h),
-            Obx(
-                  () => Text(
+            Obx(() => Text(
                 controller.userName.value,
                 style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            Obx(
-                  () => Text(
+            Obx(() => Text(
                 controller.phoneNumber.value,
                 style: TextStyle(fontSize: 14.sp),
               ),

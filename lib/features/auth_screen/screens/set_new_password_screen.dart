@@ -1,4 +1,3 @@
-// ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,11 +12,12 @@ import 'package:prettyrini/features/Auth_Screen/screens/utils/show_success_dialo
 
 import '../../../core/const/app_loader.dart';
 import '../../../core/global_widegts/custom_snack_bar.dart';
+import '../controller/reset_pass_controller.dart';
 
 class SetNewPasswordScreen extends StatelessWidget {
   SetNewPasswordScreen({super.key});
-
-  final AuthController controller = Get.put(AuthController());
+  final ResetPassController controller = Get.put(ResetPassController());
+  final String email = Get.arguments["email"];
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class SetNewPasswordScreen extends StatelessWidget {
                     prefixIconPath: 'assets/images/lock.png',
 
                     hitText: 'New Password',
-                    textEditingController: controller.passwordController,
+                    textEditingController: controller.newPass,
                     fontSize: fontSize16,
                     fontWeight: FontWeight.w400,
                     lineHeight: lineHeightFactor,
@@ -56,15 +56,6 @@ class SetNewPasswordScreen extends StatelessWidget {
                     onSuffixIconTap: () {
                       controller.togglePasswordVisibility();
                     },
-                    // suffixIcon: IconButton(
-                    //   icon: Icon(
-                    //     controller.isPasswordVisible.value
-                    //         ? Icons.visibility_off
-                    //         : Icons.visibility,
-                    //     color: const Color(0xff6E32A5).withAlpha(160),
-                    //   ),
-                    //   onPressed: controller.togglePasswordVisibility,
-                    // ),
                   ),
                 ),
               ),
@@ -81,7 +72,7 @@ class SetNewPasswordScreen extends StatelessWidget {
                     prefixIconPath: 'assets/images/lock.png',
 
                     hitText: 'Confirm Password',
-                    textEditingController: controller.confirmPasswordController,
+                    textEditingController: controller.conPass,
                     fontSize: fontSize16,
                     fontWeight: FontWeight.w400,
                     lineHeight: lineHeightFactor,
@@ -90,36 +81,36 @@ class SetNewPasswordScreen extends StatelessWidget {
                     onSuffixIconTap: () {
                       controller.toggleConfirmPasswordVisibility();
                     },
-                    // suffixIcon: IconButton(
-                    //   icon: Icon(
-                    //     controller.isPasswordVisible.value
-                    //         ? Icons.visibility_off
-                    //         : Icons.visibility,
-                    //     color: const Color(0xff6E32A5).withAlpha(160),
-                    //   ),
-                    //   onPressed: controller.togglePasswordVisibility,
-                    // ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        controller.isPasswordVisible.value
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: const Color(0xff6E32A5).withAlpha(160),
+                      ),
+                      onPressed: controller.togglePasswordVisibility,
+                    ),
                   ),
                 ),
               ),
               SizedBox(height: 250.h),
 
               Obx(() {
-                return controller.isResetPasswordLoading.value ? loader() : CustomButton(
+                return controller.isLoading.value ? loader() : CustomButton(
                   onPressed: () {
-                    if (controller.newPasswordController.text.isEmpty) {
+                    if (controller.newPass.text.isEmpty) {
                       showSnackBar(false, 'New password cannot be empty.');
-                    } else if (controller.newPasswordController.text.length < 8) {
+                    } else if (controller.newPass.text.length < 8) {
                       showSnackBar(false, 'New password must be at least 8 characters long.');
-                    } else if (controller.confirmPasswordController.text.isEmpty) {
+                    } else if (controller.conPass.text.isEmpty) {
                       showSnackBar(false, 'Confirm password cannot be empty.');
-                    } else if (controller.confirmPasswordController.text.length < 8) {
+                    } else if (controller.conPass.text.length < 8) {
                       showSnackBar(false, 'Confirm password must be at least 8 characters long.');
-                    } else if (controller.newPasswordController.text != controller.confirmPasswordController.text) {
+                    } else if (controller.newPass.text != controller.conPass.text) {
                       showSnackBar(false, 'Passwords do not match.');
                     }
                     else {
-                      controller.resetPassword();
+                      controller.resetPass(email.toString());
                     }
                   },
                   text: 'Change Password',
@@ -130,26 +121,6 @@ class SetNewPasswordScreen extends StatelessWidget {
                   borderRadius: 10,
                 );
               }),
-
-              // Submit Button
-              // CustomButton(
-              //   backgroundColor: Color(0xFF0B3A3D),
-              //   onPressed: () {
-              //     if (controller.passwordController.text.isEmpty ||
-              //         confirmPasswordController.text.isEmpty) {
-              //       Get.snackbar('Error', 'Both fields are required');
-              //       return;
-              //     }
-              //     if (controller.passwordController.text !=
-              //         confirmPasswordController.text) {
-              //       Get.snackbar('Error', 'Passwords do not match');
-              //       return;
-              //     }
-              //     // Get.to(() => OTPVerificationScreen());
-              //     Get.to(() => SuccessScreen());
-              //   },
-              //   text: 'Save',
-              // ),
             ],
           ),
         ),

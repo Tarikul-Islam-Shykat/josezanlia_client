@@ -1,4 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -6,7 +5,6 @@ import 'package:prettyrini/core/const/image_path.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/forget_pasword_screen.dart';
-import 'package:prettyrini/features/nav_bar/view/nav_bar_view.dart';
 import '../../../core/const/app_loader.dart';
 import '../controller/auth_controller.dart';
 
@@ -54,7 +52,7 @@ class LoginScreen extends StatelessWidget {
                           fillColor: const Color(0xFFFFFFFF),
                           prefixIconPath: 'assets/images/timer.png',
                           textEditingController: controller.emailOrPhoneController,
-                          hitText: 'Water Meter / Phone Number',
+                          hitText: 'Email',
                           // keyboardType: TextInputType.phone,
                           // validator: _phoneValidator, // Commented out per request
 
