@@ -12,7 +12,7 @@ Widget loader2() {
 }
 
 Widget loaderCubeGrid() {
-  return Center(child: SpinKitCubeGrid(color: Colors.white, size: 40.h));
+  return Center(child: SpinKitCubeGrid(color: Color(0xFF66B3A6), size: 40.h));
 }
 
 Widget loaderWaveSpinner() {
@@ -20,5 +20,7 @@ Widget loaderWaveSpinner() {
 }
 
 Widget loaderDancing() {
-  return Center(child: SpinKitDancingSquare(color: Colors.white, size: 20.h));
+  return Center(
+    child: SpinKitDancingSquare(color: Color(0xFF66B3A6), size: 40.h),
+  );
 }

@@ -25,91 +25,72 @@ class PersonalInformation {
 }
 
 class OtherDetails {
-  final String meterNumber;
-  final String currentReading;
-  final String lastMonthReading;
-  final String consumption;
-  final String pricePerM3;
-  final String minimumFare;
-  final String penaltyFare;
-  final String paymentStatus;
-  final String paymentMethod;
+  final String id;
+  final String paymentMonth;
+  final int currentReading;
+  final int previousReading;
+  final double penalty;
+  final double totalAmount;
+  final String status;
+  final String createdAt;
+  final int consumption;
+  final double minimumBill;
+  final double perUnitCharge;
+  final double penaltyCharge;
 
   OtherDetails({
-    required this.meterNumber,
+    required this.id,
+    required this.paymentMonth,
     required this.currentReading,
-    required this.lastMonthReading,
+    required this.previousReading,
+    required this.penalty,
+    required this.totalAmount,
+    required this.status,
+    required this.createdAt,
     required this.consumption,
-    required this.pricePerM3,
-    required this.minimumFare,
-    required this.penaltyFare,
-    required this.paymentStatus,
-    required this.paymentMethod,
+    required this.minimumBill,
+    required this.perUnitCharge,
+    required this.penaltyCharge,
   });
 
   // Getter to compute totalBill dynamically
   String get totalBill {
-    double parseValue(String value) {
-      final cleaned = value.replaceAll(RegExp(r'[^\d.]'), '');
-      return double.tryParse(cleaned) ?? 0.0;
-    }
-
-    // Extract numeric values
-    final consumptionValue = parseValue(consumption);
-    final pricePerM3Value = parseValue(pricePerM3);
-    final minimumFareValue = parseValue(minimumFare);
-    final penaltyFareValue = parseValue(penaltyFare);
-
-    // Calculate total bill
-    final total =
-        (consumptionValue * pricePerM3Value) +
-        minimumFareValue +
-        penaltyFareValue;
-
-    // Format back to string with MZN
-    return "${total.toStringAsFixed(2)} MZN";
+    // Format totalAmount to string with MZN
+    return "${totalAmount.toStringAsFixed(2)} MZN";
   }
 
   factory OtherDetails.fromJson(Map<String, dynamic> json) {
     return OtherDetails(
-      meterNumber: json['meterNumber'],
+      id: json['id'],
+      paymentMonth: json['paymentMonth'],
       currentReading: json['currentReading'],
-      lastMonthReading: json['lastMonthReading'],
+      previousReading: json['previousReading'],
+      penalty: json['penalty'].toDouble(),
+      totalAmount: json['totalAmount'].toDouble(),
+      status: json['status'],
+      createdAt: json['createdAt'],
       consumption: json['consumption'],
-      pricePerM3: json['pricePerM3'],
-      minimumFare: json['minimumFare'],
-      penaltyFare: json['penaltyFare'],
-      paymentStatus: json['paymentStatus'],
-      paymentMethod: json['paymentMethod'] ?? 'M-Pesa',
+      minimumBill: json['minimumBill'].toDouble(),
+      perUnitCharge: json['perUnitCharge'].toDouble(),
+      penaltyCharge: json['penaltyCharge'].toDouble(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'meterNumber': meterNumber,
+      'id': id,
+      'paymentMonth': paymentMonth,
       'currentReading': currentReading,
-      'lastMonthReading': lastMonthReading,
+      'previousReading': previousReading,
+      'penalty': penalty,
+      'totalAmount': totalAmount,
+      'status': status,
+      'createdAt': createdAt,
       'consumption': consumption,
-      'pricePerM3': pricePerM3,
-      'minimumFare': minimumFare,
-      'penaltyFare': penaltyFare,
+      'minimumBill': minimumBill,
+      'perUnitCharge': perUnitCharge,
+      'penaltyCharge': penaltyCharge,
       'totalBill': totalBill,
-      'paymentStatus': paymentStatus,
-      'paymentMethod': paymentMethod,
     };
-  }
-}
-
-class Observations {
-  final List<String> items;
-
-  Observations({required this.items});
-
-  factory Observations.fromJson(Map<String, dynamic> json) {
-    return Observations(items: List<String>.from(json['items']));
-  }
-
-  Map<String, dynamic> toJson() {
-    return {'items': items};
   }
 }

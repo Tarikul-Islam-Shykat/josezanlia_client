@@ -22,7 +22,7 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SizedBox(
-        height: 30.h,
+        height: 40.h,
         child: Stack(
           alignment: Alignment.center,
           children: [
