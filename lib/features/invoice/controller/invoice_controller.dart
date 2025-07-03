@@ -8,8 +8,6 @@ class InvoiceController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadPolicy();
-    loadGuideline();
   }
 
   Future<Map<String, dynamic>> getPolicy() async {
@@ -24,18 +22,6 @@ class InvoiceController extends GetxController {
     return response ?? {'Failure': 'Dissapointed!'};
   }
 
-  String? policyDescription;
-
-  Future<void> loadPolicy() async {
-    final policy = await getPolicy();
-    if (policy['success'] == true &&
-        policy['data'] is List &&
-        policy['data'].isNotEmpty) {
-      policyDescription = policy['data'][0]['description'] ?? '';
-      update();
-    }
-  }
-
   Future<Map<String, dynamic>> getGuideline() async {
     final netcon = NetworkConfig();
     final response = await netcon.ApiRequestHandler(
@@ -48,16 +34,31 @@ class InvoiceController extends GetxController {
     return response ?? {'Failure': 'Dissapointed!'};
   }
 
+  String? policyDescription;
   String? guidelineDescription;
+  bool isLoading = false;
 
-  Future<void> loadGuideline() async {
-    final guideline = await getGuideline();
-    if (guideline['success'] == true &&
-        guideline['data'] is List &&
-        guideline['data'].isNotEmpty) {
-      guidelineDescription = guideline['data'][0]['description'] ?? '';
-      update();
-      log('Guideline Description: $guidelineDescription');
+  Future<void> loadPolicyAndGuideline() async {
+    isLoading = true;
+    try {
+      final policy = await getPolicy();
+      if (policy['success'] == true &&
+          policy['data'] is List &&
+          policy['data'].isNotEmpty) {
+        policyDescription = policy['data'][0]['description'] ?? '';
+      }
+
+      final guideline = await getGuideline();
+      if (guideline['success'] == true &&
+          guideline['data'] is List &&
+          guideline['data'].isNotEmpty) {
+        guidelineDescription = guideline['data'][0]['description'] ?? '';
+        log('Guideline Description: $guidelineDescription');
+      }
+    } catch (e, stack) {
+      log('Error loading policy or guideline: $e\n$stack');
+    } finally {
+      isLoading = false;
     }
   }
 }

@@ -3,42 +3,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/features/invoice/controller/invoice_controller.dart';
 import 'package:prettyrini/features/nav_bar/view/nav_bar_view.dart';
 import 'package:prettyrini/features/invoice/model/invoice_model.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class InvoiceScreen extends StatelessWidget {
-  InvoiceScreen({super.key, required Map<String, Object> arguments});
+  InvoiceScreen({super.key, required this.arguments});
 
-  final InvoiceController controller = Get.put(InvoiceController());
+  final Map<String, Object> arguments;
+  final InvoiceController controller = Get.find<InvoiceController>();
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+
+    final args = arguments;
 
     final personalInfo = PersonalInformation(
       name: "Adam Click",
       number: "8237339248",
       location: "Saver, Dhaka",
     );
-
-    final otherDetails = OtherDetails(
-      meterNumber: "44.22 m³",
-      currentReading: "44.22 m³",
-      lastMonthReading: "44.22 m³",
-      consumption: "30 m³",
-      pricePerM3: "70 MZN",
-      minimumFare: "350 MZN",
-      penaltyFare: "00 MZN",
-      paymentStatus: "Paid",
-      paymentMethod: "M-Pesa",
-    );
-
-    final observations = ();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -78,126 +71,156 @@ class InvoiceScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 // Header Section
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        // Placeholder for logo
-                                        Image.asset(
-                                          'assets/images/logo.png',
-                                          height: 55.h,
-                                          width: 55.w,
-                                          errorBuilder:
-                                              (context, error, stackTrace) =>
-                                                  const Icon(
-                                                    Icons.image,
-                                                    size: 55,
-                                                  ),
-                                        ),
-                                        SizedBox(width: 8.w),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "ComunÁgua",
-                                              style: TextStyle(
-                                                fontSize: 24.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                            Text(
-                                              "Disponível todos os dias,\na toda a hora",
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                fontSize: 14.sp,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 16.h),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Savar, Dhaka, Bangladesh.",
-                                                  style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                    color: Colors.black87,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "Fax: 12435678",
-                                                  style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                    color: Colors.black87,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(width: 20.w),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.start,
+                                //   children: [
+                                //     Row(
+                                //       children: [
+                                //         // Placeholder for logo
+                                //         Image.asset(
+                                //           'assets/images/logo.png',
+                                //           height: 55.h,
+                                //           width: 55.w,
+                                //           errorBuilder:
+                                //               (context, error, stackTrace) =>
+                                //                   const Icon(
+                                //                     Icons.image,
+                                //                     size: 55,
+                                //                   ),
+                                //         ),
+                                //         SizedBox(width: 8.w),
+                                //         Column(
+                                //           crossAxisAlignment:
+                                //               CrossAxisAlignment.start,
+                                //           children: [
+                                //             Text(
+                                //               "ComunÁgua",
+                                //               style: TextStyle(
+                                //                 fontSize: 24.sp,
+                                //                 fontWeight: FontWeight.bold,
+                                //                 color: Colors.black,
+                                //               ),
+                                //             ),
+                                //             Text(
+                                //               "Disponível todos os dias,\na toda a hora",
+                                //               textAlign: TextAlign.start,
+                                //               style: TextStyle(
+                                //                 fontSize: 14.sp,
+                                //                 color: Colors.black,
+                                //               ),
+                                //             ),
+                                //           ],
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ],
+                                // ),
+                                // SizedBox(height: 16.h),
+                                // Row(
+                                //   mainAxisAlignment:
+                                //       MainAxisAlignment.spaceBetween,
+                                //   children: [
+                                //     Column(
+                                //       crossAxisAlignment:
+                                //           CrossAxisAlignment.start,
+                                //       children: [
+                                //         Row(
+                                //           mainAxisAlignment:
+                                //               MainAxisAlignment.spaceBetween,
+                                //           children: [
+                                //             Column(
+                                //               crossAxisAlignment:
+                                //                   CrossAxisAlignment.start,
+                                //               children: [
+                                //                 Text(
+                                //                   "Savar, Dhaka, Bangladesh.",
+                                //                   style: TextStyle(
+                                //                     fontSize: 14.sp,
+                                //                     color: Colors.black87,
+                                //                   ),
+                                //                 ),
+                                //                 Text(
+                                //                   "Fax: 12435678",
+                                //                   style: TextStyle(
+                                //                     fontSize: 14.sp,
+                                //                     color: Colors.black87,
+                                //                   ),
+                                //                 ),
+                                //               ],
+                                //             ),
+                                //             SizedBox(width: 20.w),
 
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Text(
-                                                  "Date: 12/2/25",
-                                                  style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                    color: Colors.black87,
+                                //             Column(
+                                //               crossAxisAlignment:
+                                //                   CrossAxisAlignment.end,
+                                //               children: [
+                                //                 Text(
+                                //                   "Date: 12/2/25",
+                                //                   style: TextStyle(
+                                //                     fontSize: 14.sp,
+                                //                     color: Colors.black87,
+                                //                   ),
+                                //                 ),
+                                //                 Text(
+                                //                   "Invo.no: #6351s",
+                                //                   style: TextStyle(
+                                //                     fontSize: 14.sp,
+                                //                     color: Colors.black87,
+                                //                   ),
+                                //                 ),
+                                //               ],
+                                //             ),
+                                //           ],
+                                //         ),
+                                //         Text(
+                                //           "NUIT: 732553209",
+                                //           style: TextStyle(
+                                //             fontWeight: FontWeight.bold,
+                                //             fontSize: 14.sp,
+                                //             color: Colors.black87,
+                                //           ),
+                                //         ),
+                                //         Text(
+                                //           "support@comunagua.co.mz",
+                                //           style: TextStyle(
+                                //             fontWeight: FontWeight.bold,
+                                //             fontSize: 14.sp,
+                                //             color: Colors.black87,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ],
+                                // ),
+                                Padding(
+                                  padding: EdgeInsets.all(12.w),
+                                  child:
+                                      controller.policyDescription != null
+                                          ? SizedBox(
+                                            width: double.infinity,
+                                            child: SelectableText.rich(
+                                              TextSpan(
+                                                children: [
+                                                  WidgetSpan(
+                                                    child: Html(
+                                                      data:
+                                                          controller
+                                                              .policyDescription,
+                                                      style: {
+                                                        "body": Style(
+                                                          fontSize: FontSize(
+                                                            14.sp,
+                                                          ),
+                                                          color: Colors.black87,
+                                                        ),
+                                                      },
+                                                    ),
                                                   ),
-                                                ),
-                                                Text(
-                                                  "Invo.no: #6351s",
-                                                  style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                    color: Colors.black87,
-                                                  ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ],
-                                        ),
-                                        Text(
-                                          "NUIT: 732553209",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14.sp,
-                                            color: Colors.black87,
-                                          ),
-                                        ),
-                                        Text(
-                                          "support@comunagua.co.mz",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14.sp,
-                                            color: Colors.black87,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                          )
+                                          : const SizedBox.shrink(),
                                 ),
                                 SizedBox(height: 18.h),
                                 // Personal Information Section
@@ -267,7 +290,7 @@ class InvoiceScreen extends StatelessWidget {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      "  Other Details",
+                                      "  Invoice Details",
                                       style: TextStyle(
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.bold,
@@ -288,14 +311,14 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Meter Number :",
+                                            "Payment Month :",
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
                                             ),
                                           ),
                                           Text(
-                                            otherDetails.meterNumber,
+                                            args['paymentMonth'].toString(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14.sp,
@@ -316,7 +339,7 @@ class InvoiceScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            otherDetails.currentReading,
+                                            args['currentReading'].toString(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14.sp,
@@ -330,14 +353,14 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Last Month Reading :",
+                                            "Previous Reading :",
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
                                             ),
                                           ),
                                           Text(
-                                            otherDetails.lastMonthReading,
+                                            args['previousReading'].toString(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14.sp,
@@ -358,7 +381,7 @@ class InvoiceScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            otherDetails.consumption,
+                                            args['consumption'].toString(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14.sp,
@@ -372,35 +395,14 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Price Per m³ :",
+                                            "Per Unit Charge :",
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
                                             ),
                                           ),
                                           Text(
-                                            otherDetails.pricePerM3,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14.sp,
-                                              color: Colors.black87,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Minimum Fare :",
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                              color: Colors.black87,
-                                            ),
-                                          ),
-                                          Text(
-                                            otherDetails.minimumFare,
+                                            "${(args['perUnitCharge'] as num?)?.toStringAsFixed(2) ?? '0.00'} MZN",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14.sp,
@@ -414,14 +416,35 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Penalty Fare :",
+                                            "Minimum Bill :",
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
                                             ),
                                           ),
                                           Text(
-                                            otherDetails.penaltyFare,
+                                            "${(args['minimumBill'] as num?)?.toStringAsFixed(2) ?? '0.00'} MZN",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14.sp,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Penalty Charge :",
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                          Text(
+                                            "${(args['penaltyCharge'] as num?)?.toStringAsFixed(2) ?? '0.00'} MZN",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14.sp,
@@ -447,7 +470,7 @@ class InvoiceScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            otherDetails.totalBill,
+                                            args['totalAmount'].toString(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14.sp,
@@ -459,7 +482,7 @@ class InvoiceScreen extends StatelessWidget {
                                       Row(
                                         children: [
                                           Text(
-                                            "Payment With:",
+                                            "Payment With: ",
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -467,7 +490,7 @@ class InvoiceScreen extends StatelessWidget {
                                           ),
                                           SizedBox(width: 2.w),
                                           Text(
-                                            otherDetails.paymentMethod,
+                                            "M-Pesa",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14.sp,
@@ -479,7 +502,7 @@ class InvoiceScreen extends StatelessWidget {
                                       Row(
                                         children: [
                                           Text(
-                                            "Status:",
+                                            "Status: ",
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -487,7 +510,7 @@ class InvoiceScreen extends StatelessWidget {
                                           ),
                                           SizedBox(width: 2.w),
                                           Text(
-                                            otherDetails.paymentStatus,
+                                            args['status'].toString(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14.sp,
@@ -586,35 +609,199 @@ class InvoiceScreen extends StatelessWidget {
                           children: [
                             CustomButton(
                               prefixIconPath: 'assets/images/download.png',
-                              onPressed: () {},
+                              onPressed: () async {
+                                final pdf = pw.Document();
+                                pdf.addPage(
+                                  pw.MultiPage(
+                                    pageFormat: PdfPageFormat.a4,
+                                    build: (pw.Context context) {
+                                      return [
+                                        pw.Header(
+                                          level: 0,
+                                          child: pw.Text(
+                                            'Invoice',
+                                            style: pw.TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: pw.FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        pw.SizedBox(height: 20),
+                                        pw.Text(
+                                          'Personal Information',
+                                          style: pw.TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: pw.FontWeight.bold,
+                                          ),
+                                        ),
+                                        pw.SizedBox(height: 10),
+                                        pw.Text('Name: ${personalInfo.name}'),
+                                        pw.Text(
+                                          'Number: ${personalInfo.number}',
+                                        ),
+                                        pw.Text(
+                                          'Location: ${personalInfo.location}',
+                                        ),
+                                        pw.SizedBox(height: 20),
+                                        pw.Text(
+                                          'Invoice Details',
+                                          style: pw.TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: pw.FontWeight.bold,
+                                          ),
+                                        ),
+                                        pw.SizedBox(height: 10),
+                                        pw.Row(
+                                          mainAxisAlignment:
+                                              pw.MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            pw.Text('Payment Month:'),
+                                            pw.Text(
+                                              args['paymentMonth'].toString(),
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        pw.Row(
+                                          mainAxisAlignment:
+                                              pw.MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            pw.Text('Current Reading:'),
+                                            pw.Text(
+                                              args['currentReading'].toString(),
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        pw.Row(
+                                          mainAxisAlignment:
+                                              pw.MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            pw.Text('Previous Reading:'),
+                                            pw.Text(
+                                              args['previousReading']
+                                                  .toString(),
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        pw.Row(
+                                          mainAxisAlignment:
+                                              pw.MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            pw.Text('Consumption:'),
+                                            pw.Text(
+                                              args['consumption'].toString(),
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        pw.Row(
+                                          mainAxisAlignment:
+                                              pw.MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            pw.Text('Per Unit Charge:'),
+                                            pw.Text(
+                                              "${(args['perUnitCharge'] as num?)?.toStringAsFixed(2) ?? '0.00'} MZN",
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        pw.Row(
+                                          mainAxisAlignment:
+                                              pw.MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            pw.Text('Minimum Bill:'),
+                                            pw.Text(
+                                              "${(args['minimumBill'] as num?)?.toStringAsFixed(2) ?? '0.00'} MZN",
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        pw.Row(
+                                          mainAxisAlignment:
+                                              pw.MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            pw.Text('Penalty Charge:'),
+                                            pw.Text(
+                                              "${(args['penaltyCharge'] as num?)?.toStringAsFixed(2) ?? '0.00'} MZN",
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        pw.Divider(),
+                                        pw.Row(
+                                          mainAxisAlignment:
+                                              pw.MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            pw.Text(
+                                              'Total Bill of this Month:',
+                                            ),
+                                            pw.Text(
+                                              args['totalAmount'].toString(),
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        pw.Row(
+                                          children: [
+                                            pw.Text('Payment With: '),
+                                            pw.Text(
+                                              'M-Pesa',
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        pw.Row(
+                                          children: [
+                                            pw.Text('Status: '),
+                                            pw.Text(
+                                              args['status'].toString(),
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ];
+                                    },
+                                  ),
+                                );
+                                final output = await getDownloadsDirectory();
+                                final file = File(
+                                  "${output?.path}/invoice_${DateTime.now().millisecondsSinceEpoch}.pdf",
+                                );
+                                await file.writeAsBytes(await pdf.save());
+                                Fluttertoast.showToast(
+                                  msg: "PDF saved to Downloads: ${file.path}",
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.BOTTOM,
+                                  backgroundColor: Colors.black87,
+                                  textColor: Colors.white,
+                                );
+                              },
                               text: 'Download',
                               backgroundColor: Color(0xFF0B3A3D),
                               contentAlignment: MainAxisAlignment.center,
                             ),
-                            // ElevatedButton(
-                            //   onPressed: () {},
-                            //   style: ElevatedButton.styleFrom(
-                            //     backgroundColor: const Color(0xFF0B3A3D),
-                            //     minimumSize: const Size(double.infinity, 50),
-                            //     shape: RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.circular(8.r),
-                            //     ),
-                            //   ),
-                            //   child: Row(
-                            //     mainAxisAlignment: MainAxisAlignment.center,
-                            //     children: [
-                            //       const Icon(Icons.download, color: Colors.white),
-                            //       SizedBox(width: 8.w),
-                            //       Text(
-                            //         "Download",
-                            //         style: TextStyle(
-                            //           fontSize: 16.sp,
-                            //           color: Colors.white,
-                            //         ),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
                             SizedBox(height: 12.h),
                             OutlinedButton(
                               onPressed: () {
