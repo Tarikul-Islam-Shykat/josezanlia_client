@@ -15,6 +15,12 @@ class Urls {
   static const String pickUpLocation = '$baseUrl/user/pickup-locations';
   static String getCalendar(String date, String locationUuid) =>
       '$baseUrl/calendar?date=$date&pickup_location_uuid=$locationUuid';
+  static const String getMonthlyReport =
+      '$baseUrl/readings/consumer/yearly-readings';
+
+  static const String history = '$baseUrl/readings/consumer/payment-history';
+  static const String policy = '$baseUrl/policy';
+  static const String guidelines = '$baseUrl/guideline';
 
   static const String getConsumerReading = "$baseUrl/readings/consumer/allReadings/684aa2023386147b777055fb";//GET ID
   static const String getNotifications = "$baseUrl/notifications";//GET

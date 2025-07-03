@@ -1,7 +1,7 @@
 // views/history_screen.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:prettyrini/features/home/view/invoice_screen.dart';
+import 'package:prettyrini/features/invoice/view/invoice_screen.dart';
 
 import '../controller/history_controller.dart';
 import '../widget/history_item_tile.dart';
@@ -32,9 +32,30 @@ class HistoryScreen extends StatelessWidget {
             final item = controller.historyItems[index];
             return GestureDetector(
               onTap: () {
-                Get.to(() => InvoiceScreen());
+                Get.to(
+                  () => InvoiceScreen(
+                    arguments: {
+                      'id': item.id,
+                      'paymentMonth': item.paymentMonth,
+                      'currentReading': item.currentReading,
+                      'previousReading': item.previousReading,
+                      'penalty': item.penalty,
+                      'totalAmount': item.totalAmount,
+                      'status': item.status,
+                      'createdAt': item.createdAt,
+                      'consumption': item.consumption,
+                      'minimumBill': item.minimumBill,
+                      'perUnitCharge': item.perUnitCharge,
+                      'penaltyCharge': item.penaltyCharge,
+                    },
+                  ),
+                );
               },
-              child: HistoryItemTile(title: item.title, date: item.date),
+              child: HistoryItemTile(
+                title: "ComunAgua Water Bill",
+                date: item.paymentMonth,
+                status: item.status,
+              ),
             );
           },
         ),
