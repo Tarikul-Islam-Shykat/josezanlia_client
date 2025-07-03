@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:prettyrini/core/const/app_colors.dart';
 
 Widget loader() {
-  return Center(child: SpinKitWave(color: appGreenColor, size: 30.h));
+  return Center(child: SpinKitWave(color: Colors.white, size: 20.h));
 }
 
 Widget loader2() {

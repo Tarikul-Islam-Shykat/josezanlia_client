@@ -1,20 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:prettyrini/core/const/app_colors.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
-import 'package:prettyrini/features/Auth_Screen/screens/login_screen.dart';
 import 'package:prettyrini/features/chat/view/chat_view.dart';
 import 'package:prettyrini/features/profile/views/profile_edit.dart';
 import '../../../../../core/global_widegts/custom_cached_image.dart';
-import '../../../../../core/global_widegts/custom_snack_bar.dart';
-import '../../../../../core/repository/services_class/local_service/shared_preferences_helper.dart';
-import '../controller/profile_controller.dart';
 import '../controller/user_info_controller.dart';
 import 'change_password.dart';
-
 
 class ProfileScreen extends StatelessWidget {
   final controller = Get.put(UserProfileController());
@@ -25,7 +19,6 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     if (kDebugMode) {
       print("WrProfileScreen initialized");
     }
@@ -43,30 +36,33 @@ class ProfileScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.h),
             Obx(() {
-              return controller.userProfile.value !=null
+              return controller.userProfile.value != null
                   ? CustomCachedImage(
-                imageUrl: controller.userProfile.value.profileImage.toString(),
-                type: CustomImageType.avatar,
-                radius: 50,
-              )
+                    imageUrl:
+                        controller.userProfile.value.profileImage.toString(),
+                    type: CustomImageType.avatar,
+                    radius: 50,
+                  )
                   : CircleAvatar(
-                radius: 50.r,
-                backgroundColor: Colors.grey.shade200,
-                child: Image.asset(
-                  'assets/images/user11.png',
-                  height: 100.h,
-                  width: 100.w,
-                ),
-              );
+                    radius: 50.r,
+                    backgroundColor: Colors.grey.shade200,
+                    child: Image.asset(
+                      'assets/images/user11.png',
+                      height: 100.h,
+                      width: 100.w,
+                    ),
+                  );
             }),
 
             SizedBox(height: 16.h),
-            Obx(() => Text(
+            Obx(
+              () => Text(
                 controller.userProfile.value.userName.toString(),
                 style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            Obx(() => Text(
+            Obx(
+              () => Text(
                 controller.userProfile.value.email.toString(),
                 style: TextStyle(fontSize: 14.sp),
               ),
@@ -124,7 +120,8 @@ class ProfileScreen extends StatelessWidget {
                     borderSide: const BorderSide(color: Color(0xFFE6E6E6)),
                     backgroundColor: Colors.white,
                     onPressed: () {},
-                    text: "${controller.userProfile.value.consumer!.first.meterNumber}",
+                    text:
+                        "${controller.userProfile.value.consumer!.first.meterNumber}",
                     textColor: Colors.black,
                     borderRadius: 12.r,
                   ),
@@ -144,11 +141,15 @@ class ProfileScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.r),
                           ),
-                          contentPadding: EdgeInsets.all(20.w),
+                          contentPadding: const EdgeInsets.all(20),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              SvgPicture.asset("assets/images/help_icon.svg"),
+                              Image.asset(
+                                'assets/images/help.png',
+                                height: 80.h,
+                                width: 80.w,
+                              ),
 
                               // Image.asset(
                               //   'assets/images/help_icon.svg',
@@ -163,7 +164,7 @@ class ProfileScreen extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                               ),
-                              SizedBox(height: 8.h),
+                              const SizedBox(height: 8),
                               Text(
                                 'Do you want to log out?',
                                 style: TextStyle(
@@ -171,27 +172,15 @@ class ProfileScreen extends StatelessWidget {
                                   color: Colors.grey,
                                 ),
                               ),
-                              SizedBox(height: 20.h),
+                              const SizedBox(height: 20),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () async {
-                                      // Get.back();
-                                      await SharedPreferencesHelper.clearAccessToken();
-
-                                      Get.offAll(() => LoginScreen());
-                                      showSnackBar(
-                                        true,
-                                        "You have been logged out successfully",
-                                      );
-
-                                      // Get.snackbar(
-                                      //   'Logged Out',
-                                      //   'You have been logged out successfully',
-                                      // );
-                                      // Add actual logout logic here (e.g., navigate to login screen)
+                                    onPressed: () {
+                                      Get.back();
+                                      controller.logout();
                                     },
                                     style: ElevatedButton.styleFrom(
                                       side: const BorderSide(
@@ -204,9 +193,9 @@ class ProfileScreen extends StatelessWidget {
                                           8.r,
                                         ),
                                       ),
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 20.w,
-                                        vertical: 10.h,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                        vertical: 10,
                                       ),
                                     ),
                                     child: Text(
@@ -246,10 +235,8 @@ class ProfileScreen extends StatelessWidget {
                               SizedBox(height: 10.h),
                             ],
                           ),
-
                         ),
                       );
-
                     },
                     text: 'Log Out',
                     textColor: Colors.black,

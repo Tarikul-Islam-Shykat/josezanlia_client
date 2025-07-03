@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:prettyrini/core/const/app_loader.dart';
 import 'package:prettyrini/core/global_widegts/app_shimmer.dart';
 import 'package:prettyrini/features/Home_page_client/Add_request_page/view/request_top_up_screen.dart';
-import 'package:prettyrini/features/Home_page_client/home_screens/controller/home_view_controller.dart';
 import 'package:prettyrini/features/Home_page_client/pay_now_screen/view/pay_now_view_screen.dart';
 import '../../../../core/global_widegts/custom_cached_image.dart';
 import '../../../history/controller/history_controller.dart';
@@ -18,23 +15,28 @@ import '../model/get_all_reading_model.dart';
 
 class WaterBillHome extends StatelessWidget {
   WaterBillHome({super.key});
-  final ConsumerReadingController controller = Get.put(ConsumerReadingController(),);
+  final ConsumerReadingController controller = Get.put(
+    ConsumerReadingController(),
+  );
   final UserProfileController userController = Get.put(UserProfileController());
-  final NotificationController notificationController = Get.put(NotificationController(),);
+  final NotificationController notificationController = Get.put(
+    NotificationController(),
+  );
   final HistoryController historyController = Get.put(HistoryController());
 
   @override
   Widget build(BuildContext context) {
+    // Data fetching should be handled before routing to home screen, during login
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(Duration(milliseconds: 300), () {
+      if (!userController.isLoading.value &&
+          userController.userProfile.value.consumer != null &&
+          userController.userProfile.value.consumer!.isNotEmpty) {
         final userId = userController.userProfile.value.consumer?.first.id;
         if (userId != null) {
           controller.getConsumerReadings(userId);
         }
-      });
+      }
     });
-
-
 
     return Scaffold(
       backgroundColor: const Color(0xFFE3E3E3),
@@ -122,7 +124,6 @@ class WaterBillHome extends StatelessWidget {
                             onTap: () {
                               Get.to(() => NotificationsView())?.then((_) {
                                 notificationController.readNotification();
-
                               });
                             },
                             child: Stack(
@@ -146,7 +147,9 @@ class WaterBillHome extends StatelessWidget {
                                   top: 0,
                                   child: Obx(() {
                                     final count =
-                                        notificationController.unreadCount;
+                                        notificationController
+                                            .notificationCount
+                                            .value;
                                     if (count == 0) {
                                       return SizedBox.shrink(); // No badge if none unread
                                     }
@@ -201,7 +204,6 @@ class WaterBillHome extends StatelessWidget {
                     );
                   }
                 }),
-
               ],
             ),
             Padding(
@@ -218,7 +220,7 @@ class WaterBillHome extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: ()=>Get.to(()=>HistoryScreen()),
+                    onTap: () => Get.to(() => HistoryScreen()),
                     child: Text(
                       'See all',
                       style: TextStyle(
@@ -234,7 +236,10 @@ class WaterBillHome extends StatelessWidget {
             const SizedBox(height: 10),
             Obx(() {
               if (historyController.historyItems.isEmpty) {
-                return boxShimmerPro(width: Get.width, height: 150); // or placeholder
+                return boxShimmerPro(
+                  width: Get.width,
+                  height: 150,
+                ); // or placeholder
               }
               final item = historyController.historyItems[0];
               return GestureDetector(
@@ -256,7 +261,6 @@ class WaterBillHome extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _buildCurrentBill(ConsumerReadingModel data) {
     return Container(
@@ -375,8 +379,6 @@ class WaterBillHome extends StatelessWidget {
       ],
     );
   }
-
-
 
   Widget _buildTopUpButton() {
     return Container(

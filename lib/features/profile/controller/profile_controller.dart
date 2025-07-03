@@ -44,7 +44,9 @@ class EditProfileController extends GetxController {
 
       if (userController.userProfile.value.dob != null) {
         try {
-          DateTime parsedDate = DateTime.parse(userController.userProfile.value.dob.toString());
+          DateTime parsedDate = DateTime.parse(
+            userController.userProfile.value.dob.toString(),
+          );
           selectedDate.value = parsedDate;
           dobTEC.value.text = _formatDate(parsedDate);
         } catch (_) {
@@ -63,7 +65,10 @@ class EditProfileController extends GetxController {
         if (compressedImage != null) {
           profileImage.value = compressedImage;
           await _updateImageSizeText(compressedImage);
-          AppSnackbar.show(message: "Profile picture selected successfully", isSuccess: true);
+          AppSnackbar.show(
+            message: "Profile picture selected successfully",
+            isSuccess: true,
+          );
         }
       }
     } catch (e) {
@@ -80,7 +85,10 @@ class EditProfileController extends GetxController {
         if (compressedImage != null) {
           profileImage.value = compressedImage;
           await _updateImageSizeText(compressedImage);
-          AppSnackbar.show(message: "Profile picture captured successfully", isSuccess: true);
+          AppSnackbar.show(
+            message: "Profile picture captured successfully",
+            isSuccess: true,
+          );
         }
       }
     } catch (e) {
@@ -165,11 +173,13 @@ class EditProfileController extends GetxController {
 
       final request = http.MultipartRequest(
         "PUT",
-        Uri.parse("${Urls.updateProfile}/${userController.userProfile.value.consumer!.first.id}"),
+        Uri.parse(
+          "${Urls.updateProfile}/${userController.userProfile.value.consumer!.first.id}",
+        ),
       );
 
-      SharedPreferences local = await SharedPreferences.getInstance();
-      String? token = local.getString("token");
+      SharedPreferences sh = await SharedPreferences.getInstance();
+      String? token = sh.getString("token");
 
       request.headers.addAll({
         "Content-Type": "multipart/form-data",
@@ -189,7 +199,7 @@ class EditProfileController extends GetxController {
 
       var imageBytes = await profileImage.value!.readAsBytes();
       var multipartFile = http.MultipartFile.fromBytes(
-        "attachment",
+        "image",
         imageBytes,
         filename: "profile_${DateTime.now().millisecondsSinceEpoch}.jpg",
       );
@@ -208,12 +218,18 @@ class EditProfileController extends GetxController {
 
       if ((response.statusCode == 200 || response.statusCode == 201) &&
           responseJson["success"] == true) {
-        AppSnackbar.show(message: "Profile updated successfully", isSuccess: true);
+        AppSnackbar.show(
+          message: "Profile updated successfully",
+          isSuccess: true,
+        );
         Get.back();
         clearImage();
         return true;
       } else {
-        AppSnackbar.show(message: "${responseJson["message"]}", isSuccess: false);
+        AppSnackbar.show(
+          message: "${responseJson["message"]}",
+          isSuccess: false,
+        );
         return false;
       }
     } catch (e) {

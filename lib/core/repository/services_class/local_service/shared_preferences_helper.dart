@@ -8,9 +8,6 @@ class SharedPreferencesHelper {
   static const String _userLastName = 'userLastName';
   static const String _userPhoneNumber = 'userPhoneNumber';
   static const String _userWorkerId = 'userWorkerId';
-  static const String _userEmail = 'userEmail';
-  static const String _userBio = 'userBio';
-  static const String _userGender = 'userGender';
 
   // Save access token
   static Future<void> saveAccessToken(String token) async {
@@ -30,11 +27,10 @@ class SharedPreferencesHelper {
     return prefs.getString('pickerLocationUuid');
   }
 
-  // Clear access token
-  static Future<void> clearAccessToken() async {
+  // Clear all data from SharedPreferences
+  static Future<void> clearAllData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_accessTokenKey);
-    await prefs.remove('isLogin');
+    await prefs.clear();
   }
 
   static Future<bool?> checkLogin() async {

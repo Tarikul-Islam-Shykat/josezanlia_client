@@ -1,7 +1,11 @@
 import 'dart:developer';
 import 'package:get/get.dart';
-import '../../../../../core/repository/network_caller/network_config.dart';
+import 'package:prettyrini/features/auth_screen/screens/login_screen.dart';
+
+import '../../../core/global_widegts/app_snackbar.dart';
 import '../../../core/repository/network_caller/endpoints.dart';
+import '../../../core/repository/network_caller/network_config.dart';
+import '../../../core/repository/services_class/local_service/shared_preferences_helper.dart';
 import '../model/user_info_model.dart';
 
 class UserProfileController extends GetxController {
@@ -10,7 +14,7 @@ class UserProfileController extends GetxController {
   Rx<UserProfileModel> userProfile = UserProfileModel().obs;
   RxBool isLoading = false.obs;
   @override
-  onInit(){
+  onInit() {
     super.onInit();
     fetchUserProfile();
   }
@@ -39,5 +43,14 @@ class UserProfileController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<void> logout() async {
+    await SharedPreferencesHelper.clearAllData();
+    Get.offAll(() => LoginScreen());
+    AppSnackbar.show(
+      message: 'You have been logged out successfully',
+      isSuccess: true,
+    );
   }
 }
