@@ -6,13 +6,8 @@ import 'package:prettyrini/core/const/app_colors.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-
-
 import '../../../../../core/const/app_loader.dart';
 import '../../../core/const/image_path.dart';
-import '../../../core/widget/text_field_widget.dart';
 import '../controller/profile_controller.dart';
 
 class EditProfile extends StatelessWidget {

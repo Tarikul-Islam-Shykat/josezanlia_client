@@ -22,7 +22,7 @@ class Urls {
   static const String policy = '$baseUrl/policy';
   static const String guidelines = '$baseUrl/guideline';
 
-  static const String getConsumerReading = "$baseUrl/readings/consumer/allReadings/684aa2023386147b777055fb";//GET ID
+  static const String getConsumerReading = "$baseUrl/readings/consumer/allReadings";//GET ID
   static const String getNotifications = "$baseUrl/notifications";//GET
   static const String readNotifications = "$baseUrl/notifications/read";//PATCH
 }

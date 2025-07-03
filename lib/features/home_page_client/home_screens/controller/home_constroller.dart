@@ -16,18 +16,14 @@ RxString selectMonth = ''.obs;
   RxInt totalRecords = 0.obs;
   RxInt currentPage = 1.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    getConsumerReadings();
-  }
 
-  Future<bool> getConsumerReadings() async {
+
+  Future<bool> getConsumerReadings(id) async {
     isLoading.value = true;
     try {
       final response = await _networkConfig.ApiRequestHandler(
         RequestMethod.GET,
-        Urls.getConsumerReading,
+        "${Urls.getConsumerReading}/$id",
         {},
         is_auth: true,
       );
@@ -41,7 +37,7 @@ RxString selectMonth = ''.obs;
         readingList.sort((a, b) => b.paymentMonth!.compareTo(a.paymentMonth!));
 
         if (readingList.isNotEmpty) {
-          selectedMonth.value = readingList.first.paymentMonth!;
+          selectMonth.value = readingList.first.paymentMonth!;
         }
 
         totalRecords.value = response["data"]["meta"]["total"] ?? 0;
@@ -61,19 +57,36 @@ RxString selectMonth = ''.obs;
   }
 
   ConsumerReadingModel? get selectedReading =>
-      readingList.firstWhereOrNull((e) => e.paymentMonth == selectedMonth.value);
+      readingList.firstWhereOrNull((e) => e.paymentMonth == selectMonth.value);
 
   void goToPreviousMonth() {
-    final index = readingList.indexWhere((e) => e.paymentMonth == selectedMonth.value);
+    final index = readingList.indexWhere((e) => e.paymentMonth == selectMonth.value);
     if (index != -1 && index < readingList.length - 1) {
-      selectedMonth.value = readingList[index + 1].paymentMonth!;
+      selectMonth.value = readingList[index + 1].paymentMonth!;
     }
   }
 
   void goToNextMonth() {
-    final index = readingList.indexWhere((e) => e.paymentMonth == selectedMonth.value);
+    final index = readingList.indexWhere((e) => e.paymentMonth == selectMonth.value);
     if (index > 0) {
-      selectedMonth.value = readingList[index - 1].paymentMonth!;
+      selectMonth.value = readingList[index - 1].paymentMonth!;
     }
   }
+  String get currentMonthLabel {
+    if (selectMonth.isEmpty) return '';
+    try {
+      final parts = selectMonth.split('-');
+      if (parts.length == 2) {
+        final month = int.parse(parts[1]);
+        final year = parts[0];
+        const monthNames = [
+          '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ];
+        return '${monthNames[month]} $year';
+      }
+    } catch (_) {}
+    return selectMonth.value;
+  }
+
 }

@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:prettyrini/core/const/app_loader.dart';
+import 'package:prettyrini/core/global_widegts/app_shimmer.dart';
 import 'package:prettyrini/features/Home_page_client/Add_request_page/view/request_top_up_screen.dart';
 import 'package:prettyrini/features/Home_page_client/home_screens/controller/home_view_controller.dart';
 import 'package:prettyrini/features/Home_page_client/pay_now_screen/view/pay_now_view_screen.dart';
 import '../../../../core/global_widegts/custom_cached_image.dart';
+import '../../../history/controller/history_controller.dart';
+import '../../../history/view/history_view.dart';
+import '../../../history/widget/history_item_tile.dart';
 import '../../../notifications/controller/notifications_controller.dart';
 import '../../../notifications/view/notifications_view.dart';
 import '../../../profile/controller/user_info_controller.dart';
-import '../../../profile/model/user_info_model.dart';
 import '../controller/home_constroller.dart';
 import '../model/get_all_reading_model.dart';
 
@@ -18,9 +21,19 @@ class WaterBillHome extends StatelessWidget {
   final ConsumerReadingController controller = Get.put(ConsumerReadingController(),);
   final UserProfileController userController = Get.put(UserProfileController());
   final NotificationController notificationController = Get.put(NotificationController(),);
+  final HistoryController historyController = Get.put(HistoryController());
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(Duration(milliseconds: 300), () {
+        final userId = userController.userProfile.value.consumer?.first.id;
+        if (userId != null) {
+          controller.getConsumerReadings(userId);
+        }
+      });
+    });
+
 
 
     return Scaffold(
@@ -33,7 +46,7 @@ class WaterBillHome extends StatelessWidget {
               children: [
                 Obx(() {
                   if (userController.isLoading.value) {
-                    return loader();
+                    return boxShimmerPro(width: Get.width, height: 150);
                   } else {
                     final data = userController.userProfile.value;
                     return Container(
@@ -65,7 +78,7 @@ class WaterBillHome extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Hello, ${data.userName}',
+                                    'Hello, ${data.consumer!.first.firstName}',
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
@@ -165,27 +178,77 @@ class WaterBillHome extends StatelessWidget {
 
                 Obx(() {
                   if (controller.isLoading.value) {
-                    return loader();
+                    return boxShimmerPro(width: Get.width, height: 400);
+                  } else if (controller.readingList.isEmpty) {
+                    return const Positioned(
+                      top: 135,
+                      left: 20,
+                      right: 20,
+                      child: Center(
+                        child: Text(
+                          'No billing data available',
+                          style: TextStyle(fontSize: 16, color: Colors.black54),
+                        ),
+                      ),
+                    );
                   } else {
                     final data = controller.readingList[0];
                     return Positioned(
-                      top: 135, // The amount of overlap, adjust as needed
+                      top: 135,
                       left: 20,
                       right: 20,
                       child: _buildCurrentBill(data),
                     );
                   }
                 }),
+
               ],
             ),
-            // const SizedBox(height: 10),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 20),
-            //   // child: _buildCurrentBill(controller),
-            // ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Recent Payment',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xF0000000),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: ()=>Get.to(()=>HistoryScreen()),
+                    child: Text(
+                      'See all',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF696868),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 10),
+            Obx(() {
+              if (historyController.historyItems.isEmpty) {
+                return boxShimmerPro(width: Get.width, height: 150); // or placeholder
+              }
+              final item = historyController.historyItems[0];
+              return GestureDetector(
+                onTap: () {
+                  // handle tap
+                },
+                child: HistoryItemTile(
+                  title: "ComunAgua Water Bill",
+                  date: item.paymentMonth,
+                  status: item.status,
+                ),
+              );
+            }),
 
-            // _buildRecentPayments(controller),
             _buildTopUpButton(),
             const SizedBox(height: 60),
           ],
@@ -194,122 +257,6 @@ class WaterBillHome extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(UserProfileModel data) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 400),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0xFF0B3A3D),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(15),
-          bottomRight: Radius.circular(15),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              CustomCachedImage(
-                imageUrl: data.profileImage.toString(),
-                type: CustomImageType.avatar,
-                radius: 25,
-              ),
-
-              // CircleAvatar(
-              //   radius: 25,
-              //   backgroundImage: const AssetImage(
-              //     'assets/images/header_image.png',
-              //   ),
-              // ),
-              const SizedBox(width: 15),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Good Morning, ${data.userName.toString()}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/icons/balance.png',
-                          height: 22,
-                          width: 18,
-                        ),
-
-                        const SizedBox(width: 5),
-                        const Text(
-                          'Tap to see Balance',
-                          style: TextStyle(fontSize: 12, color: Colors.black),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          GestureDetector(
-            onTap: () {
-              Get.to(() => NotificationsView());
-            },
-            child: Stack(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    // color: Colors.white.withValues(alpha: 0.2),
-                    color: Color(0xFFE3E3E3).withValues(alpha: 0.2),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.notifications_outlined,
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFF20800),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Text(
-                      '2',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildCurrentBill(ConsumerReadingModel data) {
     return Container(
@@ -429,122 +376,7 @@ class WaterBillHome extends StatelessWidget {
     );
   }
 
-  Widget _buildRecentPayments(WaterBillController controller) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Recent Payment',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xF0000000),
-                ),
-              ),
-              Text(
-                'See all',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF696868),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            decoration: BoxDecoration(
-              color: Color(0xFFE3E3E3),
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      // padding: const EdgeInsets.all(10),
-                      // decoration: BoxDecoration(
-                      //   color: Colors.blue.withOpacity(0.1),
-                      //   shape: BoxShape.circle,
-                      // ),
-                      child: Image.asset(
-                        'assets/icons/recentpayment_icon.png',
-                        height: 40,
-                        width: 40,
-                      ),
 
-                      // const Icon(
-                      //   Icons.water_drop,
-                      //   color: Colors.blue,
-                      //   size: 24,
-                      // ),
-                    ),
-                    const SizedBox(width: 15),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Obx(
-                          () => Text(
-                            controller.recentPayments[0]['provider'],
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Obx(
-                          () => Text(
-                            'Date: ${DateFormat('d MMMM yyyy').format(controller.recentPayments[0]['date'])}',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    controller.recentPayments[0]['status'],
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.green,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildTopUpButton() {
     return Container(

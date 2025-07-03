@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:prettyrini/features/history/view/history_view.dart';
+import 'package:prettyrini/features/splash_screen/screen/splash_screen.dart';
 import 'core/const/app_colors.dart';
 import 'route/route.dart';
 
@@ -41,10 +42,10 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Josezanlia_Client',
             getPages: AppRoute.routes,
-            // initialRoute: AppRoute.splashScreen,
+             initialRoute: AppRoute.splashScreen,
             builder: EasyLoading.init(),
 
-            home: HistoryScreen(),
+            //home: SplashScreen(),
           ),
     );
   }

@@ -124,7 +124,7 @@ class ProfileScreen extends StatelessWidget {
                     borderSide: const BorderSide(color: Color(0xFFE6E6E6)),
                     backgroundColor: Colors.white,
                     onPressed: () {},
-                    text: '636348727',
+                    text: "${controller.userProfile.value.consumer!.first.meterNumber}",
                     textColor: Colors.black,
                     borderRadius: 12.r,
                   ),

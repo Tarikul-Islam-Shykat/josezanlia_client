@@ -1,13 +1,9 @@
 import 'package:get/get.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/forget_pasword_screen.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/login_screen.dart';
-import 'package:prettyrini/features/Auth_Screen/screens/profile/views/profile_screen.dart';
 import 'package:prettyrini/features/invoice/view/invoice_screen.dart';
 import 'package:prettyrini/features/invoice/view/top_up_invoice_screen.dart';
-import 'package:prettyrini/features/home/view/invoice_screen.dart';
-import 'package:prettyrini/features/home/view/top_up_invoice_screen.dart';
 import 'package:prettyrini/features/splash_screen/screen/splash_screen.dart';
-
 import '../features/Auth_Screen/screens/otp_very_screen.dart';
 import '../features/Auth_Screen/screens/set_new_password_screen.dart';
 import '../features/nav_bar/view/nav_bar_view.dart';
