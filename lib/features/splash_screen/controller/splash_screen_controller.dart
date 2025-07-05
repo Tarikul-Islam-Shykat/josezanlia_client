@@ -74,18 +74,24 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/login_screen.dart';
+import 'package:prettyrini/route/route.dart';
+
+import '../../../core/repository/services_class/local_service/shared_preferences_helper.dart';
+import '../../nav_bar/view/nav_bar_view.dart';
 
 class SplashScreenController extends GetxController {
   void checkIsLogin() async {
     Timer(const Duration(seconds: 3), () async {
-      // Check if the token exists in shared preferences
-      // String? token = await SharedPreferencesHelper.getAccessToken();
-      // If token exists, the user is logged in
-      // if (token != null && token.isNotEmpty) {
-      // Redirect to the main screen (e.g., Bottom Navbar or Home)
-      // Get.offAll(PartnerHomeScreen());
-      Get.offAll(LoginScreen());
-      // }
+      //Check if the token exists in shared preferences
+      String? token = await SharedPreferencesHelper.getAccessToken();
+      //f token exists, the user is logged in
+      if (token != null && token.isNotEmpty) {
+      //Redirect to the main screen (e.g., Bottom Navbar or Home)
+      Get.offAll(BottomNavbar());
+     // Get.offAll(LoginScreen());
+       }else{
+        Get.toNamed(AppRoute.loginScreen);
+      }
     });
   }
 

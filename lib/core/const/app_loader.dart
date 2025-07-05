@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:prettyrini/core/const/app_colors.dart';
 
 Widget loader() {
-  return Center(child: SpinKitWave(color: appGreenColor, size: 30.h));
+  return Center(child: SpinKitWave(color: Colors.white, size: 20.h));
 }
 
 Widget loader2() {
@@ -12,7 +11,7 @@ Widget loader2() {
 }
 
 Widget loaderCubeGrid() {
-  return Center(child: SpinKitCubeGrid(color: Colors.white, size: 40.h));
+  return Center(child: SpinKitCubeGrid(color: Color(0xFF66B3A6), size: 40.h));
 }
 
 Widget loaderWaveSpinner() {
@@ -20,5 +19,7 @@ Widget loaderWaveSpinner() {
 }
 
 Widget loaderDancing() {
-  return Center(child: SpinKitDancingSquare(color: Colors.white, size: 20.h));
+  return Center(
+    child: SpinKitDancingSquare(color: Color(0xFF66B3A6), size: 40.h),
+  );
 }

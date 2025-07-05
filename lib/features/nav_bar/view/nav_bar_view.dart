@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:prettyrini/core/const/nav_bar_images.dart';
 import 'package:prettyrini/core/style/global_text_style.dart';
-import 'package:prettyrini/features/Auth_Screen/screens/profile/views/profile_screen.dart';
 import 'package:prettyrini/features/Home_page_client/home_screens/view/home_view_screen.dart';
 import 'package:prettyrini/features/history/view/history_view.dart';
 import 'package:prettyrini/features/nav_bar/controller/nav_bar_controller.dart';
 import 'package:prettyrini/features/water_use/view/water_use_view.dart';
+
+import '../../profile/views/profile_screen.dart';
 
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({super.key});

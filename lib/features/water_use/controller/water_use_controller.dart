@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:prettyrini/core/repository/network_caller/network_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-
+import '../../../core/repository/network_caller/endpoints.dart';
 
 class MeterData {
   final String meterNumber;
@@ -23,7 +25,6 @@ class MeterData {
     required this.status,
   });
 }
-
 
 class FakeMeterService {
   static final Map<String, MeterData> _meterDatabase = {
@@ -91,10 +92,6 @@ class FakeMeterService {
   static List<String> get availableMonths => _meterDatabase.keys.toList();
 }
 
-
-
-
-
 class WaterUseController extends GetxController {
   final RxInt currentMonthIndex = 0.obs;
   final Rx<MeterData?> meterData = Rx<MeterData?>(null);
@@ -129,17 +126,41 @@ class WaterUseController extends GetxController {
 
   String get currentMonthLabel => months[currentMonthIndex.value];
 
-  /// Chart bar values
-  List<BarChartGroupData> get chartData {
-    return List.generate(months.length, (index) {
-      final data = FakeMeterService.getMeterData(months[index]);
+  Future<Map<String, dynamic>> getChartData() async {
+    final networkconfig = NetworkConfig();
+    final year = DateTime.now().year.toString();
+
+    final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getString('id') ?? '684aa2023386147b777055fb';
+    final url = '${Urls.getMonthlyReport}/$id/$year';
+    final response = await networkconfig.ApiRequestHandler(
+      RequestMethod.GET,
+      url,
+      '',
+      is_auth: true,
+    );
+    return response ?? {'error': 'Failed to fetch data'};
+  }
+
+  Future<List<BarChartGroupData>> get chartData async {
+    final Map<String, dynamic> response = await getChartData();
+    List<dynamic> yearlyConsumption = [];
+    if (response['success'] == true && response['data'] != null) {
+      yearlyConsumption = response['data']['yearlyConsumption'] ?? [];
+    }
+    return List.generate(yearlyConsumption.length, (index) {
+      double reading = 0;
+      if (index < yearlyConsumption.length) {
+        final monthData = yearlyConsumption[index];
+        reading = (monthData['totalReadings'] as num).toDouble();
+      }
       return BarChartGroupData(
         x: index,
         barRods: [
           BarChartRodData(
-            toY: data?.currentReading ?? 0,
-            width: 14,
-            color: data?.status == 'DUE' ? const Color(0xFFE57373) : const Color(0xFF4CAF50),
+            toY: reading,
+            width: 20,
+            color: const Color(0xFF4CAF50),
             borderRadius: BorderRadius.circular(4),
           ),
         ],
@@ -147,5 +168,3 @@ class WaterUseController extends GetxController {
     });
   }
 }
-
-
