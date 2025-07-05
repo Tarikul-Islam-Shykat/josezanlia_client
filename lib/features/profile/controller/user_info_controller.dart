@@ -31,6 +31,10 @@ class UserProfileController extends GetxController {
 
       if (response != null && response["success"] == true) {
         userProfile.value = UserProfileModel.fromJson(response["data"]);
+
+        await SharedPreferencesHelper.saveUserWorkerId(userProfile.value.consumer?[0].userId ?? '');
+
+
         log("User profile fetched successfully");
         return true;
       } else {

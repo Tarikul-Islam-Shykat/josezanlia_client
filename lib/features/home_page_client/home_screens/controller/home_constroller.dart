@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../../../../core/repository/network_caller/endpoints.dart';
 import '../../../../core/repository/network_caller/network_config.dart';
+import '../../../profile/controller/user_info_controller.dart';
 import '../model/get_all_reading_model.dart';
 
 class ConsumerReadingController extends GetxController {
@@ -15,6 +17,34 @@ RxString selectMonth = ''.obs;
 
   RxInt totalRecords = 0.obs;
   RxInt currentPage = 1.obs;
+
+
+
+  @override
+  void onInit() async {
+    super.onInit();
+    final UserProfileController userController = Get.put(UserProfileController());
+    await userController.fetchUserProfile();
+    final userId = userController.userProfile.value.consumer?.first.id;
+    if (userId != null) {
+      getConsumerReadings(userId);
+    }
+
+    if (kDebugMode) {
+      log("ConsumerReadingController initialized with userId: $userId");
+    }
+
+
+
+    // Optionally, you can load initial data here
+    // getConsumerReadings('some_id');
+  }
+
+
+
+
+
+
 
 
 

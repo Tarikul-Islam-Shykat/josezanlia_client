@@ -7,6 +7,7 @@ import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/features/chat/view/chat_view.dart';
 import 'package:prettyrini/features/profile/views/profile_edit.dart';
 import '../../../../../core/global_widegts/custom_cached_image.dart';
+import '../../chat_app/view/chat_screen.dart';
 import '../controller/user_info_controller.dart';
 import 'change_password.dart';
 
@@ -255,7 +256,7 @@ class ProfileScreen extends StatelessWidget {
                   backgroundColor: appGreenColor,
                   borderRadius: 10.r,
                   onPressed: () {
-                    Get.to(() => ChatView());
+                    Get.to(() => ChatPage());
                   },
                   text: 'Message',
                 ),
