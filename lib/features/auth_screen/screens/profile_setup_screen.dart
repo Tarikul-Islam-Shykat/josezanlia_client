@@ -123,6 +123,7 @@ class ProfileSetupScreen extends StatelessWidget {
                       child: CustomAuthField(
                         controller: controller.firstNameTEController,
                         hintText: 'First Name',
+                        keyboardType: TextInputType.name,
                       ),
                     ),
                     SizedBox(width: 16.w),
@@ -130,6 +131,7 @@ class ProfileSetupScreen extends StatelessWidget {
                       child: CustomAuthField(
                         controller: controller.lastNameTEController,
                         hintText: 'Last Name',
+                        keyboardType: TextInputType.name,
                       ),
                     ),
                   ],

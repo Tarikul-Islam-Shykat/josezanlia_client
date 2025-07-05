@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSCameraUsageDescription</key>
+    <string>We need camera access to take pictures</string>
 	<key>CFBundleDisplayName</key>
 	<string>Prettyrini</string>
 	<key>CFBundleExecutable</key>

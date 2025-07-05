@@ -41,6 +41,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 prefixIconPath: ImagePath.mail,
                 textEditingController: controller.emailTEC,
                 hitText: 'Email',
+                keyboardType: TextInputType.emailAddress,
               ),
               SizedBox(height: 250.h),
 

@@ -46,6 +46,7 @@ class SignUpScreen extends StatelessWidget {
               CustomTextField(
                 hitText: 'Full Name',
                 textEditingController: controller.nameController,
+                keyboardType: TextInputType.name,
               ),
               SizedBox(height: 0.1.h),
 
@@ -61,6 +62,7 @@ class SignUpScreen extends StatelessWidget {
               CustomTextField(
                 hitText: 'Email',
                 textEditingController: controller.emailController,
+                keyboardType: TextInputType.emailAddress,
                 // validator: controller.emailValidator,
               ),
               SizedBox(height: 0.1.h),
@@ -77,6 +79,7 @@ class SignUpScreen extends StatelessWidget {
               CustomTextField(
                 hitText: 'Phone Number',
                 textEditingController: controller.phoneController,
+                keyboardType: TextInputType.phone,
               ),
               SizedBox(height: 0.1.h),
 
