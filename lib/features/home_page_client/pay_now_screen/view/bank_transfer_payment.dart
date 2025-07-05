@@ -3,16 +3,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:prettyrini/core/const/icons_path.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/utils/show_success_dialog.dart';
+import 'package:prettyrini/features/profile/controller/user_info_controller.dart';
 import 'package:prettyrini/route/route.dart';
 
 class BankTransferPayment extends StatelessWidget {
+  final UserProfileController userController = Get.put(UserProfileController());
   final String paymentMethod;
 
-  const BankTransferPayment({super.key, required this.paymentMethod});
+  BankTransferPayment({super.key, required this.paymentMethod});
+  final now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           // Background image
@@ -71,14 +75,98 @@ class BankTransferPayment extends StatelessWidget {
                       const SizedBox(height: 12),
 
                       // E-Mola Option
-                      _buildPaymentOption('636348727', IconsPath.timerIcon),
+                      _buildPaymentOption(
+                        (userController.userProfile.value.consumer != null &&
+                                userController
+                                    .userProfile
+                                    .value
+                                    .consumer!
+                                    .isNotEmpty)
+                            ? userController
+                                    .userProfile
+                                    .value
+                                    .consumer![0]
+                                    .meterNumber ??
+                                ''
+                            : '',
+                        IconsPath.timerIcon,
+                      ),
 
                       const SizedBox(height: 12),
 
-                      // Bank Transfer Option
-                      _buildPaymentOption('July 2025', IconsPath.calenderIcon),
+                      GestureDetector(
+                        onTap: () async {
+                          final picked = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime(now.year, now.month),
+                            firstDate: DateTime(now.year - 5, 1),
+                            lastDate: DateTime(now.year + 5, 12),
+                            initialDatePickerMode: DatePickerMode.year,
+                            selectableDayPredicate: (date) => date.day == 1,
+                            helpText: 'Select Month',
+                          );
+                          if (picked != null) {}
+                        },
+                        child: _buildPaymentOption(
+                          "${_monthName(now.month)} ${now.year}",
+                          IconsPath.calenderIcon,
+                        ),
+                      ),
                       const SizedBox(height: 12),
-                      _buildPaymentOption('635 MZN', IconsPath.sendMoneyIcon),
+                      Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Color(0x338C8482),
+                            width: 2,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 40,
+                                height: 30,
+                                child: Image.asset(
+                                  IconsPath.sendMoneyIcon,
+                                  height: 35,
+                                  width: 35,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: TextField(
+                                  keyboardType: TextInputType.number,
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Amount',
+                                    hintStyle: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xFF8C8482),
+                                    ),
+                                  ),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              const Text(
+                                'MZN',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
 
                       const SizedBox(height: 12),
                       Container(
@@ -98,7 +186,6 @@ class BankTransferPayment extends StatelessWidget {
                               Container(
                                 width: 40,
                                 height: 30,
-
                                 decoration: BoxDecoration(),
                                 child: Image.asset(
                                   IconsPath.bankIcon,
@@ -107,12 +194,23 @@ class BankTransferPayment extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(width: 12),
-                              Text(
-                                'Enter your Mobile number',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xFF8C8482),
+                              Expanded(
+                                child: TextField(
+                                  keyboardType: TextInputType.phone,
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Enter my Mobile number',
+                                    hintStyle: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xFF8C8482),
+                                    ),
+                                  ),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
                             ],
@@ -210,5 +308,24 @@ class BankTransferPayment extends StatelessWidget {
         Get.toNamed(AppRoute.invoiceScreen);
       },
     );
+  }
+
+  String _monthName(int month) {
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    if (month < 1 || month > 12) return '';
+    return months[month - 1];
   }
 }

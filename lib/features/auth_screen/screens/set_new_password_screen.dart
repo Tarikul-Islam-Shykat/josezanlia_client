@@ -6,9 +6,6 @@ import 'package:prettyrini/core/const/app_colors.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
-import 'package:prettyrini/features/Auth_Screen/controller/auth_controller.dart';
-import 'package:prettyrini/features/Auth_Screen/screens/login_screen.dart';
-import 'package:prettyrini/features/Auth_Screen/screens/utils/show_success_dialog.dart';
 
 import '../../../core/const/app_loader.dart';
 import '../../../core/global_widegts/custom_snack_bar.dart';

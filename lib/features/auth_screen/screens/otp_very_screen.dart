@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:prettyrini/core/const/app_colors.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
-import 'package:prettyrini/features/Auth_Screen/controller/auth_controller.dart';
 import '../../../core/const/app_loader.dart';
 import '../controller/forget_pasword_controller.dart';
 
@@ -83,8 +82,3 @@ class OTPVerificationScreen extends StatelessWidget {
   }
 }
 
-void _resendOTP() {
-  if (kDebugMode) {
-    log('Resending OTP...');
-  }
-}

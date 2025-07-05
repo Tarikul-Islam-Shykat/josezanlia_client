@@ -53,7 +53,6 @@ class InvoiceController extends GetxController {
           guideline['data'] is List &&
           guideline['data'].isNotEmpty) {
         guidelineDescription = guideline['data'][0]['description'] ?? '';
-        log('Guideline Description: $guidelineDescription');
       }
     } catch (e, stack) {
       log('Error loading policy or guideline: $e\n$stack');

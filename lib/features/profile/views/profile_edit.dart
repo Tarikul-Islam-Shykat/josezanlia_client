@@ -1,18 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:prettyrini/core/const/app_colors.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
+import 'package:prettyrini/features/profile/controller/user_info_controller.dart';
 import '../../../../../core/const/app_loader.dart';
 import '../../../core/const/image_path.dart';
+import '../../../core/global_widegts/custom_cached_image.dart';
 import '../controller/profile_controller.dart';
 
 class EditProfile extends StatelessWidget {
   EditProfile({super.key});
-  final EditProfileController controller =Get.put(EditProfileController());
+  final EditProfileController controller = Get.put(EditProfileController());
+  final profileController = Get.find<UserProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +42,73 @@ class EditProfile extends StatelessWidget {
               CustomAppBar(title: 'Edit Profile'),
 
               SizedBox(height: 20.h,),
+              // GestureDetector(
+              //   onTap: () async {
+              //     final ImagePicker picker = ImagePicker();
+              //     final XFile? image = await picker.pickImage(
+              //       source: ImageSource.gallery,
+              //     );
+              //     if (image != null) {
+              //       controller.updateProfileImage(File(image.path));
+              //     }
+              //   },
+              //   child: Stack(
+              //     clipBehavior: Clip.none,
+              //     children: [
+              //       Obx(() {
+              //         if (controller.profileImage.value != null) {
+              //           return CircleAvatar(
+              //             radius: 50.r, // Adjust radius as needed
+              //             backgroundImage:
+              //             controller.profileImage.value != null
+              //                 ? FileImage(controller.profileImage.value!)
+              //                 : Image.asset(ImagePath.profile)
+              //             as ImageProvider,
+              //             child:
+              //             controller.profileImage.value == null
+              //                 ? null // No child if image is from asset
+              //                 : ClipOval(
+              //               // Clip if image is from file to ensure circular shape
+              //               child: Image.file(
+              //                 controller.profileImage.value!,
+              //                 height: 100.h,
+              //                 width: 100.w,
+              //                 fit: BoxFit.cover,
+              //                 errorBuilder:
+              //                     (
+              //                     context,
+              //                     error,
+              //                     stackTrace,
+              //                     ) => Image.asset(ImagePath.profile),
+              //               ),
+              //             ),
+              //           );
+              //         } else {
+              //           // return CircleAvatar(
+              //           //   radius: 50.r, // Adjust radius as needed
+              //           //   backgroundColor: Colors.grey.shade200,
+              //           //   child: Image.network(
+              //           //     controller.userImage.value,
+              //           //     height: 100.h,
+              //           //     width: 100.w,
+              //           //   ),
+              //           // );
+              //
+              //           return CustomCachedImage(
+              //             imageUrl: controller.userImage.value,
+              //             type: CustomImageType.avatar,
+              //             radius: 50.r,
+              //           );
+              //         }
+              //       }),
+              //       Positioned(
+              //         bottom: 20.h,
+              //         right: -10,
+              //         child: Image.asset(ImagePath.profile)
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Center(
                 child: Stack(
                   clipBehavior: Clip.none,
@@ -57,8 +130,11 @@ class EditProfile extends StatelessWidget {
                             width: 105,
                             height: 105,
                           )
-                              : Center(
-                            child: Image.asset(ImagePath.profile),
+                              : CustomCachedImage(
+                            imageUrl:
+                            profileController.userProfile.value.profileImage.toString(),
+                            type: CustomImageType.avatar,
+                            radius: 50,
                           ),
                         ),
                       );
@@ -106,22 +182,22 @@ class EditProfile extends StatelessWidget {
                 hitText: 'Phone',
               ),
               SizedBox(height: 10.h,),
-              CustomTextField(
-                borderSide: BorderSide(
-                  color:Colors.grey.shade500,
-                ),
-                fillColor: Color(0xFFFFFFFF),
-                textEditingController:controller.dobTEC.value,
-                onTap: ()=>controller.pickDate(context),
-                suffixIcon: Icon(Icons.calendar_month,color: Colors.black,),
-                readOnly: true,
-                hitText: 'Birthday',
-              ),
+              // CustomTextField(
+              //   borderSide: BorderSide(
+              //     color:Colors.grey.shade500,
+              //   ),
+              //   fillColor: Color(0xFFFFFFFF),
+              //   textEditingController:controller.dobTEC.value,
+              //   onTap: ()=>controller.pickDate(context),
+              //   suffixIcon: Icon(Icons.calendar_month,color: Colors.black,),
+              //   readOnly: true,
+              //   hitText: 'Birthday',
+              // ),
               SizedBox(height: 20.h,),
               Obx(() {
-                return controller.isUploading.value?loader():CustomButton(
+                return controller.isUpdateProfileLoading.value?loader():CustomButton(
                   onPressed: () {
-                    controller.uploadProfileImage();
+                    controller.updateProfile();
                   },
                   text: 'Update',
                   // borderColor: Color(0xFF1F3892),

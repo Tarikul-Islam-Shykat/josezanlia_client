@@ -6,8 +6,6 @@ import 'package:prettyrini/core/const/image_path.dart';
 import 'package:prettyrini/core/global_widegts/custom_app_bar.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
-import 'package:prettyrini/route/route.dart';
-import '../controller/auth_controller.dart';
 import '../controller/forget_pasword_controller.dart';
 
 

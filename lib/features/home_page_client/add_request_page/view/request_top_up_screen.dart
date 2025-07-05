@@ -1,16 +1,22 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:prettyrini/core/const/app_loader.dart';
 import 'package:prettyrini/core/const/icons_path.dart';
 import 'package:prettyrini/core/style/global_text_style.dart';
 import 'package:prettyrini/features/Auth_Screen/screens/utils/show_success_dialog.dart';
 import 'package:prettyrini/features/Home_page_client/Add_request_page/controller/request_controller.dart';
 import 'package:prettyrini/features/Home_page_client/pay_now_screen/controller/pay_now_controller.dart';
+import 'package:prettyrini/features/invoice/controller/invoice_controller.dart';
 import 'package:prettyrini/route/route.dart';
 
 class RequestTopUpScreen extends StatelessWidget {
   RequestTopUpScreen({super.key});
   final TopUpController controller = Get.put(TopUpController());
+
+  final InvoiceController guidelineController = Get.find<InvoiceController>();
 
   @override
   Widget build(BuildContext context) {
@@ -175,12 +181,11 @@ class RequestTopUpScreen extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           TextField(
-            keyboardType:
-                TextInputType.numberWithOptions(), //For numeric keyboard.
-            decoration: const InputDecoration(
-              hintText: '636348727', // Placeholder text
-              border: OutlineInputBorder(),
-              prefixIcon: SizedBox(
+            controller: controller.transactionIdController,
+            decoration: InputDecoration(
+              hintText: 'Transaction ID', // Placeholder text
+              border: const OutlineInputBorder(),
+              prefixIcon: const SizedBox(
                 height: 18,
                 width: 18,
                 child: Padding(
@@ -191,49 +196,116 @@ class RequestTopUpScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          TextField(
-            decoration: const InputDecoration(
-              hintText: 'Attachment',
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.attach_file), // Added an icon
+          GestureDetector(
+            onTap: () async {
+              FilePickerResult? result = await FilePicker.platform.pickFiles(
+                type: FileType.custom,
+                allowedExtensions: ['pdf'],
+              );
+
+              if (result != null && result.files.single.path != null) {
+                // Store the selected PDF file path
+                controller.selectedPdfPath.value = result.files.single.path!;
+              }
+            },
+            child: Container(
+              height: 56,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black54),
+                borderRadius: BorderRadius.circular(4),
+                color: Colors.white,
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.attach_file, color: Colors.grey),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Obx(() {
+                      final fileName =
+                          controller.selectedPdfPath.value.isNotEmpty
+                              ? controller.selectedPdfPath.value.split('/').last
+                              : 'Attachment (PDF only)';
+                      return Text(
+                        fileName,
+                        style: TextStyle(
+                          color:
+                              fileName == 'Attachment (PDF only)'
+                                  ? Colors.grey
+                                  : Colors.black87,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      );
+                    }),
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 20),
           const Text(
             'Top Up Guidelines',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 10),
-          const Text(
-            'Upload clear proof of Payment\n'
-            '- A screenshot or photo of your M-Pesa/E-Mola/Bank/Other receipt.\n'
-            '\n'
-            '•\tYour mobile number or reference used.\n'
-            '•\tAmount Paid.\n'
-            '•\tDate and time of the payment.\n'
-            '\n'
-            'Only one file can be uploaded per request.\n'
-            'Once submitted, your request will be reviewed within 24 hours.\n'
-            '\n'
-            'You will receive a notification once your balance is updated.\n'
-            'If your request is missing details or unclear, it may be delayed or rejected.\n'
-            '\n'
-            'For help, contact ComunÁgua support via whatsapp or phone.',
-            style: TextStyle(fontSize: 14),
+          Padding(
+            padding: EdgeInsets.all(12.w),
+            child:
+                guidelineController.guidelineDescription != null
+                    ? SizedBox(
+                      width: double.infinity,
+                      child: SelectableText.rich(
+                        TextSpan(
+                          children: [
+                            WidgetSpan(
+                              child: Html(
+                                data: guidelineController.guidelineDescription,
+                                style: {
+                                  "body": Style(
+                                    fontSize: FontSize(14.sp),
+                                    color: Colors.black87,
+                                  ),
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                    : const SizedBox.shrink(),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
-              // Handle submit logic here
-              _submit(Get.context!);
+            onPressed: () async {
+              // Validation: Check if both fields are filled
+              if (controller.transactionIdController.text.trim().isEmpty ||
+                  controller.selectedPdfPath.value.isEmpty) {
+                Get.snackbar(
+                  'Incomplete Request',
+                  'Please enter Transaction ID and attach a PDF file',
+                  // backgroundColor: Colors.red.withOpacity(0.8),
+                  colorText: Colors.black,
+                  snackPosition: SnackPosition.TOP,
+                  snackStyle: SnackStyle.FLOATING,
+                );
+                return;
+              }
+              await _submit(Get.context!);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF0B3A3D),
               minimumSize: const Size(double.infinity, 50), // Full width button
             ),
-            child: Text(
-              'Submit',
-              style: globalTextStyle(color: Colors.white, fontSize: 16.sp),
+            child: Obx(
+              () =>
+                  controller.isLoading.value
+                      ? Center(child: loader())
+                      : Text(
+                        'Submit',
+                        style: globalTextStyle(
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                        ),
+                      ),
             ),
           ),
         ],
@@ -241,17 +313,24 @@ class RequestTopUpScreen extends StatelessWidget {
     );
   }
 
-  void _submit(BuildContext context) {
-    showSuccessDialog(
-      buttonText: 'Done',
-      context: context,
-      title: 'Success',
-      message: 'Please allow up to 24 hours for your receipt to be approved.',
-      image: Image.asset('assets/images/tick.png', height: 70.h, width: 70.w),
-      onDonePressed: () {
-        Get.toNamed(AppRoute.topUpInvoiceScreen);
-      },
-    );
+  Future<void> _submit(BuildContext context) async {
+    if (controller.isLoading.value) return;
+    controller.isLoading.value = true;
+    try {
+      await controller.fileupload(controller.transactionIdController.text);
+      showSuccessDialog(
+        buttonText: 'Done',
+        context: context,
+        title: 'Success',
+        message: 'Please allow up to 24 hours for your receipt to be approved.',
+        image: Image.asset('assets/images/tick.png', height: 70.h, width: 70.w),
+        onDonePressed: () {
+          Get.toNamed(AppRoute.topUpInvoiceScreen);
+        },
+      );
+    } finally {
+      controller.isLoading.value = false;
+    }
   }
 
   BuildPaymentContent() {

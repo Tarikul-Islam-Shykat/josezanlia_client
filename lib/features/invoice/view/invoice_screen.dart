@@ -11,27 +11,23 @@ import 'package:prettyrini/features/invoice/model/invoice_model.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:prettyrini/features/profile/controller/user_info_controller.dart';
 
 class InvoiceScreen extends StatelessWidget {
   InvoiceScreen({super.key, required this.arguments});
 
   final Map<String, Object> arguments;
   final InvoiceController controller = Get.find<InvoiceController>();
+  final UserProfileController userController =
+      Get.find<UserProfileController>();
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
     final args = arguments;
-
-    final personalInfo = PersonalInformation(
-      name: "Adam Click",
-      number: "8237339248",
-      location: "Saver, Dhaka",
-    );
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -253,21 +249,21 @@ class InvoiceScreen extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Name: ${personalInfo.name}",
+                                        "Name: ${userController.userProfile.value.consumer![0].firstName ?? 'N/A'}",
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           color: Colors.black87,
                                         ),
                                       ),
                                       Text(
-                                        "Number: ${personalInfo.number}",
+                                        "Number: ${userController.userProfile.value.phone ?? 'N/A'}",
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           color: Colors.black87,
                                         ),
                                       ),
                                       Text(
-                                        "Location: ${personalInfo.location}",
+                                        "Location: ${userController.userProfile.value.address ?? 'N/A'}",
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           color: Colors.black87,
@@ -306,6 +302,32 @@ class InvoiceScreen extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Meter No :",
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                          Text(
+                                            userController
+                                                    .userProfile
+                                                    .value
+                                                    .consumer![0]
+                                                    .meterNumber ??
+                                                'N/A',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14.sp,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -537,7 +559,7 @@ class InvoiceScreen extends StatelessWidget {
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       textAlign: TextAlign.start,
-                                      "  Observations",
+                                      "  Guidelines",
                                       style: TextStyle(
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.bold,
@@ -635,12 +657,14 @@ class InvoiceScreen extends StatelessWidget {
                                           ),
                                         ),
                                         pw.SizedBox(height: 10),
-                                        pw.Text('Name: ${personalInfo.name}'),
                                         pw.Text(
-                                          'Number: ${personalInfo.number}',
+                                          'Name: ${userController.userProfile.value.consumer![0].firstName ?? 'N/A'}',
                                         ),
                                         pw.Text(
-                                          'Location: ${personalInfo.location}',
+                                          'Number: ${userController.userProfile.value.phone ?? 'N/A'}',
+                                        ),
+                                        pw.Text(
+                                          'Location: ${userController.userProfile.value.address ?? 'N/A'}',
                                         ),
                                         pw.SizedBox(height: 20),
                                         pw.Text(
@@ -651,6 +675,24 @@ class InvoiceScreen extends StatelessWidget {
                                           ),
                                         ),
                                         pw.SizedBox(height: 10),
+                                        pw.Row(
+                                          mainAxisAlignment:
+                                              pw.MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            pw.Text('Meter No:'),
+                                            pw.Text(
+                                              userController
+                                                      .userProfile
+                                                      .value
+                                                      .consumer![0]
+                                                      .meterNumber ??
+                                                  'N/A',
+                                              style: pw.TextStyle(
+                                                fontWeight: pw.FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                         pw.Row(
                                           mainAxisAlignment:
                                               pw.MainAxisAlignment.spaceBetween,
@@ -785,9 +827,11 @@ class InvoiceScreen extends StatelessWidget {
                                     },
                                   ),
                                 );
-                                final output = await getDownloadsDirectory();
+                                final output = Directory(
+                                  '/storage/emulated/0/Download',
+                                );
                                 final file = File(
-                                  "${output?.path}/invoice_${DateTime.now().millisecondsSinceEpoch}.pdf",
+                                  "${output.path}/invoice_${DateTime.now().millisecondsSinceEpoch}.pdf",
                                 );
                                 await file.writeAsBytes(await pdf.save());
                                 Fluttertoast.showToast(

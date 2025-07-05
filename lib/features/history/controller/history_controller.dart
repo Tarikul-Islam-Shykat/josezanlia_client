@@ -1,19 +1,27 @@
 // controllers/history_controller.dart
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:prettyrini/core/repository/network_caller/endpoints.dart';
 import 'package:prettyrini/core/repository/network_caller/network_config.dart';
 import 'package:prettyrini/features/invoice/controller/invoice_controller.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:prettyrini/features/profile/controller/user_info_controller.dart';
 import '../model/history_model.dart';
 
 class HistoryController extends GetxController {
   final InvoiceController invoiceController = Get.put(InvoiceController());
-
+  final UserProfileController userController =
+      Get.find<UserProfileController>();
 
   Future<HistoryModel> fetchHistory() async {
     final networkcon = NetworkConfig();
-    final prefs = await SharedPreferences.getInstance();
-    final id = prefs.getString('id') ?? '684aa2023386147b777055fb';
+    final consumerList = userController.userProfile.value.consumer;
+    final id =
+        (consumerList != null &&
+                consumerList.isNotEmpty &&
+                consumerList[0].id != null)
+            ? consumerList[0].id
+            : 0;
     final url = '${Urls.history}/$id';
     final response = await networkcon.ApiRequestHandler(
       RequestMethod.GET,
@@ -38,6 +46,12 @@ class HistoryController extends GetxController {
 
   Future<void> loadHistory() async {
     isLoading.value = true;
+    // Wait for user profile to be loaded
+    while (userController.isLoading.value) {
+      await Future.delayed(Duration(milliseconds: 500));
+      log('Waiting for user profile to load...');
+    }
+    log('User profile loaded, proceeding to fetch history.');
     final historyModel = await fetchHistory();
     if (historyModel.success) {
       historyItems.value = historyModel.data.data;

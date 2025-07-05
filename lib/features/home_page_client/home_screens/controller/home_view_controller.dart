@@ -74,7 +74,7 @@ class WaterBillController extends GetxController {
     await SharedPreferencesHelper.saveUserPhoneNumber(userPhoneNumber);
     await SharedPreferencesHelper.saveUserWorkerId(userWorkerId);
 
-    String? userImage = await SharedPreferencesHelper.getUserProfileImage();
+
 
 
 

@@ -2,22 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:pinput/pinput.dart';
 import 'package:prettyrini/core/repository/network_caller/endpoints.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/global_widegts/custom_snack_bar.dart';
 import '../../../core/repository/network_caller/network_config.dart';
 import '../../../core/repository/services_class/local_service/shared_preferences_helper.dart';
 import '../../nav_bar/view/nav_bar_view.dart';
-import '../screens/login_screen.dart';
-import '../screens/otp_very_screen.dart';
-import '../screens/set_new_password_screen.dart';
-import '../screens/utils/show_success_dialog.dart';
 
 class AuthController extends GetxController {
   final TextEditingController emailOrPhoneController = TextEditingController();

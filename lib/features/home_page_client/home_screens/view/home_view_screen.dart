@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:prettyrini/core/const/app_loader.dart';
 import 'package:prettyrini/core/global_widegts/app_shimmer.dart';
 import 'package:prettyrini/features/Home_page_client/Add_request_page/view/request_top_up_screen.dart';
-import 'package:prettyrini/features/Home_page_client/home_screens/controller/home_view_controller.dart';
 import 'package:prettyrini/features/Home_page_client/pay_now_screen/view/pay_now_view_screen.dart';
 import '../../../../core/global_widegts/custom_cached_image.dart';
 import '../../../history/controller/history_controller.dart';
@@ -18,23 +15,28 @@ import '../model/get_all_reading_model.dart';
 
 class WaterBillHome extends StatelessWidget {
   WaterBillHome({super.key});
-  final ConsumerReadingController controller = Get.put(ConsumerReadingController(),);
+  final ConsumerReadingController controller = Get.put(
+    ConsumerReadingController(),
+  );
   final UserProfileController userController = Get.put(UserProfileController());
-  final NotificationController notificationController = Get.put(NotificationController(),);
+  final NotificationController notificationController = Get.put(
+    NotificationController(),
+  );
   final HistoryController historyController = Get.put(HistoryController());
 
   @override
   Widget build(BuildContext context) {
+    // Data fetching should be handled before routing to home screen, during login
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(Duration(milliseconds: 300), () {
+      if (!userController.isLoading.value &&
+          userController.userProfile.value.consumer != null &&
+          userController.userProfile.value.consumer!.isNotEmpty) {
         final userId = userController.userProfile.value.consumer?.first.id;
         if (userId != null) {
           controller.getConsumerReadings(userId);
         }
-      });
+      }
     });
-
-
 
     return Scaffold(
       backgroundColor: const Color(0xFFE3E3E3),
@@ -46,7 +48,7 @@ class WaterBillHome extends StatelessWidget {
               children: [
                 Obx(() {
                   if (userController.isLoading.value) {
-                    return boxShimmerPro(width: Get.width, height: 150);
+                    return boxShimmerPro(width: double.infinity, height: 100);
                   } else {
                     final data = userController.userProfile.value;
                     return Container(
@@ -122,13 +124,12 @@ class WaterBillHome extends StatelessWidget {
                             onTap: () {
                               Get.to(() => NotificationsView())?.then((_) {
                                 notificationController.readNotification();
-
                               });
                             },
                             child: Stack(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     color: const Color(
                                       0xFFE3E3E3,
@@ -138,7 +139,7 @@ class WaterBillHome extends StatelessWidget {
                                   child: const Icon(
                                     Icons.notifications_outlined,
                                     color: Colors.white,
-                                    size: 24,
+                                    size: 28,
                                   ),
                                 ),
                                 Positioned(
@@ -146,7 +147,9 @@ class WaterBillHome extends StatelessWidget {
                                   top: 0,
                                   child: Obx(() {
                                     final count =
-                                        notificationController.unreadCount;
+                                        notificationController
+                                            .notificationCount
+                                            .value;
                                     if (count == 0) {
                                       return SizedBox.shrink(); // No badge if none unread
                                     }
@@ -178,7 +181,7 @@ class WaterBillHome extends StatelessWidget {
 
                 Obx(() {
                   if (controller.isLoading.value) {
-                    return boxShimmerPro(width: Get.width, height: 400);
+                    return boxShimmerPro(width: Get.width, height: 100);
                   } else if (controller.readingList.isEmpty) {
                     return const Positioned(
                       top: 135,
@@ -201,7 +204,6 @@ class WaterBillHome extends StatelessWidget {
                     );
                   }
                 }),
-
               ],
             ),
             Padding(
@@ -218,7 +220,7 @@ class WaterBillHome extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: ()=>Get.to(()=>HistoryScreen()),
+                    onTap: () => Get.to(() => HistoryScreen()),
                     child: Text(
                       'See all',
                       style: TextStyle(
@@ -234,7 +236,10 @@ class WaterBillHome extends StatelessWidget {
             const SizedBox(height: 10),
             Obx(() {
               if (historyController.historyItems.isEmpty) {
-                return boxShimmerPro(width: Get.width, height: 150); // or placeholder
+                return boxShimmerPro(
+                  width: Get.width,
+                  height: 10,
+                ); // or placeholder
               }
               final item = historyController.historyItems[0];
               return GestureDetector(
@@ -256,7 +261,6 @@ class WaterBillHome extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _buildCurrentBill(ConsumerReadingModel data) {
     return Container(
@@ -333,26 +337,135 @@ class WaterBillHome extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Get.to(() => PaymentScreen());
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0B3A3D),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  minimumSize: const Size(double.infinity, 50),
-                ),
-                child: Text(
-                  'Pay Now',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFFFFFFFF),
-                  ),
-                ),
-              ),
+              data.status == 'DUE'
+                  ? ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: Get.context!,
+                        barrierDismissible: false,
+                        builder: (context) {
+                            return Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            backgroundColor: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.all(24.0),
+                              child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                Icons.payment_rounded,
+                                color: Color(0xFF0B3A3D),
+                                size: 48,
+                                ),
+                                const SizedBox(height: 16),
+                                const Text(
+                                'Confirm Payment',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF0B3A3D),
+                                ),
+                                ),
+                                const SizedBox(height: 12),
+                                const Text(
+                                'The amount of the bill will be deducted from your top-up balance. Do you want to proceed?',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                ),
+                                ),
+                                const SizedBox(height: 24),
+                                Row(
+                                children: [
+                                  Expanded(
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                    Navigator.of(context).pop();
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                    foregroundColor: Color(0xFF0B3A3D),
+                                    side: BorderSide(
+                                      color: Color(0xFF0B3A3D),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                    ),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                    Navigator.of(context).pop();
+                                    //TODO: Logic implementation
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xFF0B3A3D),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                    ),
+                                    child: const Text(
+                                    'Proceed',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    ),
+                                  ),
+                                  ),
+                                ],
+                                ),
+                              ],
+                              ),
+                            ),
+                            );
+                        },
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF0B3A3D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                    child: Text(
+                      'Pay Now',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFFFFFFFF),
+                      ),
+                    ),
+                  )
+                  : SizedBox.shrink(),
+              // ElevatedButton(
+              //   onPressed: () {},
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: const Color(0xFF0B3A3D).withOpacity(0.6),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //     ),
+              //     minimumSize: const Size(double.infinity, 50),
+              //   ),
+              //   child: Text(
+              //     'Thank You!',
+              //     style: TextStyle(
+              //       fontSize: 16,
+              //       fontWeight: FontWeight.w600,
+              //       color: Color(0xFFFFFFFF),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ],
@@ -375,8 +488,6 @@ class WaterBillHome extends StatelessWidget {
       ],
     );
   }
-
-
 
   Widget _buildTopUpButton() {
     return Container(
