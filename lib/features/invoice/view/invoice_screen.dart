@@ -249,7 +249,7 @@ class InvoiceScreen extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Name: ${userController.userProfile.value.userName ?? 'N/A'}",
+                                        "Name: ${userController.userProfile.value.consumer![0].firstName ?? 'N/A'}",
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           color: Colors.black87,
@@ -559,7 +559,7 @@ class InvoiceScreen extends StatelessWidget {
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       textAlign: TextAlign.start,
-                                      "  Observations",
+                                      "  Guidelines",
                                       style: TextStyle(
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.bold,
@@ -658,7 +658,7 @@ class InvoiceScreen extends StatelessWidget {
                                         ),
                                         pw.SizedBox(height: 10),
                                         pw.Text(
-                                          'Name: ${userController.userProfile.value.userName ?? 'N/A'}',
+                                          'Name: ${userController.userProfile.value.consumer![0].firstName ?? 'N/A'}',
                                         ),
                                         pw.Text(
                                           'Number: ${userController.userProfile.value.phone ?? 'N/A'}',

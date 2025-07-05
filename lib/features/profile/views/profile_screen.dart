@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:prettyrini/core/const/app_colors.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
-import 'package:prettyrini/features/chat/view/chat_view.dart';
 import 'package:prettyrini/features/profile/views/profile_edit.dart';
 import '../../../../../core/global_widegts/custom_cached_image.dart';
 import '../../chat_app/view/chat_screen.dart';
@@ -44,13 +43,15 @@ class ProfileScreen extends StatelessWidget {
                     type: CustomImageType.avatar,
                     radius: 50,
                   )
-                  : CircleAvatar(
-                    radius: 50.r,
-                    backgroundColor: Colors.grey.shade200,
-                    child: Image.asset(
-                      'assets/images/user11.png',
-                      height: 100.h,
-                      width: 100.w,
+                  : Container(
+                    width: 100.w,
+                    height: 100.h,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Center(
+                      child: Icon(Icons.person, color: Colors.white, size: 50),
                     ),
                   );
             }),
@@ -58,7 +59,7 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(height: 16.h),
             Obx(
               () => Text(
-                controller.userProfile.value.userName.toString(),
+                controller.userProfile.value.consumer![0].firstName.toString(),
                 style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ),

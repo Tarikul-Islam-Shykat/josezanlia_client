@@ -48,7 +48,7 @@ class WaterBillHome extends StatelessWidget {
               children: [
                 Obx(() {
                   if (userController.isLoading.value) {
-                    return boxShimmerPro(width: Get.width, height: 150);
+                    return boxShimmerPro(width: double.infinity, height: 100);
                   } else {
                     final data = userController.userProfile.value;
                     return Container(
@@ -129,7 +129,7 @@ class WaterBillHome extends StatelessWidget {
                             child: Stack(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     color: const Color(
                                       0xFFE3E3E3,
@@ -139,7 +139,7 @@ class WaterBillHome extends StatelessWidget {
                                   child: const Icon(
                                     Icons.notifications_outlined,
                                     color: Colors.white,
-                                    size: 24,
+                                    size: 28,
                                   ),
                                 ),
                                 Positioned(
@@ -181,7 +181,7 @@ class WaterBillHome extends StatelessWidget {
 
                 Obx(() {
                   if (controller.isLoading.value) {
-                    return boxShimmerPro(width: Get.width, height: 400);
+                    return boxShimmerPro(width: Get.width, height: 100);
                   } else if (controller.readingList.isEmpty) {
                     return const Positioned(
                       top: 135,
@@ -238,7 +238,7 @@ class WaterBillHome extends StatelessWidget {
               if (historyController.historyItems.isEmpty) {
                 return boxShimmerPro(
                   width: Get.width,
-                  height: 150,
+                  height: 10,
                 ); // or placeholder
               }
               final item = historyController.historyItems[0];
@@ -337,26 +337,135 @@ class WaterBillHome extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Get.to(() => PaymentScreen());
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0B3A3D),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  minimumSize: const Size(double.infinity, 50),
-                ),
-                child: Text(
-                  'Pay Now',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFFFFFFFF),
-                  ),
-                ),
-              ),
+              data.status == 'DUE'
+                  ? ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: Get.context!,
+                        barrierDismissible: false,
+                        builder: (context) {
+                            return Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            backgroundColor: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.all(24.0),
+                              child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                Icons.payment_rounded,
+                                color: Color(0xFF0B3A3D),
+                                size: 48,
+                                ),
+                                const SizedBox(height: 16),
+                                const Text(
+                                'Confirm Payment',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF0B3A3D),
+                                ),
+                                ),
+                                const SizedBox(height: 12),
+                                const Text(
+                                'The amount of the bill will be deducted from your top-up balance. Do you want to proceed?',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                ),
+                                ),
+                                const SizedBox(height: 24),
+                                Row(
+                                children: [
+                                  Expanded(
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                    Navigator.of(context).pop();
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                    foregroundColor: Color(0xFF0B3A3D),
+                                    side: BorderSide(
+                                      color: Color(0xFF0B3A3D),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                    ),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                    Navigator.of(context).pop();
+                                    //TODO: Logic implementation
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xFF0B3A3D),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(vertical: 14),
+                                    ),
+                                    child: const Text(
+                                    'Proceed',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    ),
+                                  ),
+                                  ),
+                                ],
+                                ),
+                              ],
+                              ),
+                            ),
+                            );
+                        },
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF0B3A3D),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                    child: Text(
+                      'Pay Now',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFFFFFFFF),
+                      ),
+                    ),
+                  )
+                  : SizedBox.shrink(),
+              // ElevatedButton(
+              //   onPressed: () {},
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: const Color(0xFF0B3A3D).withOpacity(0.6),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(8),
+              //     ),
+              //     minimumSize: const Size(double.infinity, 50),
+              //   ),
+              //   child: Text(
+              //     'Thank You!',
+              //     style: TextStyle(
+              //       fontSize: 16,
+              //       fontWeight: FontWeight.w600,
+              //       color: Color(0xFFFFFFFF),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ],

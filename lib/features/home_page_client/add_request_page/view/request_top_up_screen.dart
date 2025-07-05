@@ -243,6 +243,10 @@ class RequestTopUpScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
+          const Text(
+            'Top Up Guidelines',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
           Padding(
             padding: EdgeInsets.all(12.w),
             child:

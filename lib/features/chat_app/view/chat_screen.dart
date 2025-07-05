@@ -222,11 +222,10 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
+import 'package:prettyrini/core/const/app_colors.dart';
 
 import '../../../core/repository/services_class/local_service/shared_preferences_helper.dart';
 import '../controller/chats_controller.dart';
@@ -417,7 +416,6 @@ import '../model/message_model.dart';
 //   }
 // }
 
-
 class ChatPage extends StatelessWidget {
   final ChatController controller = Get.put(ChatController());
 
@@ -428,7 +426,7 @@ class ChatPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Chat'),
-        backgroundColor: Colors.blue,
+        backgroundColor: appGreenColor,
         foregroundColor: Colors.white,
       ),
       body: Column(
@@ -437,13 +435,12 @@ class ChatPage extends StatelessWidget {
           Expanded(
             child: Obx(() {
               if (controller.messages.isEmpty) {
-                return const Center(
-                  child: Text('No messages yet'),
-                );
+                return const Center(child: Text('No messages yet'));
               }
               return ListView.builder(
                 controller: controller.scrollController,
-                reverse: true, // This makes the list show newest messages at bottom
+                reverse:
+                    true, // This makes the list show newest messages at bottom
                 itemCount: controller.messages.length,
                 itemBuilder: (context, index) {
                   final message = controller.messages[index];
@@ -505,15 +502,20 @@ class ChatPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
-        mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment:
+            isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
           if (!isMe) ...[
-            _buildAvatar(message.sender?.profileImage, true), // Admin asset image
+            _buildAvatar(
+              message.sender?.profileImage,
+              true,
+            ), // Admin asset image
             const SizedBox(width: 8),
           ],
           Flexible(
             child: Column(
-              crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               children: [
                 if (!isMe && message.sender?.consumer.isNotEmpty == true)
                   Text(
@@ -525,9 +527,12 @@ class ChatPage extends StatelessWidget {
                     ),
                   ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
-                    color: isMe ? Colors.blue : Colors.grey[300],
+                    color: isMe ? appGreenColor : Colors.grey[300],
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Text(
@@ -544,17 +549,14 @@ class ChatPage extends StatelessWidget {
                   children: [
                     Text(
                       DateFormat('HH:mm').format(message.timestamp),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                     if (isMe) ...[
                       const SizedBox(width: 4),
                       Icon(
                         message.isRead ? Icons.done_all : Icons.done,
                         size: 16,
-                        color: message.isRead ? Colors.blue : Colors.grey,
+                        color: message.isRead ? appGreenColor : Colors.grey,
                       ),
                     ],
                   ],
@@ -607,16 +609,16 @@ class ChatPage extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Obx(() => FloatingActionButton(
-            mini: true,
-            onPressed: controller.isConnected.value
-                ? controller.sendMessage
-                : null,
-            backgroundColor: controller.isConnected.value
-                ? Colors.blue
-                : Colors.grey,
-            child: const Icon(Icons.send, color: Colors.white),
-          )),
+          Obx(
+            () => FloatingActionButton(
+              mini: true,
+              onPressed:
+                  controller.isConnected.value ? controller.sendMessage : null,
+              backgroundColor:
+                  controller.isConnected.value ? appGreenColor : Colors.grey,
+              child: const Icon(Icons.send, color: Colors.white),
+            ),
+          ),
         ],
       ),
     );
