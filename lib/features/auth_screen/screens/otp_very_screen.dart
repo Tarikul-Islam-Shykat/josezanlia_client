@@ -30,7 +30,7 @@ class OTPVerificationScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: Column(
               children: [
-                CustomAppBar(title: 'Verification Code', onBackPressed: () {
+                CustomAppBar(title: 'verification_code'.tr, onBackPressed: () {
                   controller.otpController.clear();
                 },),
 
@@ -61,7 +61,7 @@ class OTPVerificationScreen extends StatelessWidget {
                       controller.verifyOTP(email.toString());
 
                     },
-                    text: 'Verify',
+                    text: 'verify'.tr,
                     // borderColor: Color(0xFF1F3892),
                     textColor: Colors.white,
                     backgroundColor: appGreenColor,

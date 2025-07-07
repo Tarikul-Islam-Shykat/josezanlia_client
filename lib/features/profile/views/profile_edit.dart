@@ -39,7 +39,7 @@ class EditProfile extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: ListView(
             children: [
-              CustomAppBar(title: 'Edit Profile'),
+              CustomAppBar(title: 'edit_profile'.tr),
 
               SizedBox(height: 20.h,),
               // GestureDetector(
@@ -199,7 +199,7 @@ class EditProfile extends StatelessWidget {
                   onPressed: () {
                     controller.updateProfile();
                   },
-                  text: 'Update',
+                  text: 'update'.tr,
                   // borderColor: Color(0xFF1F3892),
                   textColor: Colors.white,
                   backgroundColor: Color(0xFF0B3A3D),

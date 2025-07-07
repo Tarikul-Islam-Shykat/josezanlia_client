@@ -80,7 +80,8 @@ class WaterBillHome extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Hello, ${data.consumer!.first.firstName}',
+                                    'hello'.tr +
+                                        ', ${data.consumer!.first.firstName}',
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
@@ -183,13 +184,13 @@ class WaterBillHome extends StatelessWidget {
                   if (controller.isLoading.value) {
                     return boxShimmerPro(width: Get.width, height: 100);
                   } else if (controller.readingList.isEmpty) {
-                    return const Positioned(
+                    return Positioned(
                       top: 135,
                       left: 20,
                       right: 20,
                       child: Center(
                         child: Text(
-                          'No billing data available',
+                          'no_billing_data'.tr,
                           style: TextStyle(fontSize: 16, color: Colors.black54),
                         ),
                       ),
@@ -212,7 +213,7 @@ class WaterBillHome extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Recent Payment',
+                    'recent_payment'.tr,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -222,7 +223,7 @@ class WaterBillHome extends StatelessWidget {
                   GestureDetector(
                     onTap: () => Get.to(() => HistoryScreen()),
                     child: Text(
-                      'See all',
+                      'see_all'.tr,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -247,7 +248,7 @@ class WaterBillHome extends StatelessWidget {
                   // handle tap
                 },
                 child: HistoryItemTile(
-                  title: "ComunAgua Water Bill",
+                  title: 'comunagua_water_bill'.tr,
                   date: item.paymentMonth,
                   status: item.status,
                 ),
@@ -284,7 +285,7 @@ class WaterBillHome extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Meter Number: ${data.meterNumber}',
+                'meter_number'.tr + ': ${data.meterNumber}',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -295,33 +296,39 @@ class WaterBillHome extends StatelessWidget {
             ],
           ),
           Text(
-            'Exp Date: ${data.expiredAt.toString()}',
+            'exp_date'.tr + ': ${data.expiredAt.toString()}',
             style: const TextStyle(fontSize: 14, color: Colors.grey),
           ),
           Divider(color: Color(0xFF0B3A3D)),
 
           Column(
             children: [
-              _buildBillRow('Current Reading:', '${data.currentReading} m³'),
+              _buildBillRow('current_reading'.tr, '${data.currentReading} m³'),
               const SizedBox(height: 15),
               _buildBillRow(
-                'Last Month Reading:',
+                'last_month_reading'.tr,
                 '${data.previousReading} m³',
               ),
               const SizedBox(height: 15),
-              _buildBillRow('Price Per m³:', '${data.perUnitCharge}'),
+              _buildBillRow('price_per_m3'.tr, '${data.perUnitCharge}'),
               const SizedBox(height: 15),
-              _buildBillRow('Minimum Fee:', '${data.minimumFee} '),
+              _buildBillRow('minimum_fee'.tr, '${data.minimumFee} '),
               Divider(color: Color(0xFF0B3A3D)),
               const SizedBox(height: 10),
-              _buildBillRow('Total Bill of this Month:', '${data.totalAmount}'),
+              _buildBillRow(
+                'total_bill_of_this_month'.tr,
+                '${data.totalAmount}',
+              ),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'The Status of Bill:',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  Text(
+                    'status'.tr,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   Text(
                     data.status.toString(),
@@ -344,7 +351,7 @@ class WaterBillHome extends StatelessWidget {
                         context: Get.context!,
                         barrierDismissible: false,
                         builder: (context) {
-                            return Dialog(
+                          return Dialog(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -352,82 +359,88 @@ class WaterBillHome extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(24.0),
                               child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                Icons.payment_rounded,
-                                color: Color(0xFF0B3A3D),
-                                size: 48,
-                                ),
-                                const SizedBox(height: 16),
-                                const Text(
-                                'Confirm Payment',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF0B3A3D),
-                                ),
-                                ),
-                                const SizedBox(height: 12),
-                                const Text(
-                                'The amount of the bill will be deducted from your top-up balance. Do you want to proceed?',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black87,
-                                ),
-                                ),
-                                const SizedBox(height: 24),
-                                Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Expanded(
-                                  child: OutlinedButton(
-                                    onPressed: () {
-                                    Navigator.of(context).pop();
-                                    },
-                                    style: OutlinedButton.styleFrom(
-                                    foregroundColor: Color(0xFF0B3A3D),
-                                    side: BorderSide(
+                                  Icon(
+                                    Icons.payment_rounded,
+                                    color: Color(0xFF0B3A3D),
+                                    size: 48,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    'confirm_payment'.tr,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
                                       color: Color(0xFF0B3A3D),
                                     ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(vertical: 14),
-                                    ),
-                                    child: const Text('Cancel'),
                                   ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                    Navigator.of(context).pop();
-                                    //TODO: Logic implementation
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xFF0B3A3D),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(vertical: 14),
-                                    ),
-                                    child: const Text(
-                                    'Proceed',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    'confirm_payment_message'.tr,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black87,
                                     ),
                                   ),
+                                  const SizedBox(height: 24),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                            foregroundColor: Color(0xFF0B3A3D),
+                                            side: BorderSide(
+                                              color: Color(0xFF0B3A3D),
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 14,
+                                            ),
+                                          ),
+                                          child: Text('cancel'.tr),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            //TODO: Logic implementation
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Color(0xFF0B3A3D),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 14,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'proceed'.tr,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
-                                ),
-                              ],
                               ),
                             ),
-                            );
+                          );
                         },
                       );
                     },
@@ -439,8 +452,8 @@ class WaterBillHome extends StatelessWidget {
                       minimumSize: const Size(double.infinity, 50),
                     ),
                     child: Text(
-                      'Pay Now',
-                      style: TextStyle(
+                      'pay_now'.tr,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFFFFFFFF),
@@ -501,9 +514,9 @@ class WaterBillHome extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           minimumSize: const Size(double.infinity, 50),
         ),
-        child: const Text(
-          'Instant Top Up',
-          style: TextStyle(
+        child: Text(
+          'instant_top_up'.tr,
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
             color: Color(0xFFFFFFFF),

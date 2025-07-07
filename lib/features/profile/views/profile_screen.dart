@@ -30,9 +30,9 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 16.h),
-            const Text(
-              'Profile',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Text(
+              'profile'.tr,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16.h),
             Obx(() {
@@ -96,7 +96,7 @@ class ProfileScreen extends StatelessWidget {
                     onPressed: () {
                       Get.to(() => EditProfile());
                     },
-                    text: 'Edit Profile',
+                    text: 'edit_profile'.tr,
                     textColor: Colors.black,
                     borderRadius: 12.r,
                   ),
@@ -112,7 +112,7 @@ class ProfileScreen extends StatelessWidget {
                     onPressed: () {
                       Get.to(() => ChangePasswordView());
                     },
-                    text: 'Change Password',
+                    text: 'change_password'.tr,
                     textColor: Colors.black,
                     borderRadius: 12.r,
                   ),
@@ -124,6 +124,23 @@ class ProfileScreen extends StatelessWidget {
                     onPressed: () {},
                     text:
                         "${controller.userProfile.value.consumer!.first.meterNumber}",
+                    textColor: Colors.black,
+                    borderRadius: 12.r,
+                  ),
+                  SizedBox(height: 10.h),
+                  CustomButton(
+                    prefixIconPath: 'assets/images/language.png',
+                    borderSide: const BorderSide(color: Color(0xFFE6E6E6)),
+                    backgroundColor: Colors.white,
+                    onPressed: () {
+                      var locale = Get.locale;
+                      if (locale?.languageCode == 'en') {
+                        Get.updateLocale(const Locale('pt', 'BR'));
+                      } else {
+                        Get.updateLocale(const Locale('en', 'US'));
+                      }
+                    },
+                    text: 'change_language'.tr,
                     textColor: Colors.black,
                     borderRadius: 12.r,
                   ),
@@ -159,7 +176,7 @@ class ProfileScreen extends StatelessWidget {
                               //   width: 80.w,
                               // ),
                               Text(
-                                'Are You Sure?',
+                                'are_you_sure'.tr,
                                 style: TextStyle(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.bold,
@@ -168,7 +185,7 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Do you want to log out?',
+                                'do_you_want_to_logout'.tr,
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   color: Colors.grey,
@@ -201,7 +218,7 @@ class ProfileScreen extends StatelessWidget {
                                       ),
                                     ),
                                     child: Text(
-                                      'Log Out',
+                                      'logout'.tr,
                                       style: TextStyle(
                                         fontSize: 14.sp,
                                         color: Colors.black,
@@ -225,7 +242,7 @@ class ProfileScreen extends StatelessWidget {
                                       ),
                                     ),
                                     child: Text(
-                                      'Cancel',
+                                      'cancel'.tr,
                                       style: TextStyle(
                                         fontSize: 14.sp,
                                         color: Colors.white,
@@ -240,7 +257,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    text: 'Log Out',
+                    text: 'logout'.tr,
                     textColor: Colors.black,
                     borderRadius: 12.r,
                   ),
@@ -259,7 +276,7 @@ class ProfileScreen extends StatelessWidget {
                   onPressed: () {
                     Get.to(() => ChatPage());
                   },
-                  text: 'Message',
+                  text: 'message'.tr,
                 ),
                 SizedBox(width: 5.w),
                 CustomButton(
@@ -268,7 +285,7 @@ class ProfileScreen extends StatelessWidget {
                   backgroundColor: appGreenColor,
                   borderRadius: 10.r,
                   onPressed: () {},
-                  text: 'Call',
+                  text: 'call'.tr,
                 ),
               ],
             ),

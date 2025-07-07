@@ -25,7 +25,7 @@ class WaterUseView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomAppBar(title: 'Monthly Water Use', showBackButton: false),
+                CustomAppBar(title: 'monthly_water_use'.tr, showBackButton: false),
                 SizedBox(height: 10.h),
 
             Obx((){
@@ -33,7 +33,7 @@ class WaterUseView extends StatelessWidget {
               if (waterController.isLoading.value) {
                 return loader();
               }else if(selectedData == null){
-                return Center(child: Text("No data available"));
+                return Center(child: Text('no_data_available'.tr));
               }else{
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,7 +125,7 @@ class WaterUseView extends StatelessWidget {
                   if (waterController.isLoading.value) {
                     return loader();
                   }else if(selectedData == null){
-                    return Center(child: Text("No data available"));
+                    return Center(child: Text('no_data_available'.tr));
                   }else{
                     return Card(
                       elevation: 2,
@@ -138,17 +138,17 @@ class WaterUseView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Meter Number: ${selectedData.meterNumber ?? '-'}",
+                                "${'meter_no'.tr}: ${selectedData.meterNumber ?? '-'}",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10),
-                            detailRow("Current Reading", "${selectedData.currentReading ?? '-'} m³"),
-                            detailRow("Last Month Reading", "${selectedData.previousReading ?? '-'} m³"),
-                            detailRow("Price Per m³", "${selectedData.perUnitCharge ?? '-'} MZN"),
-                            detailRow("Minimum Fee", "${selectedData.minimumFee ?? '-'} MZN"),
+                            detailRow('current_reading'.tr, "${selectedData.currentReading ?? '-'} m³"),
+                            detailRow('previous_reading'.tr, "${selectedData.previousReading ?? '-'} m³"),
+                            detailRow('per_unit_charge'.tr, "${selectedData.perUnitCharge ?? '-'} MZN"),
+                            detailRow('minimum_bill'.tr, "${selectedData.minimumFee ?? '-'} MZN"),
                             Divider(),
-                            detailRow("Total Bill", "${selectedData.totalAmount ?? '-'} MZN"),
-                            detailRow("Status", "${selectedData.status ?? '-'}",
+                            detailRow('total_amount'.tr, "${selectedData.totalAmount ?? '-'} MZN"),
+                            detailRow('status'.tr, "${selectedData.status ?? '-'}",
                               highlight: selectedData.status?.toLowerCase() == "due",
                             ),
                           ],
@@ -163,7 +163,7 @@ class WaterUseView extends StatelessWidget {
 
                 SizedBox(height: 20),
                 Text(
-                  "Monthwise Report",
+                  'monthwise_report'.tr,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 15),
@@ -181,7 +181,7 @@ class WaterUseView extends StatelessWidget {
                     if (snapshot.hasError) {
                       return SizedBox(
                         height: 250,
-                        child: Center(child: Text('Error loading chart data')),
+                        child: Center(child: Text('error_loading_chart_data'.tr)),
                       );
                     }
 
@@ -212,9 +212,9 @@ class WaterUseView extends StatelessWidget {
                                 reservedSize: 60,
                                 getTitlesWidget: (value, meta) {
                                   final monthIndex = value.toInt();
-                                  const monthLabels = [
-                                    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+                                  final monthLabels = [
+                                    'january'.tr, 'february'.tr, 'march'.tr, 'april'.tr, 'may'.tr, 'june'.tr,
+                                    'july'.tr, 'august'.tr, 'september'.tr, 'october'.tr, 'november'.tr, 'december'.tr
                                   ];
                                   if (monthIndex < monthLabels.length) {
                                     return SideTitleWidget(
@@ -222,7 +222,7 @@ class WaterUseView extends StatelessWidget {
                                       space: 5,
                                       child: Transform.rotate(
                                         angle: -0.785398,
-                                        child: Text(monthLabels[monthIndex], style: TextStyle(fontSize: 10)),
+                                        child: Text(monthLabels[monthIndex].substring(0, 3), style: TextStyle(fontSize: 10)),
                                       ),
                                     );
                                   }

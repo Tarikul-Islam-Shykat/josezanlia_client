@@ -1,13 +1,14 @@
 // widgets/history_item_tile.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class HistoryItemTile extends StatelessWidget {
   final String title;
   final String date;
   final String status;
 
-  const HistoryItemTile({
+    HistoryItemTile({
     super.key,
     required this.title,
     required this.date,
@@ -38,7 +39,7 @@ class HistoryItemTile extends StatelessWidget {
           maxLines: 1,
         ),
         subtitle: Text(
-          'Date: $date',
+          'date'.tr + ': $date',
           style: TextStyle(
             fontWeight: FontWeight.normal,
             color: Colors.black54,

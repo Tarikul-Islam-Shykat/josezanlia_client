@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:prettyrini/features/history/view/history_view.dart';
-import 'package:prettyrini/features/splash_screen/screen/splash_screen.dart';
 import 'core/const/app_colors.dart';
 import 'route/route.dart';
+import 'core/localization/app_translations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,8 +40,11 @@ class MyApp extends StatelessWidget {
           (context, child) => GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Josezanlia_Client',
+            translations: AppTranslations(),
+            locale: const Locale('pt', 'BR'),
+            fallbackLocale: const Locale('en', 'US'),
             getPages: AppRoute.routes,
-             initialRoute: AppRoute.splashScreen,
+            initialRoute: AppRoute.splashScreen,
             builder: EasyLoading.init(),
 
             //home: SplashScreen(),

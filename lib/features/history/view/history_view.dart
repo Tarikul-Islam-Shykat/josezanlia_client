@@ -18,9 +18,9 @@ class HistoryScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFF9F9F9),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          'History',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        title: Text(
+          'history'.tr,
+          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -57,7 +57,7 @@ class HistoryScreen extends StatelessWidget {
                         );
                       },
                       child: HistoryItemTile(
-                        title: "ComunAgua Water Bill",
+                        title: 'comunagua_water_bill'.tr,
                         date: item.paymentMonth,
                         status: item.status,
                       ),

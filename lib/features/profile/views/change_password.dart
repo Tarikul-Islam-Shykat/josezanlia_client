@@ -56,7 +56,7 @@ class ChangePasswordView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomAppBar(title: 'Change Password'),
+              CustomAppBar(title: 'change_password'.tr),
 
               SizedBox(height: 30.h),
 
@@ -70,7 +70,7 @@ class ChangePasswordView extends StatelessWidget {
                     ),
                     prefixIconPath: 'assets/images/lock.png',
                     //width: screenWidth * 0.9,
-                    hitText: 'Current Password',
+                    hitText: 'current_password'.tr,
                     textEditingController: controller.changeOldPasswordController,
                     fontSize: fontSize16,
                     fontWeight: FontWeight.w400,
@@ -106,7 +106,7 @@ class ChangePasswordView extends StatelessWidget {
                     ),
                     prefixIconPath: 'assets/images/lock.png',
                     //width: screenWidth * 0.9,
-                    hitText: 'New Password',
+                    hitText: 'new_password'.tr,
                     textEditingController: controller.changeNewPasswordController,
                     fontSize: fontSize16,
                     fontWeight: FontWeight.w400,
@@ -166,7 +166,7 @@ class ChangePasswordView extends StatelessWidget {
                     controller.changePassword();
 
                   },
-                  text: 'Update',
+                  text: 'update'.tr,
                   // borderColor: Color(0xFF1F3892),
                   textColor: Colors.white,
                   backgroundColor: appGreenColor,
