@@ -2,11 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:prettyrini/core/const/app_colors.dart';
 import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/features/profile/views/profile_edit.dart';
 import '../../../../../core/global_widegts/custom_cached_image.dart';
-import '../../chat_app/view/chat_screen.dart';
+import '../../chat/view/chat_screen.dart';
 import '../controller/user_info_controller.dart';
 import 'change_password.dart';
 
@@ -132,12 +133,15 @@ class ProfileScreen extends StatelessWidget {
                     prefixIconPath: 'assets/images/language.png',
                     borderSide: const BorderSide(color: Color(0xFFE6E6E6)),
                     backgroundColor: Colors.white,
-                    onPressed: () {
+                    onPressed: () async {
+                      final prefs = await SharedPreferences.getInstance();
                       var locale = Get.locale;
                       if (locale?.languageCode == 'en') {
                         Get.updateLocale(const Locale('pt', 'BR'));
+                        await prefs.setString('locale', 'pt_BR');
                       } else {
                         Get.updateLocale(const Locale('en', 'US'));
+                        await prefs.setString('locale', 'en_US');
                       }
                     },
                     text: 'change_language'.tr,
@@ -147,10 +151,10 @@ class ProfileScreen extends StatelessWidget {
                   SizedBox(height: 10.h),
                   CustomButton(
                     prefixIconPath: 'assets/images/logout.png',
-                    suffixIcon: Transform.rotate(
-                      angle: 3.14159,
-                      child: const Icon(Icons.arrow_back_ios_new_rounded),
-                    ),
+                    // suffixIcon: Transform.rotate(
+                    //   angle: 3.14159,
+                    //   child: const Icon(Icons.arrow_back_ios_new_rounded),
+                    // ),
                     borderSide: const BorderSide(color: Color(0xFFE6E6E6)),
                     backgroundColor: Colors.white,
                     onPressed: () {
@@ -213,8 +217,8 @@ class ProfileScreen extends StatelessWidget {
                                         ),
                                       ),
                                       padding: const EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                        vertical: 10,
+                                        horizontal: 22,
+                                        vertical: 12,
                                       ),
                                     ),
                                     child: Text(
@@ -274,7 +278,14 @@ class ProfileScreen extends StatelessWidget {
                   backgroundColor: appGreenColor,
                   borderRadius: 10.r,
                   onPressed: () {
-                    Get.to(() => ChatPage());
+                    Get.to(
+                      () => ChatScreen(
+                        receiverId: '',
+                        name: 'Admin',
+                        imageUrl:
+                            'https://nyc3.digitaloceanspaces.com/smtech-space/nathancloud/1751706610563_d5f7b2bc-b2c7-4932-80d5-b1461310e4de_86709500-59F7-479F-8A75-3FDF0D2D7CB1%201.png',
+                      ),
+                    );
                   },
                   text: 'message'.tr,
                 ),

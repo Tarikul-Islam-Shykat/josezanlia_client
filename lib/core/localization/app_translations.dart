@@ -134,7 +134,7 @@ class AppTranslations extends Translations {
     'en_US': {
       'profile': 'Profile',
       'my_account': 'My Account',
-      'change_language': 'Change Language',
+      'change_language': 'Switch Language',
       'logout': 'Logout',
       'edit_profile': 'Edit Profile',
       'change_password': 'Change Password',

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:prettyrini/core/global_widegts/app_shimmer.dart';
 import 'package:prettyrini/features/Home_page_client/Add_request_page/view/request_top_up_screen.dart';
-import 'package:prettyrini/features/Home_page_client/pay_now_screen/view/pay_now_view_screen.dart';
 import '../../../../core/global_widegts/custom_cached_image.dart';
 import '../../../history/controller/history_controller.dart';
 import '../../../history/view/history_view.dart';
