@@ -54,7 +54,6 @@ class SharedPreferencesHelper {
 
   // Retrieve user profile image
   static Future<String?> getUserProfileImage() async {
-
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(_userProfileImage);
   }
@@ -101,13 +100,9 @@ class SharedPreferencesHelper {
     await prefs.setString(_userWorkerId, workerId);
   }
 
-
   // Retrieve user worker Id
   static Future<String?> getUserWorkerId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(_userWorkerId);
   }
-
-
-
 }

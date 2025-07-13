@@ -51,10 +51,10 @@ class WaterBillHome extends StatelessWidget {
                   } else {
                     final data = userController.userProfile.value;
                     return Container(
-                      margin: EdgeInsets.only(bottom: 400),
+                      margin: EdgeInsets.only(bottom: 350),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
-                        vertical: 50,
+                        vertical: 20,
                       ),
                       width: double.infinity,
                       decoration: const BoxDecoration(

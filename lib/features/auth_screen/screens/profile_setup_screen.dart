@@ -39,7 +39,7 @@ class ProfileSetupScreen extends StatelessWidget {
                         width: 50,
                       ),
                       Text(
-                        "Foot & Fitness",
+                        "comunagua".tr,
                         style: globalTextStyle(
                           color: Color(0xff216CCE),
                           fontSize: 24,
@@ -180,7 +180,7 @@ class ProfileSetupScreen extends StatelessWidget {
                         controller.dobNameTEController.text.isEmpty ||
                         controller.heightNameTEController.text.isEmpty ||
                         controller.weightNameTEController.text.isEmpty) {
-                      Get.snackbar("Error", "Please fill all fields");
+                      Get.snackbar('error'.tr, 'please_fill_all_fields'.tr);
                     } else {
                       //Get.to(() => OnbordingOne());
                     }

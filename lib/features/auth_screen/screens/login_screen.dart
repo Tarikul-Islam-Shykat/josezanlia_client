@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
                             textEditingController:
                                 controller.emailOrPhoneController,
                             keyboardType: TextInputType.emailAddress,
-                            hitText: 'email'.tr,
+                            hitText: 'email or phone number'.tr,
 
                             // keyboardType: TextInputType.phone,
                             // validator: _phoneValidator, // Commented out per request

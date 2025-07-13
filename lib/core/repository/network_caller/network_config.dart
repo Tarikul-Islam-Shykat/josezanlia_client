@@ -10,7 +10,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum RequestMethod { GET, POST,PATCH, PUT, DELETE }
+enum RequestMethod { GET, POST, PATCH, PUT, DELETE }
+
 class NetworkConfig {
   Future ApiRequestHandler(
     RequestMethod method,
@@ -36,14 +37,14 @@ class NetworkConfig {
 
           print(req.statusCode);
           if (req.statusCode == 200 || req.statusCode == 201) {
-
             if (kDebugMode) {
               print("json.decode(req.body) ${json.decode(req.body)}");
             }
 
-
             return json.decode(req.body);
-          } else if (req.statusCode == 201) {
+          } else if (req.statusCode == 401 ||
+              req.statusCode == 403 ||
+              req.statusCode == 404) {
             return json.decode(req.body);
           } else {
             throw Exception("Server Error");
@@ -72,13 +73,13 @@ class NetworkConfig {
         } catch (e) {
           ShowError(e);
         }
-      }else if (method.name == RequestMethod.PATCH.name) {
-
+      } else if (method.name == RequestMethod.PATCH.name) {
         try {
-
-        var req = await http.patch(Uri.parse(url),
-              headers: header,
-              body: json_body);
+          var req = await http.patch(
+            Uri.parse(url),
+            headers: header,
+            body: json_body,
+          );
 
           log("RESPONSE BODY:${req.body}");
           log("RESPONSE STATUS CODE:${req.statusCode}");
@@ -99,8 +100,11 @@ class NetworkConfig {
         }
       } else if (method.name == RequestMethod.PUT.name) {
         try {
-          var req =
-          await http.put(Uri.parse(url), headers: header, body: json_body);
+          var req = await http.put(
+            Uri.parse(url),
+            headers: header,
+            body: json_body,
+          );
 
           if (kDebugMode) {
             print("At Put Request: ${req.statusCode}");

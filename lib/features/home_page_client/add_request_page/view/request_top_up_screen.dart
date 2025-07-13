@@ -44,7 +44,8 @@ class RequestTopUpScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(
                       left: 20.0,
                       right: 20.0,
-                      // top: 60.0,
+                      top: 20.0,
+                      bottom: 20.0,
                     ),
                     child: Column(
                       children: [
@@ -300,7 +301,7 @@ class RequestTopUpScreen extends StatelessWidget {
                   controller.isLoading.value
                       ? Center(child: loader())
                       : Text(
-                          'submit'.tr,
+                        'submit'.tr,
                         style: globalTextStyle(
                           color: Colors.white,
                           fontSize: 16.sp,

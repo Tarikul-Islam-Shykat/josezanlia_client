@@ -18,7 +18,7 @@ void main() async {
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform,
   // );
-  runApp(MyApp(lang: lang));
+  runApp(SafeArea(child: MyApp(lang: lang)));
 }
 
 void configEasyLoading() {

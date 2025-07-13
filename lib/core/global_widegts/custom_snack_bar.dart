@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 void showSnackBar(bool isSuccess, String message) {
   Get.snackbar(
-    isSuccess ? "Success" : "Error",
+    isSuccess ? 'success'.tr : 'error'.tr,
     message,
     snackPosition: SnackPosition.TOP,
     backgroundColor: isSuccess ? Colors.green : Colors.red,

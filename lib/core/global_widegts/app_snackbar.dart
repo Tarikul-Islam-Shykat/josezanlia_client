@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 class AppSnackbar {
   static void show({required String message, required bool isSuccess}) {
     Get.snackbar(
-      isSuccess ? 'Success' : 'Error',
+      isSuccess ? 'success'.tr : 'error'.tr,
       message,
       messageText: Text(
         message,
@@ -33,7 +33,7 @@ class AppSnackbar {
           foregroundColor: Colors.white,
         ),
         child: Text(
-          'Dismiss',
+          'dismiss'.tr,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),

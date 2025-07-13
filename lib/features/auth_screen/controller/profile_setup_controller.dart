@@ -91,13 +91,13 @@ class ProfileSetupController extends GetxController {
       if (image != null) {
         imagePath.value = image.path;
         GetSnackBar(
-          title: "Image Selected",
-          message: "You have successfully selected an image.",
+          title: 'image_selected'.tr,
+          message: 'you_have_successfully_selected_an_image'.tr,
         );
       } else {
         GetSnackBar(
-          title: "No Image Selected",
-          message: "You didn't select any image.",
+          title: 'no_image_selected'.tr,
+          message: 'you_didnt_select_any_image'.tr,
         );
       }
     } catch (e) {
@@ -113,7 +113,7 @@ class ProfileSetupController extends GetxController {
     String? token = prefs.getString('token');
 
     if (token == null || token.isEmpty) {
-      GetSnackBar(title: "Error", message: "Authorization token not found.");
+      GetSnackBar(title: 'error'.tr, message: 'authorization_token_not_found'.tr);
       return;
     }
 
@@ -155,8 +155,8 @@ class ProfileSetupController extends GetxController {
         request.files.add(multipartFile);
       } else {
         GetSnackBar(
-          title: "File Error",
-          message: "The selected image file does not exist.",
+          title: 'file_error'.tr,
+          message: 'the_selected_image_file_does_not_exist'.tr,
         );
         return;
       }
@@ -171,20 +171,20 @@ class ProfileSetupController extends GetxController {
         if (kDebugMode) {
           print('Response Body: ${response.body}');
         }
-        GetSnackBar(title: "Success", message: "Profile updated successfully.");
+        GetSnackBar(title: 'success'.tr, message: 'profile_updated_successfully'.tr);
         //Get.offAll(() => SubscriptionScreen());
       } else {
         if (kDebugMode) {
           print('Error Response Body: ${response.body}');
         }
         GetSnackBar(
-          title: "Error",
+          title: 'error'.tr,
           message:
-              "Failed to update profile. Status code: ${response.statusCode}",
+              'failed_to_update_profile'.trArgs([response.statusCode.toString()]),
         );
       }
     } catch (e) {
-      GetSnackBar(title: "Exception", message: "An error occurred: $e");
+      GetSnackBar(title: 'exception'.tr, message: 'an_error_occurred'.trArgs([e.toString()]));
     } finally {
       EasyLoading.dismiss();
     }

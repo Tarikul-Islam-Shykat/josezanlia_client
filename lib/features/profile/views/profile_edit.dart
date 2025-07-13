@@ -24,24 +24,21 @@ class EditProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            Color(0xFFCFE4DD),
-            Color(0xFFF1F3F3),
-          ],
+          gradient: LinearGradient(
+            colors: [Color(0xFFCFE4DD), Color(0xFFF1F3F3)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
         alignment: Alignment.topCenter,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
           child: ListView(
             children: [
               CustomAppBar(title: 'edit_profile'.tr),
 
-              SizedBox(height: 20.h,),
+              SizedBox(height: 20.h),
               // GestureDetector(
               //   onTap: () async {
               //     final ImagePicker picker = ImagePicker();
@@ -113,7 +110,7 @@ class EditProfile extends StatelessWidget {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    Obx((){
+                    Obx(() {
                       return Container(
                         height: 100,
                         width: 100,
@@ -123,65 +120,65 @@ class EditProfile extends StatelessWidget {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
-                          child:controller.profileImage.value != null
-                              ? Image.file(
-                            controller.profileImage.value!,
-                            fit: BoxFit.cover,
-                            width: 105,
-                            height: 105,
-                          )
-                              : CustomCachedImage(
-                            imageUrl:
-                            profileController.userProfile.value.profileImage.toString(),
-                            type: CustomImageType.avatar,
-                            radius: 50,
-                          ),
+                          child:
+                              controller.profileImage.value != null
+                                  ? Image.file(
+                                    controller.profileImage.value!,
+                                    fit: BoxFit.cover,
+                                    width: 105,
+                                    height: 105,
+                                  )
+                                  : CustomCachedImage(
+                                    imageUrl:
+                                        profileController
+                                            .userProfile
+                                            .value
+                                            .profileImage
+                                            .toString(),
+                                    type: CustomImageType.avatar,
+                                    radius: 50,
+                                  ),
                         ),
                       );
-                    }
-                    ),
+                    }),
                     Positioned(
                       bottom: 1,
                       right: 1,
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           _showImagePickerOptions(context);
                         },
                         child: Container(
                           height: 30,
                           width: 30,
                           decoration: BoxDecoration(
-                              borderRadius:BorderRadius.circular(100),
-                              color: Colors.grey.shade200
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.grey.shade200,
                           ),
                           alignment: Alignment.center,
                           child: Icon(Icons.camera_alt),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
-              SizedBox(height: 20.h,),
+              SizedBox(height: 20.h),
               CustomTextField(
-                borderSide: BorderSide(
-                  color:Colors.grey.shade500,
-                ),
+                borderSide: BorderSide(color: Colors.grey.shade500),
                 fillColor: Color(0xFFFFFFFF),
-                textEditingController:controller.nameTEC.value,
+                textEditingController: controller.nameTEC.value,
                 hitText: 'Name',
               ),
-              SizedBox(height: 10.h,),
+              SizedBox(height: 10.h),
               CustomTextField(
-                borderSide: BorderSide(
-                  color:Colors.grey.shade500,
-                ),
+                borderSide: BorderSide(color: Colors.grey.shade500),
                 fillColor: Color(0xFFFFFFFF),
-                textEditingController:controller.phoneTEC.value,
+                textEditingController: controller.phoneTEC.value,
                 keyboardType: TextInputType.phone,
                 hitText: 'Phone',
               ),
-              SizedBox(height: 10.h,),
+              SizedBox(height: 10.h),
               // CustomTextField(
               //   borderSide: BorderSide(
               //     color:Colors.grey.shade500,
@@ -193,29 +190,28 @@ class EditProfile extends StatelessWidget {
               //   readOnly: true,
               //   hitText: 'Birthday',
               // ),
-              SizedBox(height: 20.h,),
+              SizedBox(height: 20.h),
               Obx(() {
-                return controller.isUpdateProfileLoading.value?loader():CustomButton(
-                  onPressed: () {
-                    controller.updateProfile();
-                  },
-                  text: 'update'.tr,
-                  // borderColor: Color(0xFF1F3892),
-                  textColor: Colors.white,
-                  backgroundColor: Color(0xFF0B3A3D),
-                  width: Get.width,
-                  borderRadius: 10,
-                );
-              }
-              ),
-
+                return controller.isUpdateProfileLoading.value
+                    ? loader()
+                    : CustomButton(
+                      onPressed: () {
+                        controller.updateProfile();
+                      },
+                      text: 'update'.tr,
+                      // borderColor: Color(0xFF1F3892),
+                      textColor: Colors.white,
+                      backgroundColor: Color(0xFF0B3A3D),
+                      width: 400,
+                      borderRadius: 10,
+                    );
+              }),
             ],
           ),
         ),
       ),
     );
   }
-
 
   void _showImagePickerOptions(BuildContext context) {
     showModalBottomSheet(
@@ -224,79 +220,80 @@ class EditProfile extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
-      builder: (context) => Container(
-        padding: EdgeInsets.all(20.w),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 40.w,
-              height: 4.h,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(2.r),
-              ),
-            ),
-            SizedBox(height: 20.h),
-            Text(
-              'Select Profile Picture',
-              style: GoogleFonts.poppins(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600,
-                color:Colors.black,
-              ),
-            ),
-            SizedBox(height: 20.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      builder:
+          (context) => Container(
+            padding: EdgeInsets.all(20.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _buildImageOption(
-                  context,
-                  icon: Icons.camera_alt,
-                  label: 'Camera',
-                  onTap: () {
-                    Get.back();
-                    controller.pickProfileImageFormCamera();
-                  },
+                Container(
+                  width: 40.w,
+                  height: 4.h,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(2.r),
+                  ),
                 ),
-                _buildImageOption(
-                  context,
-                  icon: Icons.photo_library,
-                  label: 'Gallery',
-                  onTap: () {
-                    Get.back();
-                    controller.pickProfileImage();
-                  },
+                SizedBox(height: 20.h),
+                Text(
+                  'Select Profile Picture',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
                 ),
+                SizedBox(height: 20.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildImageOption(
+                      context,
+                      icon: Icons.camera_alt,
+                      label: 'Camera',
+                      onTap: () {
+                        Get.back();
+                        controller.pickProfileImageFormCamera();
+                      },
+                    ),
+                    _buildImageOption(
+                      context,
+                      icon: Icons.photo_library,
+                      label: 'Gallery',
+                      onTap: () {
+                        Get.back();
+                        controller.pickProfileImage();
+                      },
+                    ),
+                  ],
+                ),
+                if (controller.profileImage.value != null) ...[
+                  SizedBox(height: 20.h),
+                  _buildImageOption(
+                    context,
+                    icon: Icons.delete,
+                    label: 'Remove',
+                    color: Colors.red,
+                    onTap: () {
+                      Get.back();
+                      controller.clearImage();
+                    },
+                  ),
+                ],
+                SizedBox(height: 20.h),
               ],
             ),
-            if (controller.profileImage.value != null) ...[
-              SizedBox(height: 20.h),
-              _buildImageOption(
-                context,
-                icon: Icons.delete,
-                label: 'Remove',
-                color: Colors.red,
-                onTap: () {
-                  Get.back();
-                  controller.clearImage();
-                },
-              ),
-            ],
-            SizedBox(height: 20.h),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
   Widget _buildImageOption(
-      BuildContext context, {
-        required IconData icon,
-        required String label,
-        required VoidCallback onTap,
-        Color? color,
-      }) {
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    Color? color,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -310,18 +307,14 @@ class EditProfile extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Icon(
-              icon,
-              size: 30.sp,
-              color: color ?? AppColors.primaryColor,
-            ),
+            Icon(icon, size: 30.sp, color: color ?? AppColors.primaryColor),
             SizedBox(height: 8.h),
             Text(
               label,
               style: GoogleFonts.poppins(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
-                color: color ??Colors.black,
+                color: color ?? Colors.black,
               ),
             ),
           ],

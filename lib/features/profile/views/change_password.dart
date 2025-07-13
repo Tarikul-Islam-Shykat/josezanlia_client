@@ -7,7 +7,6 @@ import 'package:prettyrini/core/global_widegts/custom_button.dart';
 import 'package:prettyrini/core/global_widegts/custom_text_field.dart';
 import 'package:prettyrini/features/Auth_Screen/controller/auth_controller.dart';
 
-
 import '../../../../../core/const/app_loader.dart';
 
 class ChangePasswordView extends StatelessWidget {
@@ -56,14 +55,13 @@ class ChangePasswordView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 10.h),
               CustomAppBar(title: 'change_password'.tr),
-
-              SizedBox(height: 30.h),
-
+              SizedBox(height: 15.h),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8),
                 child: Obx(
-                      () => CustomTextField(
+                  () => CustomTextField(
                     fillColor: Colors.white,
                     borderSide: BorderSide(
                       color: Color(0xFF8C8482).withOpacity(0.20),
@@ -71,7 +69,8 @@ class ChangePasswordView extends StatelessWidget {
                     prefixIconPath: 'assets/images/lock.png',
                     //width: screenWidth * 0.9,
                     hitText: 'current_password'.tr,
-                    textEditingController: controller.changeOldPasswordController,
+                    textEditingController:
+                        controller.changeOldPasswordController,
                     fontSize: fontSize16,
                     fontWeight: FontWeight.w400,
                     lineHeight: lineHeightFactor,
@@ -99,7 +98,7 @@ class ChangePasswordView extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 child: Obx(
-                      () => CustomTextField(
+                  () => CustomTextField(
                     fillColor: Colors.white,
                     borderSide: BorderSide(
                       color: Color(0xFF8C8482).withOpacity(0.20),
@@ -107,7 +106,8 @@ class ChangePasswordView extends StatelessWidget {
                     prefixIconPath: 'assets/images/lock.png',
                     //width: screenWidth * 0.9,
                     hitText: 'new_password'.tr,
-                    textEditingController: controller.changeNewPasswordController,
+                    textEditingController:
+                        controller.changeNewPasswordController,
                     fontSize: fontSize16,
                     fontWeight: FontWeight.w400,
                     lineHeight: lineHeightFactor,
@@ -161,18 +161,19 @@ class ChangePasswordView extends StatelessWidget {
               SizedBox(height: 250.h),
 
               Obx(() {
-                return controller.isChangePasswordLoading.value ? loader() : CustomButton(
-                  onPressed: () {
-                    controller.changePassword();
-
-                  },
-                  text: 'update'.tr,
-                  // borderColor: Color(0xFF1F3892),
-                  textColor: Colors.white,
-                  backgroundColor: appGreenColor,
-                  width: screenWidth * 0.9,
-                  borderRadius: 10,
-                );
+                return controller.isChangePasswordLoading.value
+                    ? loader()
+                    : CustomButton(
+                      onPressed: () {
+                        controller.changePassword();
+                      },
+                      text: 'update'.tr,
+                      // borderColor: Color(0xFF1F3892),
+                      textColor: Colors.white,
+                      backgroundColor: appGreenColor,
+                      width: screenWidth * 0.9,
+                      borderRadius: 10,
+                    );
               }),
 
               // Submit Button
