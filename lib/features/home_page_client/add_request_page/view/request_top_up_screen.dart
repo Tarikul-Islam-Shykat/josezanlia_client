@@ -44,7 +44,8 @@ class RequestTopUpScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(
                       left: 20.0,
                       right: 20.0,
-                      // top: 60.0,
+                      top: 20.0,
+                      bottom: 20.0,
                     ),
                     child: Column(
                       children: [
@@ -64,8 +65,8 @@ class RequestTopUpScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 16),
-                            const Text(
-                              'Top Up',
+                            Text(
+                              'top_up'.tr,
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
@@ -101,7 +102,7 @@ class RequestTopUpScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: Text(
-                                        'Add Request',
+                                        'add_request'.tr,
                                         style: TextStyle(
                                           color:
                                               controller.selectedTab.value ==
@@ -131,7 +132,7 @@ class RequestTopUpScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: Text(
-                                        'Payment',
+                                        'payment'.tr,
                                         style: TextStyle(
                                           color:
                                               controller.selectedTab.value ==
@@ -175,15 +176,15 @@ class RequestTopUpScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Request to Admin to Approve',
+          Text(
+            'request_to_admin_to_approve'.tr,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           TextField(
             controller: controller.transactionIdController,
             decoration: InputDecoration(
-              hintText: 'Transaction ID', // Placeholder text
+              hintText: 'transaction_id'.tr, // Placeholder text
               border: const OutlineInputBorder(),
               prefixIcon: const SizedBox(
                 height: 18,
@@ -225,12 +226,12 @@ class RequestTopUpScreen extends StatelessWidget {
                       final fileName =
                           controller.selectedPdfPath.value.isNotEmpty
                               ? controller.selectedPdfPath.value.split('/').last
-                              : 'Attachment (PDF only)';
+                              : 'attachment_pdf_only'.tr;
                       return Text(
                         fileName,
                         style: TextStyle(
                           color:
-                              fileName == 'Attachment (PDF only)'
+                              fileName == 'attachment_pdf_only'.tr
                                   ? Colors.grey
                                   : Colors.black87,
                         ),
@@ -243,8 +244,8 @@ class RequestTopUpScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          const Text(
-            'Top Up Guidelines',
+          Text(
+            'top_up_guidelines'.tr,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           Padding(
@@ -280,8 +281,8 @@ class RequestTopUpScreen extends StatelessWidget {
               if (controller.transactionIdController.text.trim().isEmpty ||
                   controller.selectedPdfPath.value.isEmpty) {
                 Get.snackbar(
-                  'Incomplete Request',
-                  'Please enter Transaction ID and attach a PDF file',
+                  'incomplete_request'.tr,
+                  'enter_transaction_id_and_attach_pdf'.tr,
                   // backgroundColor: Colors.red.withOpacity(0.8),
                   colorText: Colors.black,
                   snackPosition: SnackPosition.TOP,
@@ -300,7 +301,7 @@ class RequestTopUpScreen extends StatelessWidget {
                   controller.isLoading.value
                       ? Center(child: loader())
                       : Text(
-                        'Submit',
+                        'submit'.tr,
                         style: globalTextStyle(
                           color: Colors.white,
                           fontSize: 16.sp,
@@ -319,10 +320,10 @@ class RequestTopUpScreen extends StatelessWidget {
     try {
       await controller.fileupload(controller.transactionIdController.text);
       showSuccessDialog(
-        buttonText: 'Done',
+        buttonText: 'done'.tr,
         context: context,
-        title: 'Success',
-        message: 'Please allow up to 24 hours for your receipt to be approved.',
+        title: 'success'.tr,
+        message: 'request_approval_time'.tr,
         image: Image.asset('assets/images/tick.png', height: 70.h, width: 70.w),
         onDonePressed: () {
           Get.toNamed(AppRoute.topUpInvoiceScreen);
@@ -339,8 +340,8 @@ class RequestTopUpScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Select Your Payment Method',
+          Text(
+            'select_payment_method'.tr,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
@@ -356,7 +357,7 @@ class RequestTopUpScreen extends StatelessWidget {
           const SizedBox(height: 12),
 
           // Bank Transfer Option
-          _buildPaymentOption('Bank Transfer', IconsPath.bankIcon),
+          _buildPaymentOption('bank_transfer'.tr, IconsPath.bankIcon),
         ],
       ),
     );

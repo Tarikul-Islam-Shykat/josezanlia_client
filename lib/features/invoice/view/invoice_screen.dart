@@ -49,7 +49,7 @@ class InvoiceScreen extends StatelessWidget {
                   physics: AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      const CustomAppBar(title: 'Invoice'),
+                      CustomAppBar(title: 'download_invoice'.tr),
                       Padding(
                         padding: EdgeInsets.only(
                           bottom: 16.h,
@@ -232,7 +232,7 @@ class InvoiceScreen extends StatelessWidget {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      "  Personal Information",
+                                      '  ${'personal_information'.tr}',
                                       style: TextStyle(
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.bold,
@@ -249,21 +249,21 @@ class InvoiceScreen extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Name: ${userController.userProfile.value.consumer![0].firstName ?? 'N/A'}",
+                                        '${'name'.tr}: ${userController.userProfile.value.consumer![0].firstName ?? 'N/A'}',
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           color: Colors.black87,
                                         ),
                                       ),
                                       Text(
-                                        "Number: ${userController.userProfile.value.phone ?? 'N/A'}",
+                                        '${'number'.tr}: ${userController.userProfile.value.phone ?? 'N/A'}',
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           color: Colors.black87,
                                         ),
                                       ),
                                       Text(
-                                        "Location: ${userController.userProfile.value.address ?? 'N/A'}",
+                                        '${'location'.tr}: ${userController.userProfile.value.address ?? 'N/A'}',
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           color: Colors.black87,
@@ -286,7 +286,7 @@ class InvoiceScreen extends StatelessWidget {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      "  Invoice Details",
+                                      '  ${'invoice_details'.tr}',
                                       style: TextStyle(
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.bold,
@@ -307,7 +307,7 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Meter No :",
+                                            '${'meter_no'.tr} :',
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -333,7 +333,7 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Payment Month :",
+                                            '${'payment_month'.tr} :',
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -354,7 +354,7 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Current Reading :",
+                                            '${'current_reading'.tr} :',
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -375,7 +375,7 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Previous Reading :",
+                                            '${'previous_reading'.tr} :',
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -396,7 +396,7 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Consumption :",
+                                            '${'consumption'.tr} :',
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -417,7 +417,7 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Per Unit Charge :",
+                                            '${'per_unit_charge'.tr} :',
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -438,7 +438,7 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Minimum Bill :",
+                                            '${'minimum_bill'.tr} :',
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -459,7 +459,7 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Penalty Charge :",
+                                            '${'penalty_charge'.tr} :',
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -485,7 +485,7 @@ class InvoiceScreen extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Total Bill of this Month :",
+                                            '${'total_amount'.tr} :',
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -504,7 +504,7 @@ class InvoiceScreen extends StatelessWidget {
                                       Row(
                                         children: [
                                           Text(
-                                            "Payment With: ",
+                                            '${'payment_with'.tr}: ',
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -524,7 +524,7 @@ class InvoiceScreen extends StatelessWidget {
                                       Row(
                                         children: [
                                           Text(
-                                            "Status: ",
+                                            '${'status'.tr}: ',
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: Colors.black87,
@@ -559,7 +559,7 @@ class InvoiceScreen extends StatelessWidget {
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       textAlign: TextAlign.start,
-                                      "  Guidelines",
+                                      '  ${'guidelines'.tr}',
                                       style: TextStyle(
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.bold,
@@ -610,7 +610,7 @@ class InvoiceScreen extends StatelessWidget {
                                       ),
                                       SizedBox(height: 4.h),
                                       Text(
-                                        "Available every day, at all hours",
+                                        'available_every_day'.tr,
                                         style: TextStyle(
                                           fontSize: 12.sp,
                                           color: Colors.black87,
@@ -641,7 +641,7 @@ class InvoiceScreen extends StatelessWidget {
                                         pw.Header(
                                           level: 0,
                                           child: pw.Text(
-                                            'Invoice',
+                                            'invoice'.tr,
                                             style: pw.TextStyle(
                                               fontSize: 24,
                                               fontWeight: pw.FontWeight.bold,
@@ -650,7 +650,7 @@ class InvoiceScreen extends StatelessWidget {
                                         ),
                                         pw.SizedBox(height: 20),
                                         pw.Text(
-                                          'Personal Information',
+                                          'personal_information'.tr,
                                           style: pw.TextStyle(
                                             fontSize: 18,
                                             fontWeight: pw.FontWeight.bold,
@@ -658,17 +658,17 @@ class InvoiceScreen extends StatelessWidget {
                                         ),
                                         pw.SizedBox(height: 10),
                                         pw.Text(
-                                          'Name: ${userController.userProfile.value.consumer![0].firstName ?? 'N/A'}',
+                                          '${'name'.tr}: ${userController.userProfile.value.consumer![0].firstName ?? 'N/A'}',
                                         ),
                                         pw.Text(
-                                          'Number: ${userController.userProfile.value.phone ?? 'N/A'}',
+                                          '${'number'.tr}: ${userController.userProfile.value.phone ?? 'N/A'}',
                                         ),
                                         pw.Text(
-                                          'Location: ${userController.userProfile.value.address ?? 'N/A'}',
+                                          '${'location'.tr}: ${userController.userProfile.value.address ?? 'N/A'}',
                                         ),
                                         pw.SizedBox(height: 20),
                                         pw.Text(
-                                          'Invoice Details',
+                                          'invoice_details'.tr,
                                           style: pw.TextStyle(
                                             fontSize: 18,
                                             fontWeight: pw.FontWeight.bold,
@@ -679,7 +679,7 @@ class InvoiceScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               pw.MainAxisAlignment.spaceBetween,
                                           children: [
-                                            pw.Text('Meter No:'),
+                                            pw.Text('${'meter_no'.tr}:'),
                                             pw.Text(
                                               userController
                                                       .userProfile
@@ -697,7 +697,7 @@ class InvoiceScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               pw.MainAxisAlignment.spaceBetween,
                                           children: [
-                                            pw.Text('Payment Month:'),
+                                            pw.Text('${'payment_month'.tr}:'),
                                             pw.Text(
                                               args['paymentMonth'].toString(),
                                               style: pw.TextStyle(
@@ -710,7 +710,7 @@ class InvoiceScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               pw.MainAxisAlignment.spaceBetween,
                                           children: [
-                                            pw.Text('Current Reading:'),
+                                            pw.Text('${'current_reading'.tr}:'),
                                             pw.Text(
                                               args['currentReading'].toString(),
                                               style: pw.TextStyle(
@@ -723,7 +723,7 @@ class InvoiceScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               pw.MainAxisAlignment.spaceBetween,
                                           children: [
-                                            pw.Text('Previous Reading:'),
+                                            pw.Text('${'previous_reading'.tr}:'),
                                             pw.Text(
                                               args['previousReading']
                                                   .toString(),
@@ -737,7 +737,7 @@ class InvoiceScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               pw.MainAxisAlignment.spaceBetween,
                                           children: [
-                                            pw.Text('Consumption:'),
+                                            pw.Text('${'consumption'.tr}:'),
                                             pw.Text(
                                               args['consumption'].toString(),
                                               style: pw.TextStyle(
@@ -750,7 +750,7 @@ class InvoiceScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               pw.MainAxisAlignment.spaceBetween,
                                           children: [
-                                            pw.Text('Per Unit Charge:'),
+                                            pw.Text('${'per_unit_charge'.tr}:'),
                                             pw.Text(
                                               "${(args['perUnitCharge'] as num?)?.toStringAsFixed(2) ?? '0.00'} MZN",
                                               style: pw.TextStyle(
@@ -763,7 +763,7 @@ class InvoiceScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               pw.MainAxisAlignment.spaceBetween,
                                           children: [
-                                            pw.Text('Minimum Bill:'),
+                                            pw.Text('${'minimum_bill'.tr}:'),
                                             pw.Text(
                                               "${(args['minimumBill'] as num?)?.toStringAsFixed(2) ?? '0.00'} MZN",
                                               style: pw.TextStyle(
@@ -776,7 +776,7 @@ class InvoiceScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               pw.MainAxisAlignment.spaceBetween,
                                           children: [
-                                            pw.Text('Penalty Charge:'),
+                                            pw.Text('${'penalty_charge'.tr}:'),
                                             pw.Text(
                                               "${(args['penaltyCharge'] as num?)?.toStringAsFixed(2) ?? '0.00'} MZN",
                                               style: pw.TextStyle(
@@ -791,7 +791,7 @@ class InvoiceScreen extends StatelessWidget {
                                               pw.MainAxisAlignment.spaceBetween,
                                           children: [
                                             pw.Text(
-                                              'Total Bill of this Month:',
+                                              '${'total_amount'.tr}:',
                                             ),
                                             pw.Text(
                                               args['totalAmount'].toString(),

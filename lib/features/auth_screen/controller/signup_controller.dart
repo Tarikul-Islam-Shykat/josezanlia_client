@@ -50,7 +50,7 @@ class SignupController extends GetxController {
     if (result != null) {
       fileName.value = result.files.single.name;
     } else {
-      Get.snackbar('Error', 'No file selected', backgroundColor: Colors.red);
+      Get.snackbar('error'.tr, 'no_file_selected'.tr, backgroundColor: Colors.red);
     }
   }
 
@@ -70,8 +70,8 @@ class SignupController extends GetxController {
 
     isLoading.value = false;
     Get.snackbar(
-      'Success',
-      'Account created successfully!',
+      'success'.tr,
+      'account_created_successfully'.tr,
 
       backgroundColor: Colors.green,
     );

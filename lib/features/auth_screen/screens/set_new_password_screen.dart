@@ -28,7 +28,7 @@ class SetNewPasswordScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomAppBar(title: 'Set New Password'),
+              CustomAppBar(title: 'set_new_password'.tr),
 
               SizedBox(height: 30.h),
 
@@ -43,7 +43,7 @@ class SetNewPasswordScreen extends StatelessWidget {
                     ),
                     prefixIconPath: 'assets/images/lock.png',
 
-                    hitText: 'New Password',
+                    hitText: 'new_password'.tr,
                     textEditingController: controller.newPass,
                     fontSize: fontSize16,
                     fontWeight: FontWeight.w400,
@@ -68,7 +68,7 @@ class SetNewPasswordScreen extends StatelessWidget {
                     ),
                     prefixIconPath: 'assets/images/lock.png',
 
-                    hitText: 'Confirm Password',
+                    hitText: 'confirm_password'.tr,
                     textEditingController: controller.conPass,
                     fontSize: fontSize16,
                     fontWeight: FontWeight.w400,
@@ -96,21 +96,21 @@ class SetNewPasswordScreen extends StatelessWidget {
                 return controller.isLoading.value ? loader() : CustomButton(
                   onPressed: () {
                     if (controller.newPass.text.isEmpty) {
-                      showSnackBar(false, 'New password cannot be empty.');
+                      showSnackBar(false, 'new_password_cannot_be_empty'.tr);
                     } else if (controller.newPass.text.length < 8) {
-                      showSnackBar(false, 'New password must be at least 8 characters long.');
+                      showSnackBar(false, 'new_password_min_length'.tr);
                     } else if (controller.conPass.text.isEmpty) {
-                      showSnackBar(false, 'Confirm password cannot be empty.');
+                      showSnackBar(false, 'confirm_password_cannot_be_empty'.tr);
                     } else if (controller.conPass.text.length < 8) {
-                      showSnackBar(false, 'Confirm password must be at least 8 characters long.');
+                      showSnackBar(false, 'confirm_password_min_length'.tr);
                     } else if (controller.newPass.text != controller.conPass.text) {
-                      showSnackBar(false, 'Passwords do not match.');
+                      showSnackBar(false, 'passwords_do_not_match'.tr);
                     }
                     else {
                       controller.resetPass(email.toString(),context);
                     }
                   },
-                  text: 'Change Password',
+                  text: 'change_password'.tr,
                   // borderColor: Color(0xFF1F3892),
                   textColor: Colors.white,
                   backgroundColor: appGreenColor,

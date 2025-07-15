@@ -52,8 +52,8 @@ class EMolaPayment extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 16),
-                      const Text(
-                        'Payment',
+                      Text(
+                        'payment'.tr,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -104,12 +104,12 @@ class EMolaPayment extends StatelessWidget {
                             lastDate: DateTime(now.year + 5, 12),
                             initialDatePickerMode: DatePickerMode.year,
                             selectableDayPredicate: (date) => date.day == 1,
-                            helpText: 'Select Month',
+                            helpText: 'select_month'.tr,
                           );
                           if (picked != null) {}
                         },
                         child: _buildPaymentOption(
-                          "${_monthName(now.month)} ${now.year}",
+                          "${_getTranslatedMonthName(now.month)} ${now.year}",
                           IconsPath.calenderIcon,
                         ),
                       ),
@@ -141,9 +141,9 @@ class EMolaPayment extends StatelessWidget {
                               Expanded(
                                 child: TextField(
                                   keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: 'Amount',
+                                    hintText: 'amount'.tr,
                                     hintStyle: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
@@ -198,9 +198,9 @@ class EMolaPayment extends StatelessWidget {
                               Expanded(
                                 child: TextField(
                                   keyboardType: TextInputType.phone,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: 'Enter my Mobile number',
+                                    hintText: 'enter_my_mobile_number'.tr,
                                     hintStyle: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
@@ -235,8 +235,8 @@ class EMolaPayment extends StatelessWidget {
                       ),
                       minimumSize: const Size(double.infinity, 50),
                     ),
-                    child: const Text(
-                      'Confirm to Pay',
+                    child: Text(
+                      'confirm_to_pay'.tr,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -300,10 +300,10 @@ class EMolaPayment extends StatelessWidget {
 
   void _submit(BuildContext context) {
     showSuccessDialog(
-      buttonText: 'Done',
+      buttonText: 'done'.tr,
       context: context,
-      title: 'Success',
-      message: 'Your payment is successfully Complete!',
+      title: 'success'.tr,
+      message: 'payment_successful'.tr,
       image: Image.asset('assets/images/tick.png', height: 70.h, width: 70.w),
       onDonePressed: () {
         Get.toNamed(AppRoute.invoiceScreen);
@@ -311,22 +311,34 @@ class EMolaPayment extends StatelessWidget {
     );
   }
 
-  String _monthName(int month) {
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    if (month < 1 || month > 12) return '';
-    return months[month - 1];
+  String _getTranslatedMonthName(int month) {
+    switch (month) {
+      case 1:
+        return 'january'.tr;
+      case 2:
+        return 'february'.tr;
+      case 3:
+        return 'march'.tr;
+      case 4:
+        return 'april'.tr;
+      case 5:
+        return 'may'.tr;
+      case 6:
+        return 'june'.tr;
+      case 7:
+        return 'july'.tr;
+      case 8:
+        return 'august'.tr;
+      case 9:
+        return 'september'.tr;
+      case 10:
+        return 'october'.tr;
+      case 11:
+        return 'november'.tr;
+      case 12:
+        return 'december'.tr;
+      default:
+        return '';
+    }
   }
 }

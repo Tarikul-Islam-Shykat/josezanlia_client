@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:prettyrini/core/repository/network_caller/network_config.dart';
+import 'package:prettyrini/features/profile/controller/user_info_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/repository/network_caller/endpoints.dart';
@@ -98,6 +101,8 @@ class WaterUseController extends GetxController {
 
   List<String> months = FakeMeterService.availableMonths;
 
+  final UserProfileController userController = Get.put(UserProfileController());
+
   @override
   void onInit() {
     currentMonthIndex.value = months.length - 1;
@@ -129,10 +134,9 @@ class WaterUseController extends GetxController {
   Future<Map<String, dynamic>> getChartData() async {
     final networkconfig = NetworkConfig();
     final year = DateTime.now().year.toString();
-
-    final prefs = await SharedPreferences.getInstance();
-    final id = prefs.getString('id') ?? '684aa2023386147b777055fb';
+    final id = userController.userProfile.value.consumer![0].id!;
     final url = '${Urls.getMonthlyReport}/$id/$year';
+
     final response = await networkconfig.ApiRequestHandler(
       RequestMethod.GET,
       url,

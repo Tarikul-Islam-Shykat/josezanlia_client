@@ -27,7 +27,7 @@ class SignUpScreen extends StatelessWidget {
             children: [
               Center(
                 child: Text(
-                  'Sign Up',
+                  'sign_up'.tr,
                   style: TextStyle(
                     fontSize: 28.sp,
                     fontWeight: FontWeight.bold,
@@ -40,12 +40,13 @@ class SignUpScreen extends StatelessWidget {
               // Name
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Name', style: TextStyle(color: Color(0xFF4A4F5E))),
+                child: Text('name'.tr, style: TextStyle(color: Color(0xFF4A4F5E))),
               ),
               SizedBox(height: screenHeight * 0.01),
               CustomTextField(
-                hitText: 'Full Name',
+                hitText: 'full_name'.tr,
                 textEditingController: controller.nameController,
+                keyboardType: TextInputType.name,
               ),
               SizedBox(height: 0.1.h),
 
@@ -53,14 +54,15 @@ class SignUpScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Email',
+                  'email'.tr,
                   style: TextStyle(color: Color(0xFF4A4F5E)),
                 ),
               ),
               SizedBox(height: screenHeight * 0.01),
               CustomTextField(
-                hitText: 'Email',
+                hitText: 'email'.tr,
                 textEditingController: controller.emailController,
+                keyboardType: TextInputType.emailAddress,
                 // validator: controller.emailValidator,
               ),
               SizedBox(height: 0.1.h),
@@ -69,14 +71,15 @@ class SignUpScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Phone Number',
+                  'phone_number'.tr,
                   style: TextStyle(color: Color(0xFF4A4F5E)),
                 ),
               ),
               SizedBox(height: screenHeight * 0.01),
               CustomTextField(
-                hitText: 'Phone Number',
+                hitText: 'phone_number'.tr,
                 textEditingController: controller.phoneController,
+                keyboardType: TextInputType.phone,
               ),
               SizedBox(height: 0.1.h),
 
@@ -84,13 +87,13 @@ class SignUpScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Date of Birth',
+                  'date_of_birth'.tr,
                   style: TextStyle(color: Color(0xFF4A4F5E)),
                 ),
               ),
               SizedBox(height: screenHeight * 0.01),
               CustomTextField(
-                hitText: 'Date of Birth',
+                hitText: 'date_of_birth'.tr,
                 textEditingController: controller.dobController,
               ),
               SizedBox(height: 0.1.h),
@@ -99,7 +102,7 @@ class SignUpScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Profile Type',
+                  'profile_type'.tr,
                   style: TextStyle(color: Color(0xFF4A4F5E)),
                 ),
               ),
@@ -108,16 +111,16 @@ class SignUpScreen extends StatelessWidget {
                 items: [
                   DropdownMenuItem(
                     value: 'Personal Use',
-                    child: Text('Personal Use'),
+                    child: Text('personal_use'.tr),
                   ),
                   DropdownMenuItem(
                     value: 'Broker/Merchant',
-                    child: Text('Broker/Merchant'),
+                    child: Text('broker_merchant'.tr),
                   ),
                 ],
                 onChanged: (value) {},
                 decoration: InputDecoration(
-                  labelText: 'Select Profile',
+                  labelText: 'select_profile'.tr,
                   labelStyle: TextStyle(color: Color(0xFF4A4F5E)),
                   filled: true,
                   fillColor: Colors.white,
@@ -145,7 +148,7 @@ class SignUpScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'ID-Verified',
+                  'id_verified'.tr,
                   style: TextStyle(color: Color(0xFF4A4F5E)),
                 ),
               ),
@@ -165,7 +168,7 @@ class SignUpScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Upload your ID',
+                          'upload_your_id'.tr,
                           style: TextStyle(color: Color(0xFF4A4F5E)),
                         ),
                         Image.asset(
@@ -184,14 +187,14 @@ class SignUpScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Password',
+                  'password'.tr,
                   style: TextStyle(color: Color(0xFF4A4F5E)),
                 ),
               ),
               SizedBox(height: screenHeight * 0.01),
               Obx(
                 () => CustomTextField(
-                  hitText: 'Password',
+                  hitText: 'password'.tr,
                   obscureText: !controller.isPasswordVisible.value,
                   textEditingController: controller.passwordController,
                   suffixIcon: IconButton(
@@ -210,14 +213,14 @@ class SignUpScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Confirm Password',
+                  'confirm_password'.tr,
                   style: TextStyle(color: Color(0xFF4A4F5E)),
                 ),
               ),
               SizedBox(height: screenHeight * 0.01),
               Obx(
                 () => CustomTextField(
-                  hitText: 'Confirm Password',
+                  hitText: 'confirm_password'.tr,
                   obscureText: !controller.isConfirmPasswordVisible.value,
                   textEditingController: controller.confirmPasswordController,
                   suffixIcon: IconButton(
@@ -272,7 +275,7 @@ class SignUpScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Already have an account? ',
+                    'already_have_account'.tr,
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: const Color(0xFF4A4F5E),
@@ -281,7 +284,7 @@ class SignUpScreen extends StatelessWidget {
                   GestureDetector(
                     onTap: () => Get.to(() => LoginScreen()),
                     child: Text(
-                      'Login',
+                      'log_in'.tr,
                       style: TextStyle(
                         fontSize: 14.sp,
                         color: const Color(0xFF1F3892),

@@ -6,7 +6,8 @@ class Urls {
   static const String resetPassword = "$baseUrl/auth/reset-password";
   static const String getMe = "$baseUrl/auth/profile";
   static const String updateProfile = "$baseUrl/users/consumer"; //PUT with id
-  static const String updateProfileConsumer = "$baseUrl/users/profile"; //PUT with id
+  static const String updateProfileConsumer =
+      "$baseUrl/users/profile"; //PUT with id
   static const String signUp = '$baseUrl/users/register';
   static const String setupProfile = '$baseUrl/users/update-profile';
   static const String authentication = '$baseUrl/auth/verify-auth';
@@ -27,6 +28,6 @@ class Urls {
       "$baseUrl/readings/consumer/allReadings"; //GET ID
   static const String getNotifications = "$baseUrl/notifications"; //GET
   static const String readNotifications = "$baseUrl/notifications/read"; //PATCH
-  static const String websocketUrl = "wss://g6d0ftvr-5005.inc1.devtunnels.ms";
   static const String uploadPDF = '$baseUrl/topUps/file-upload';
+  static const String websocketUrl = "wss://g6d0ftvr-5005.inc1.devtunnels.ms";
 }

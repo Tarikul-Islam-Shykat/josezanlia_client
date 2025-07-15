@@ -130,7 +130,7 @@ class EditProfileController extends GetxController {
           profileImage.value = compressedImage;
           await _updateImageSizeText(compressedImage);
           AppSnackbar.show(
-            message: "Profile picture selected successfully",
+            message: 'profile_picture_selected_successfully'.tr,
             isSuccess: true,
           );
         }
@@ -150,7 +150,7 @@ class EditProfileController extends GetxController {
           profileImage.value = compressedImage;
           await _updateImageSizeText(compressedImage);
           AppSnackbar.show(
-            message: "Profile picture captured successfully",
+            message: 'profile_picture_captured_successfully'.tr,
             isSuccess: true,
           );
         }
@@ -229,7 +229,7 @@ class EditProfileController extends GetxController {
   Future<bool> uploadProfileImage() async {
 
     if (profileImage.value == null) {
-      AppSnackbar.show(message: "Please select a picture", isSuccess: false);
+      AppSnackbar.show(message: 'please_select_a_picture'.tr, isSuccess: false);
       return false;
     }
 
@@ -284,7 +284,7 @@ class EditProfileController extends GetxController {
       if ((response.statusCode == 200 || response.statusCode == 201) &&
           responseJson["success"] == true) {
         AppSnackbar.show(
-          message: "Profile updated successfully",
+          message: 'profile_updated_successfully'.tr,
           isSuccess: true,
         );
         Get.back();
@@ -323,7 +323,7 @@ class EditProfileController extends GetxController {
     );
 
     if (profileImage.value == null) {
-      showSnackBar(false, 'Please select an image');
+      showSnackBar(false, 'please_select_an_image'.tr);
       return;
     }
 
@@ -334,7 +334,7 @@ class EditProfileController extends GetxController {
       try {
         final token = await SharedPreferencesHelper.getAccessToken();
         if (token == null) {
-          Get.snackbar('Auth Error', 'No access token found');
+          Get.snackbar('auth_error'.tr, 'no_access_token_found'.tr);
           return;
         }
 
@@ -374,14 +374,14 @@ class EditProfileController extends GetxController {
         final responseBody = await response.stream.bytesToString();
 
         if (response.statusCode == 200) {
-          showSnackBar(true, 'Profile updated successfully');
+          showSnackBar(true, 'profile_updated_successfully'.tr);
           Get.offAll(() => BottomNavbar());
         } else {
-          showSnackBar(false, "Profile update failed");
+          showSnackBar(false, 'profile_update_failed'.tr);
         }
 
       } catch (e) {
-        showSnackBar(false, "At Catch: ${e.toString()}");
+        showSnackBar(false, 'at_catch'.trArgs([e.toString()]));
       } finally {
         isUpdateProfileLoading.value = false;
       }

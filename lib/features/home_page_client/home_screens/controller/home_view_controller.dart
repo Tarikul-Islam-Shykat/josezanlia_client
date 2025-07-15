@@ -165,10 +165,10 @@ class WaterBillController extends GetxController {
 
         }
       } else {
-        showSnackBar(false, response?['message'] ?? 'Unknown error');
+        showSnackBar(false, response?['message'] ?? 'unknown_error'.tr);
       }
     } catch (e) {
-      showSnackBar(false, "Catch Error: ${e.toString()}");
+      showSnackBar(false, 'catch_error'.trArgs([e.toString()]));
     } finally {
       isFetchUserDataLoading.value = false;
     }

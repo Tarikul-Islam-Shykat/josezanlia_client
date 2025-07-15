@@ -26,11 +26,10 @@ class AuthController extends GetxController {
   final isChangePasswordLoading = false.obs;
   final NetworkConfig _networkConfig = NetworkConfig();
 
-
   Future<void> loginUser() async {
     String emailOrPhone = emailOrPhoneController.text.trim();
     if (emailOrPhone.isEmpty) {
-      showSnackBar(false, "Please enter your email or phone number.");
+      showSnackBar(false, 'please_enter_email_or_phone'.tr);
       return;
     }
 
@@ -38,13 +37,13 @@ class AuthController extends GetxController {
     if (emailOrPhone.contains('@')) {
       // It's an email
       if (!GetUtils.isEmail(emailOrPhone)) {
-        showSnackBar(false, "Please enter a valid email address.");
+        showSnackBar(false, 'please_enter_valid_email'.tr);
         return;
       }
     } else {
       // It's a phone number
       if (!GetUtils.isPhoneNumber(emailOrPhone)) {
-        showSnackBar(false, "Please enter a valid phone number.");
+        showSnackBar(false, 'please_enter_valid_phone'.tr);
         return;
       }
     }
@@ -52,7 +51,7 @@ class AuthController extends GetxController {
     // Validate password
     String password = passwordController.text.trim();
     if (password.length < 8) {
-      showSnackBar(false, "Password must be at least 8 characters long.");
+      showSnackBar(false, 'password_at_least_8_characters'.tr);
       return;
     }
     // if (!password.contains(RegExp(r'[A-Z]')) ||
@@ -66,11 +65,17 @@ class AuthController extends GetxController {
 
     try {
       isLoginLoading.value = true;
-      // json
-      final Map<String, dynamic> requestBody = {
-        "email": emailOrPhoneController.text.trim(),
-        "password": passwordController.text.trim(),
-      };
+      // Check if input is email or phone and construct request body accordingly
+      final Map<String, dynamic> requestBody =
+          emailOrPhone.contains('@')
+              ? {
+                "email": emailOrPhoneController.text.trim(),
+                "password": passwordController.text.trim(),
+              }
+              : {
+                "phone": emailOrPhoneController.text.trim(),
+                "password": passwordController.text.trim(),
+              };
 
       if (kDebugMode) {
         print("LogInController login user Request Body: $requestBody");
@@ -94,13 +99,13 @@ class AuthController extends GetxController {
           showSnackBar(true, response['message']);
           Get.offAll(() => BottomNavbar());
         } else {
-          showSnackBar(false, "Token not found in response.");
+          showSnackBar(false, 'token_not_found'.tr);
         }
       } else if (response['success'] == false) {
         showSnackBar(false, response['message']);
       }
     } catch (e) {
-      showSnackBar(false, "At Catch: ${e.toString()}");
+      showSnackBar(false, "at_catch".trArgs([e.toString()]));
     } finally {
       isLoginLoading.value = false;
     }
@@ -111,20 +116,20 @@ class AuthController extends GetxController {
     String currentPassword = changeOldPasswordController.text.trim();
 
     if (newPassword.length < 8) {
-      showSnackBar(false, "New password must be at least 8 characters long.");
+      showSnackBar(false, 'new_password_at_least_8_characters'.tr);
       return;
     }
     if (currentPassword.length < 8) {
       showSnackBar(
         false,
-        "Current password must be at least 8 characters long.",
+        'current_password_at_least_8_characters'.tr,
       );
       return;
     }
     if (newPassword == currentPassword) {
       showSnackBar(
         false,
-        "New password cannot be the same as the current password.",
+        'new_password_cannot_be_same_as_current'.tr,
       );
       return;
     }
@@ -164,7 +169,7 @@ class AuthController extends GetxController {
         showSnackBar(false, response['message']);
       }
     } catch (e) {
-      showSnackBar(false, "At Catch: ${e.toString()}");
+      showSnackBar(false, "at_catch".trArgs([e.toString()]));
     } finally {
       isChangePasswordLoading.value = false;
     }
@@ -194,6 +199,7 @@ class AuthController extends GetxController {
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
+
   void toggleConfirmPasswordVisibility() {
     isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
   }

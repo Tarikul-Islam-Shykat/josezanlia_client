@@ -6,7 +6,20 @@ import 'package:prettyrini/features/Home_page_client/pay_now_screen/controller/p
 class PaymentScreen extends StatelessWidget {
   final PaymentController controller = Get.put(PaymentController());
 
-  PaymentScreen({super.key});
+    PaymentScreen({super.key});
+
+  String _getTranslatedMethod(String method) {
+    switch (method) {
+      case 'M-Pesa':
+        return 'm_pesa'.tr;
+      case 'E-Mola':
+        return 'e_mola'.tr;
+      case 'Bank Transfer':
+        return 'bank_transfer'.tr;
+      default:
+        return method;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +58,8 @@ class PaymentScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 16),
-                      const Text(
-                        'Payment',
+                      Text(
+                        'payment'.tr,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -64,8 +77,8 @@ class PaymentScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Select Your Payment Method',
+                      Text(
+                        'select_payment_method'.tr,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -136,7 +149,7 @@ class PaymentScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  method,
+                  _getTranslatedMethod(method),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

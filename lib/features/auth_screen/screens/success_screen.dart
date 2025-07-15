@@ -45,7 +45,7 @@ class SuccessScreen extends StatelessWidget {
           SizedBox(height: 20.h),
 
           Text(
-            'Success',
+            'success'.tr,
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.bold,
@@ -54,7 +54,7 @@ class SuccessScreen extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           Text(
-            'Your verification was successful!',
+            'verification_successful'.tr,
             style: TextStyle(fontSize: 16.sp, color: Color(0xFF4A4F5E)),
             textAlign: TextAlign.center,
           ),
@@ -71,7 +71,7 @@ class SuccessScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               ),
             ),
-            child: Text('Continue', style: TextStyle(color: Colors.white)),
+            child: Text('continue_button'.tr, style: TextStyle(color: Colors.white)),
           ),
         ],
       ),

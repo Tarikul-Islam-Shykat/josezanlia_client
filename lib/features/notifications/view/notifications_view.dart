@@ -30,7 +30,7 @@ class NotificationsView extends StatelessWidget {
           ),
         ),
         title: Text(
-          "Notifications",
+          'notifications'.tr,
           style: TextStyle(
             color: Color(0xFF0B3A3D),
             fontWeight: FontWeight.bold,

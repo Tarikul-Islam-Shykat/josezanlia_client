@@ -53,7 +53,7 @@ class UserProfileController extends GetxController {
     await SharedPreferencesHelper.clearAllData();
     Get.offAll(() => LoginScreen());
     AppSnackbar.show(
-      message: 'You have been logged out successfully',
+      message: 'you_have_been_logged_out_successfully'.tr,
       isSuccess: true,
     );
   }
