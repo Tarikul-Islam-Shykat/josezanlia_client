@@ -51,7 +51,7 @@ class WaterBillHome extends StatelessWidget {
                   } else {
                     final data = userController.userProfile.value;
                     return Container(
-                      margin: EdgeInsets.only(bottom: 350),
+                      margin: EdgeInsets.only(bottom: 420),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 20,
@@ -79,8 +79,7 @@ class WaterBillHome extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'hello'.tr +
-                                        ', ${data.consumer!.first.firstName}',
+                                    '${'hello'.tr}, ${data.consumer!.first.firstName}',
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
@@ -184,7 +183,7 @@ class WaterBillHome extends StatelessWidget {
                     return boxShimmerPro(width: Get.width, height: 100);
                   } else if (controller.readingList.isEmpty) {
                     return Positioned(
-                      top: 135,
+                      top: 150,
                       left: 20,
                       right: 20,
                       child: Center(
@@ -197,7 +196,7 @@ class WaterBillHome extends StatelessWidget {
                   } else {
                     final data = controller.readingList[0];
                     return Positioned(
-                      top: 135,
+                      top: 115,
                       left: 20,
                       right: 20,
                       child: _buildCurrentBill(data),
